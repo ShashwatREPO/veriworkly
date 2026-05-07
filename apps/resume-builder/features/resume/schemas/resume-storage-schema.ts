@@ -48,13 +48,7 @@ const resumeAdditionalSectionKindSchema = z.enum([
   "custom",
 ]);
 
-const resumeSyncStatusSchema = z.enum([
-  "local-only",
-  "pending",
-  "syncing",
-  "synced",
-  "conflicted",
-]);
+const resumeSyncStatusSchema = z.enum(["local-only", "pending", "syncing", "synced", "conflicted"]);
 
 const resumeFontFamilySchema = z
   .string()
@@ -194,8 +188,7 @@ const resumeDataSchemaBase = z
   })
   .passthrough();
 
-export const resumeDataSchema: z.ZodType<ResumeData, z.ZodTypeDef, unknown> =
-  resumeDataSchemaBase;
+export const resumeDataSchema: z.ZodType<ResumeData, z.ZodTypeDef, unknown> = resumeDataSchemaBase;
 
 const resumeDataInputSchema = resumeDataSchemaBase.deepPartial();
 
@@ -242,17 +235,15 @@ export function parseResumeCollectionInput(value: unknown): ResumeCollection {
   }
 
   const normalizedItems = Object.fromEntries(
-    Object.entries(parsedCollection.data.items).flatMap(
-      ([resumeId, resume]) => {
-        const parsedResume = parseResumeDataInput(resume);
+    Object.entries(parsedCollection.data.items).flatMap(([resumeId, resume]) => {
+      const parsedResume = parseResumeDataInput(resume);
 
-        if (!parsedResume) {
-          return [];
-        }
+      if (!parsedResume) {
+        return [];
+      }
 
-        return [[resumeId, parsedResume]];
-      },
-    ),
+      return [[resumeId, parsedResume]];
+    }),
   );
 
   return {

@@ -52,9 +52,7 @@ export function createProjectItem(): ResumeProjectItem {
   };
 }
 
-export function createLinkItem(
-  type: ResumeLinkType = "portfolio",
-): ResumeLinkItem {
+export function createLinkItem(type: ResumeLinkType = "portfolio"): ResumeLinkItem {
   return {
     id: uniqueId("link"),
     type,
@@ -78,16 +76,12 @@ export function createCustomSection(
     id: uniqueId("custom"),
     kind: "custom",
     title: preset?.title ?? "New Section",
-    items: preset?.items?.length
-      ? preset.items
-      : [createAdditionalItem("custom")],
+    items: preset?.items?.length ? preset.items : [createAdditionalItem("custom")],
     editableTitle: true,
   };
 }
 
-export function createAdditionalItem(
-  kind: ResumeAdditionalSectionKind,
-): ResumeAdditionalItem {
+export function createAdditionalItem(kind: ResumeAdditionalSectionKind): ResumeAdditionalItem {
   const base = {
     id: uniqueId(kind),
     issuer: "",

@@ -15,8 +15,7 @@ export default function EditorPreviewNotFound() {
         </h1>
 
         <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-          This preview link is invalid or the resume is no longer available in
-          local storage.
+          This preview link is invalid or the resume is no longer available in local storage.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">

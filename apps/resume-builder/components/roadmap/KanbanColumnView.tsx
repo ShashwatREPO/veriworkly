@@ -35,17 +35,10 @@ const KanbanColumnView = ({
             {column.title}
           </Link>
         ) : (
-          <h3 className="text-foreground text-lg font-semibold">
-            {column.title}
-          </h3>
+          <h3 className="text-foreground text-lg font-semibold">{column.title}</h3>
         )}
 
-        <span
-          className={cn(
-            "rounded-full px-2 py-1 text-sm font-medium",
-            colorClass,
-          )}
-        >
+        <span className={cn("rounded-full px-2 py-1 text-sm font-medium", colorClass)}>
           {column.items.length}
         </span>
       </div>
@@ -62,9 +55,7 @@ const KanbanColumnView = ({
       <div
         className={cn(
           "gap-3",
-          singleStatusMode
-            ? "grid md:grid-cols-2 xl:grid-cols-3"
-            : "flex flex-col",
+          singleStatusMode ? "grid md:grid-cols-2 xl:grid-cols-3" : "flex flex-col",
         )}
       >
         {column.items.length === 0 ? (

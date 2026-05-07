@@ -5,6 +5,7 @@ The source code for [docs.veriworkly.com](https://docs.veriworkly.com). Built wi
 ## 🚀 Quick Start
 
 1. **Install dependencies** (from root):
+
    ```bash
    npm install
    ```
@@ -21,4 +22,5 @@ The docs will be available at `http://localhost:3001`.
 Documentation is stored as MDX files in `content/docs/`. The structure of the sidebar follows the folder structure of this directory.
 
 ## 📖 Live Docs
+
 Visit [docs.veriworkly.com](https://docs.veriworkly.com) to view the rendered documentation.

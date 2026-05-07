@@ -13,11 +13,7 @@ interface StatsBoardProps {
   offset: number;
 }
 
-export default function StatsBoard({
-  issuePage,
-  totalItems,
-  offset,
-}: StatsBoardProps) {
+export default function StatsBoard({ issuePage, totalItems, offset }: StatsBoardProps) {
   const items = issuePage?.items ?? [];
 
   const totalPages = Math.max(1, Math.ceil((issuePage?.total ?? 0) / 20));
@@ -30,9 +26,7 @@ export default function StatsBoard({
     <section className="space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h2 className="text-foreground text-2xl font-semibold">
-            Project Board
-          </h2>
+          <h2 className="text-foreground text-2xl font-semibold">Project Board</h2>
 
           <p className="text-muted text-sm">
             Showing {showingStart}-{showingEnd} of {totalItems} items.
@@ -56,9 +50,7 @@ export default function StatsBoard({
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
                 <div className="space-y-3">
                   <div className="flex flex-wrap items-center gap-2">
-                    <Badge
-                      className={statusBadgeClass[item.status] + " capitalize"}
-                    >
+                    <Badge className={statusBadgeClass[item.status] + " capitalize"}>
                       {item.status}
                     </Badge>
 
@@ -66,9 +58,7 @@ export default function StatsBoard({
                       {item.kind === "pull-request" ? "Pull request" : "Issue"}
                     </Badge>
 
-                    <Badge className="bg-background/70 text-muted">
-                      #{item.number}
-                    </Badge>
+                    <Badge className="bg-background/70 text-muted">#{item.number}</Badge>
                   </div>
 
                   <div className="space-y-1">
@@ -109,9 +99,7 @@ export default function StatsBoard({
           ))
         ) : (
           <div className="border-border/70 bg-card/80 rounded-3xl border p-8">
-            <h3 className="text-foreground text-lg font-semibold">
-              Nothing to show here
-            </h3>
+            <h3 className="text-foreground text-lg font-semibold">Nothing to show here</h3>
 
             <p className="text-muted mt-2 max-w-2xl text-sm leading-relaxed">
               Try a different status, type, or date range.

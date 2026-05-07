@@ -19,18 +19,13 @@ const PublicationsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [publicationIndex, setPublicationIndex] = useState(0);
 
   const publicationsSection =
-    resume.customSections.find((section) => section.kind === "publications") ??
-    null;
+    resume.customSections.find((section) => section.kind === "publications") ?? null;
 
   if (!publicationsSection) {
     return null;
@@ -59,9 +54,7 @@ const PublicationsSection = ({
           <select
             value={safePublicationIndex}
             className="border-border bg-background h-10 rounded-xl border px-3 text-sm"
-            onChange={(event) =>
-              setPublicationIndex(Number(event.target.value))
-            }
+            onChange={(event) => setPublicationIndex(Number(event.target.value))}
           >
             {publicationsSection.items.map((item, index) => (
               <option key={item.id} value={index}>
@@ -71,11 +64,7 @@ const PublicationsSection = ({
           </select>
         ) : null}
 
-        <Button
-          size="sm"
-          variant="secondary"
-          onClick={() => addCustomSectionItem("publications")}
-        >
+        <Button size="sm" variant="secondary" onClick={() => addCustomSectionItem("publications")}>
           Add publication
         </Button>
 
@@ -83,9 +72,7 @@ const PublicationsSection = ({
           size="sm"
           variant="ghost"
           disabled={publicationsSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("publications", safePublicationIndex)
-          }
+          onClick={() => removeCustomSectionItem("publications", safePublicationIndex)}
         >
           Remove
         </Button>
@@ -138,9 +125,7 @@ const PublicationsSection = ({
           </Field>
         </div>
       ) : (
-        <p className="text-muted text-sm">
-          No publications yet. Click Add publication.
-        </p>
+        <p className="text-muted text-sm">No publications yet. Click Add publication.</p>
       )}
     </DraggableSection>
   );

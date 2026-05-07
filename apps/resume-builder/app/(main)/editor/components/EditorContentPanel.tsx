@@ -27,16 +27,11 @@ import CertificationsSection from "./content/sections/CertificationsSection";
 const EditorContentPanel = () => {
   const { reorderSections, resume } = useResume();
 
-  const [draggedSectionId, setDraggedSectionId] =
-    useState<ResumeSectionId | null>(null);
-  const [openSectionId, setOpenSectionId] = useState<ResumeSectionId | null>(
-    "basics",
-  );
+  const [draggedSectionId, setDraggedSectionId] = useState<ResumeSectionId | null>(null);
+  const [openSectionId, setOpenSectionId] = useState<ResumeSectionId | null>("basics");
 
   function handleToggleSection(sectionId: ResumeSectionId) {
-    setOpenSectionId((currentSectionId) =>
-      currentSectionId === sectionId ? null : sectionId,
-    );
+    setOpenSectionId((currentSectionId) => (currentSectionId === sectionId ? null : sectionId));
   }
 
   return (
@@ -46,9 +41,7 @@ const EditorContentPanel = () => {
           Resume Content
         </p>
 
-        <h2 className="text-foreground text-xl font-semibold">
-          Content editor
-        </h2>
+        <h2 className="text-foreground text-xl font-semibold">Content editor</h2>
       </div>
 
       <div className="space-y-3">
@@ -130,9 +123,7 @@ const EditorContentPanel = () => {
             }
 
             if (section.id === "certifications") {
-              return (
-                <CertificationsSection key={section.id} {...sectionProps} />
-              );
+              return <CertificationsSection key={section.id} {...sectionProps} />;
             }
 
             if (section.id === "awards") {

@@ -55,18 +55,12 @@ export default function MasterProfileClient() {
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [activeSectionId, setActiveSectionId] = useState<string>(
-    MASTER_SECTION_NAV[0].id,
-  );
+  const [activeSectionId, setActiveSectionId] = useState<string>(MASTER_SECTION_NAV[0].id);
 
   const isManualScrolling = useRef(false);
 
   const sourceLabel =
-    state.source === "database"
-      ? "Database"
-      : state.source === "local"
-        ? "Local cache"
-        : "Unknown";
+    state.source === "database" ? "Database" : state.source === "local" ? "Local cache" : "Unknown";
 
   const sectionCounts = useMemo(() => {
     if (!state.profile) return { experience: 0, projects: 0, skills: 0 };
@@ -78,9 +72,7 @@ export default function MasterProfileClient() {
     };
   }, [state.profile]);
 
-  const activeSectionIndex = MASTER_SECTION_NAV.findIndex(
-    (s) => s.id === activeSectionId,
-  );
+  const activeSectionIndex = MASTER_SECTION_NAV.findIndex((s) => s.id === activeSectionId);
 
   useEffect(() => {
     const load = async () => {
@@ -158,10 +150,7 @@ export default function MasterProfileClient() {
     setSaving(true);
 
     try {
-      const savedBundle = await saveMasterProfileToDatabase(
-        profile,
-        state.updatedAt ?? undefined,
-      );
+      const savedBundle = await saveMasterProfileToDatabase(profile, state.updatedAt ?? undefined);
 
       saveMasterProfileToLocalStorage(savedBundle.profile);
 
@@ -196,11 +185,7 @@ export default function MasterProfileClient() {
               <StatRow
                 isMono
                 label="Updated"
-                value={
-                  state.updatedAt
-                    ? new Date(state.updatedAt).toLocaleDateString()
-                    : "New"
-                }
+                value={state.updatedAt ? new Date(state.updatedAt).toLocaleDateString() : "New"}
               />
 
               <StatRow
@@ -218,11 +203,7 @@ export default function MasterProfileClient() {
                   key={section.id}
                   section={section}
                   isActive={activeSectionId === section.id}
-                  count={
-                    section.countKey
-                      ? sectionCounts[section.countKey]
-                      : undefined
-                  }
+                  count={section.countKey ? sectionCounts[section.countKey] : undefined}
                   onClick={() => scrollToSection(section.id)}
                 />
               ))}
@@ -263,25 +244,13 @@ export default function MasterProfileClient() {
           </div>
         </div>
 
-        <ProfileMaster
-          profile={state.profile}
-          onSave={handleSave}
-          isSaving={saving}
-        />
+        <ProfileMaster profile={state.profile} onSave={handleSave} isSaving={saving} />
       </main>
     </div>
   );
 }
 
-const StatRow = ({
-  label,
-  value,
-  isMono,
-}: {
-  label: string;
-  value: string;
-  isMono?: boolean;
-}) => (
+const StatRow = ({ label, value, isMono }: { label: string; value: string; isMono?: boolean }) => (
   <div className="flex justify-between">
     <span className="text-muted-foreground">{label}</span>
     <span className={cn("font-semibold", isMono && "font-mono")}>{value}</span>
@@ -317,9 +286,7 @@ const NavButton = ({ section, isActive, count, onClick }: NavButtonProps) => (
       <span
         className={cn(
           "rounded px-1.5 py-0.5 text-[9px]",
-          count > 0
-            ? "bg-emerald-500/10 text-emerald-600"
-            : "bg-zinc-500/10 text-zinc-500",
+          count > 0 ? "bg-emerald-500/10 text-emerald-600" : "bg-zinc-500/10 text-zinc-500",
         )}
       >
         {count}

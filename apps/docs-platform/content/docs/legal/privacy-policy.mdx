@@ -23,17 +23,23 @@ If you are utilizing a self-hosted version, you are the Service Operator and are
 ## 2. Data Collection and Usage
 
 ### Account Information
+
 When you register an account using Email OTP, we store:
+
 - **Email Address**: Used exclusively for authentication, session management, and critical security notifications.
 - **Profile Metadata**: Optional display name and profile image provided during account setup.
 
 ### Resume Content
+
 When you utilize the builder or enable Cloud Sync, the Service processes and stores:
+
 - **Professional Data**: Experience history, educational background, skill sets, projects, and contact information.
 - **Document Metadata**: Custom section headers, template preferences, and layout configurations.
 
 ### File Storage
+
 Uploaded assets, such as profile images, are stored in:
+
 - **Local Filesystem**: Default for development and standard self-hosted environments.
 - **S3-Compatible Storage**: Default for the production environment and highly scalable deployments.
 
@@ -42,6 +48,7 @@ Uploaded assets, such as profile images, are stored in:
 ## 3. Data Processing and Services
 
 We process your information for the following core purposes:
+
 - **Authentication**: Verifying identity via secure One-Time Password (OTP) flows.
 - **Document Generation**: Utilizing our server-side Playwright engine to render high-fidelity PDF and DOCX files.
 - **Synchronization**: Maintaining consistency across multiple user devices for authenticated accounts.
@@ -52,10 +59,13 @@ We process your information for the following core purposes:
 ## 4. Cookies and Local Storage
 
 ### Local-First Persistence
+
 The majority of resume data is stored locally within your browser using **IndexedDB**. This data remains on your device and is not accessible by our servers unless Cloud Sync is explicitly enabled.
 
 ### Authentication Cookies
+
 We utilize functional cookies to maintain session security:
+
 - **Session Token**: Securely identifies an active authentication state.
 - **Security Attributes**: All cookies are issued with `HttpOnly`, `Secure`, and `SameSite=Lax` flags.
 
@@ -73,4 +83,5 @@ We do **not** utilize third-party tracking, advertising, or analytics cookies.
 ## 6. Contact Information
 
 For inquiries regarding this Privacy Policy or to exercise your data protection rights, please contact us at:
+
 - **Email**: [info@veriworkly.com](mailto:info@veriworkly.com)

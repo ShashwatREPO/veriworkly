@@ -7,10 +7,7 @@ interface SectionVisibilitySettingsProps {
   sections: ResumeSection[];
 }
 
-const SectionVisibilitySettings = ({
-  onToggle,
-  sections,
-}: SectionVisibilitySettingsProps) => {
+const SectionVisibilitySettings = ({ onToggle, sections }: SectionVisibilitySettingsProps) => {
   return (
     <div className="space-y-3">
       <p className="text-muted text-xs font-semibold tracking-[0.22em] uppercase">

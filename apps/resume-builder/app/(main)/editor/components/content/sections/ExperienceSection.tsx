@@ -8,12 +8,7 @@ import { Button } from "@veriworkly/ui";
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { validateExperience } from "@/features/resume/utils/validation";
 
-import {
-  Field,
-  TextArea,
-  invalidClass,
-  DelimitedTextArea,
-} from "../EditorFormPrimitives";
+import { Field, TextArea, invalidClass, DelimitedTextArea } from "../EditorFormPrimitives";
 import DraggableSection from "./DraggableSection";
 import type { BaseSectionProps } from "./section-types";
 
@@ -25,15 +20,11 @@ const ExperienceSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const { addExperience, removeExperience, resume, updateExperience } =
-    useResume();
+  const { addExperience, removeExperience, resume, updateExperience } = useResume();
 
   const [experienceIndex, setExperienceIndex] = useState(0);
 
-  const safeExperienceIndex = Math.min(
-    experienceIndex,
-    Math.max(0, resume.experience.length - 1),
-  );
+  const safeExperienceIndex = Math.min(experienceIndex, Math.max(0, resume.experience.length - 1));
 
   const activeExperience = resume.experience[safeExperienceIndex];
 
@@ -190,9 +181,7 @@ const ExperienceSection = ({
           </div>
         </>
       ) : (
-        <p className="text-muted text-sm">
-          No experience entries yet. Click Add to create one.
-        </p>
+        <p className="text-muted text-sm">No experience entries yet. Click Add to create one.</p>
       )}
     </DraggableSection>
   );

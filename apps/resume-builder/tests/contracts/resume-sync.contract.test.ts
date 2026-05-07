@@ -28,9 +28,7 @@ vi.mock("@/features/resume/services/local-storage", () => {
       state.byId.clear();
     }),
     listResumesFromLocalStorage: vi.fn(() => {
-      return Array.from(state.byId.values()).map((resume) =>
-        cloneResume(resume),
-      );
+      return Array.from(state.byId.values()).map((resume) => cloneResume(resume));
     }),
     deleteResumeFromLocalStorage: vi.fn((resumeId: string) => {
       state.byId.delete(resumeId);
@@ -83,9 +81,7 @@ describe("resume sync contract", () => {
     const items = Array.from(state.byId.values());
 
     expect(items.every((resume) => resume.sync.enabled)).toBe(true);
-    expect(items.every((resume) => resume.sync.status === "pending")).toBe(
-      true,
-    );
+    expect(items.every((resume) => resume.sync.status === "pending")).toBe(true);
   });
 
   it("disables sync for all saved resumes", () => {
@@ -96,8 +92,6 @@ describe("resume sync contract", () => {
     const items = Array.from(state.byId.values());
 
     expect(items.every((resume) => !resume.sync.enabled)).toBe(true);
-    expect(items.every((resume) => resume.sync.status === "local-only")).toBe(
-      true,
-    );
+    expect(items.every((resume) => resume.sync.status === "local-only")).toBe(true);
   });
 });

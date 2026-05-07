@@ -6,11 +6,7 @@ export function safeText(value: string | undefined | null): string {
   return value?.trim() ?? "";
 }
 
-export function formatDateRange(
-  startDate: string,
-  endDate: string,
-  current: boolean,
-): string {
+export function formatDateRange(startDate: string, endDate: string, current: boolean): string {
   const start = safeText(startDate) || "Start";
 
   if (current) {
@@ -49,9 +45,7 @@ export function getResumeFileBaseName(resume: ResumeData): string {
 }
 
 export function getVisibleSectionMap(resume: ResumeData): Map<string, boolean> {
-  return new Map(
-    resume.sections.map((section) => [section.id, section.visible]),
-  );
+  return new Map(resume.sections.map((section) => [section.id, section.visible]));
 }
 
 export function isSectionVisible(

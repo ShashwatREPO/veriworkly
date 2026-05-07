@@ -11,8 +11,7 @@ const EmptyState = ({ onCreate }: { onCreate: () => void }) => {
       <h2 className="text-foreground text-xl font-semibold">No resumes yet</h2>
 
       <p className="text-muted mt-2 max-w-70 text-sm">
-        Start by creating your first professional resume. It only takes a few
-        minutes.
+        Start by creating your first professional resume. It only takes a few minutes.
       </p>
 
       <Button

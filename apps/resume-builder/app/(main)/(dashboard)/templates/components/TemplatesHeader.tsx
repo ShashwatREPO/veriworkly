@@ -17,15 +17,11 @@ const TemplatesHeader = ({ selectedFamily, selectedLayout }: Props) => {
       </h1>
 
       <p className="text-muted max-w-2xl text-base leading-7">
-        Browse our collection of free resume templates designed to pass ATS
-        systems. Choose from modern, professional, and simple layouts - no login
-        required.
+        Browse our collection of free resume templates designed to pass ATS systems. Choose from
+        modern, professional, and simple layouts - no login required.
       </p>
 
-      <TemplateFilters
-        selectedFamily={selectedFamily}
-        selectedLayout={selectedLayout}
-      />
+      <TemplateFilters selectedFamily={selectedFamily} selectedLayout={selectedLayout} />
     </header>
   );
 };

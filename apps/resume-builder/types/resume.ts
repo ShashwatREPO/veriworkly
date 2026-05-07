@@ -214,12 +214,7 @@ export interface ResumeCustomization {
   headingLineHeight: number;
 }
 
-export type ResumeSyncStatus =
-  | "local-only"
-  | "pending"
-  | "syncing"
-  | "synced"
-  | "conflicted";
+export type ResumeSyncStatus = "local-only" | "pending" | "syncing" | "synced" | "conflicted";
 
 export interface ResumeSyncState {
   enabled: boolean;

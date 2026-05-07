@@ -11,10 +11,7 @@ import { fetchAdminRoadmapServer } from "@/features/admin/services/admin-server"
 import DeleteRoadmapButton from "@/app/admin/roadmap/components/DeleteRoadmapButton";
 import { Calendar } from "lucide-react";
 
-const statusConfig: Record<
-  RoadmapStatus,
-  { label: string; dot: string; bg: string }
-> = {
+const statusConfig: Record<RoadmapStatus, { label: string; dot: string; bg: string }> = {
   todo: { label: "To Do", dot: "bg-slate-400", bg: "bg-slate-50/50" },
   "in-progress": {
     label: "In Progress",
@@ -44,17 +41,15 @@ const AdminRoadmapPage = async () => {
       <Card className="rounded-4xl p-6 md:p-8">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="space-y-2">
-            <Badge className="bg-background/70 border-amber-200 text-amber-700">
-              Admin Only
-            </Badge>
+            <Badge className="bg-background/70 border-amber-200 text-amber-700">Admin Only</Badge>
 
             <h2 className="text-foreground text-2xl font-semibold tracking-tight md:text-3xl">
               Roadmap Management
             </h2>
 
             <p className="text-muted max-w-2xl text-sm md:text-base">
-              Organize feature requests and development progress. These items
-              are visible on the public roadmap page.
+              Organize feature requests and development progress. These items are visible on the
+              public roadmap page.
             </p>
           </div>
 
@@ -75,18 +70,14 @@ const AdminRoadmapPage = async () => {
           <div key={status} className="flex flex-col gap-4">
             <div className="flex items-center justify-between px-2">
               <div className="flex items-center gap-2">
-                <span
-                  className={`h-2 w-2 rounded-full ${statusConfig[status].dot}`}
-                />
+                <span className={`h-2 w-2 rounded-full ${statusConfig[status].dot}`} />
 
                 <h3 className="text-foreground text-sm font-bold tracking-wider uppercase">
                   {statusConfig[status].label}
                 </h3>
               </div>
 
-              <Badge className="rounded-full px-2">
-                {grouped[status].length}
-              </Badge>
+              <Badge className="rounded-full px-2">{grouped[status].length}</Badge>
             </div>
 
             <div
@@ -136,21 +127,11 @@ const AdminRoadmapPage = async () => {
                         )}
 
                         <div className="flex items-center justify-end gap-2 border-t border-slate-50 pt-2">
-                          <Button
-                            size="sm"
-                            asChild
-                            variant="ghost"
-                            className="h-7 text-xs"
-                          >
-                            <Link href={`/admin/roadmap/${item.id}/edit`}>
-                              Edit
-                            </Link>
+                          <Button size="sm" asChild variant="ghost" className="h-7 text-xs">
+                            <Link href={`/admin/roadmap/${item.id}/edit`}>Edit</Link>
                           </Button>
 
-                          <DeleteRoadmapButton
-                            id={item.id}
-                            title={item.title}
-                          />
+                          <DeleteRoadmapButton id={item.id} title={item.title} />
                         </div>
                       </div>
                     </Card>

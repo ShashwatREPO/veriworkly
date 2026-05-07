@@ -23,9 +23,7 @@ import { BaseShell } from "@/components/resume/BaseShell";
 
 import { minimalStyles } from "@/templates/modern-core/templates/minimal/styles";
 
-export default function MinimalTemplate(
-  props: TemplateRenderProps | null | undefined = undefined,
-) {
+export default function MinimalTemplate(props: TemplateRenderProps | null | undefined = undefined) {
   const { className, resume } = props ?? {};
 
   if (!resume) {
@@ -33,9 +31,7 @@ export default function MinimalTemplate(
   }
 
   const orderedVisibleSections = getOrderedSections(resume.sections);
-  const showHeaderLinks = orderedVisibleSections.some(
-    (section) => section.id === "links",
-  );
+  const showHeaderLinks = orderedVisibleSections.some((section) => section.id === "links");
 
   const sectionRenderers: Partial<Record<ResumeSectionId, () => ReactNode>> = {
     basics: () => (
@@ -115,9 +111,7 @@ export default function MinimalTemplate(
   return (
     <BaseShell
       customization={resume.customization}
-      className={[minimalStyles.wrapper, minimalStyles.stack, className]
-        .filter(Boolean)
-        .join(" ")}
+      className={[minimalStyles.wrapper, minimalStyles.stack, className].filter(Boolean).join(" ")}
     >
       {orderedVisibleSections.map((section) => {
         const renderSection = sectionRenderers[section.id];

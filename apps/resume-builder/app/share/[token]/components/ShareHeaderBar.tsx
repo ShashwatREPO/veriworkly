@@ -96,15 +96,12 @@ export const ShareHeaderBar = ({
                     onClick={() => onDownload(format)}
                     className={cn(
                       "h-8 rounded-none px-3 text-[10px] font-bold tracking-widest uppercase transition-colors",
-                      index !== 0 &&
-                        "border-border border-l dark:border-zinc-800",
+                      index !== 0 && "border-border border-l dark:border-zinc-800",
                       isActive &&
                         "bg-foreground text-background hover:bg-foreground hover:text-background dark:bg-zinc-100 dark:text-zinc-900",
                     )}
                   >
-                    {!downloadingFormat && (
-                      <Download className="mr-1.5 h-2.5 w-2.5" />
-                    )}
+                    {!downloadingFormat && <Download className="mr-1.5 h-2.5 w-2.5" />}
                     {format}
                   </Button>
                 );

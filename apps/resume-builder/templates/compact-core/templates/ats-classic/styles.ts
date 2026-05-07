@@ -5,6 +5,5 @@ export const atsClassicStyles = {
   section: "space-y-2",
   sectionTitle:
     "border-b border-[var(--resume-border)] pb-1 text-xs leading-[var(--resume-heading-leading)] font-semibold uppercase tracking-[0.2em] text-[var(--resume-section-heading)]",
-  bodyText:
-    "text-sm leading-[var(--resume-body-leading)] text-[var(--resume-muted)]",
+  bodyText: "text-sm leading-[var(--resume-body-leading)] text-[var(--resume-muted)]",
 } as const;

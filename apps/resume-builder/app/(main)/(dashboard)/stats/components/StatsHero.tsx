@@ -21,8 +21,8 @@ export default function StatsHero({ syncedAt, nextSyncAt }: StatsHeroProps) {
           </h1>
 
           <p className="text-muted max-w-2xl text-lg leading-relaxed">
-            Track the public GitHub board with server-side filters, pagination,
-            and cache-backed snapshots that refresh on the next sync.
+            Track the public GitHub board with server-side filters, pagination, and cache-backed
+            snapshots that refresh on the next sync.
           </p>
         </div>
 

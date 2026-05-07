@@ -47,21 +47,11 @@ const AdminActionButtons = () => {
 
   return (
     <div className="flex w-full flex-col gap-2 sm:w-auto">
-      <Button
-        size="md"
-        variant="secondary"
-        disabled={isSyncing}
-        onClick={handleSyncNow}
-      >
+      <Button size="md" variant="secondary" disabled={isSyncing} onClick={handleSyncNow}>
         {isSyncing ? "Syncing GitHub..." : "Sync GitHub Now"}
       </Button>
 
-      <Button
-        size="md"
-        variant="secondary"
-        onClick={handleSignOut}
-        disabled={isSigningOut}
-      >
+      <Button size="md" variant="secondary" onClick={handleSignOut} disabled={isSigningOut}>
         {isSigningOut ? "Signing out..." : "Sign out"}
       </Button>
     </div>

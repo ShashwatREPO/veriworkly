@@ -3,11 +3,7 @@ import Link from "next/link";
 import { Badge } from "@veriworkly/ui";
 import { TemplateDefinition } from "@/types/template";
 
-export function TemplateDetailHeader({
-  template,
-}: {
-  template: TemplateDefinition;
-}) {
+export function TemplateDetailHeader({ template }: { template: TemplateDefinition }) {
   return (
     <header className="space-y-6">
       <div className="space-y-3">
@@ -15,13 +11,9 @@ export function TemplateDetailHeader({
           Template Detail
         </p>
 
-        <h1 className="text-foreground text-4xl font-semibold tracking-tight">
-          {template.name}
-        </h1>
+        <h1 className="text-foreground text-4xl font-semibold tracking-tight">{template.name}</h1>
 
-        <p className="text-muted max-w-2xl text-base leading-7">
-          {template.description}
-        </p>
+        <p className="text-muted max-w-2xl text-base leading-7">{template.description}</p>
 
         <div className="flex flex-wrap gap-2">
           {template.tags.map((tag) => (
@@ -35,10 +27,7 @@ export function TemplateDetailHeader({
           Use in editor
         </Link>
 
-        <Link
-          href="/templates"
-          className="text-muted hover:text-foreground transition-colors"
-        >
+        <Link href="/templates" className="text-muted hover:text-foreground transition-colors">
           Back to templates
         </Link>
       </nav>

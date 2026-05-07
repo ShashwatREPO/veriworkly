@@ -2,12 +2,7 @@
 
 import { Button } from "@veriworkly/ui";
 
-const TemplatesError = ({
-  reset,
-}: {
-  error: Error & { digest?: string };
-  reset: () => void;
-}) => {
+const TemplatesError = ({ reset }: { error: Error & { digest?: string }; reset: () => void }) => {
   return (
     <div className="space-y-12 py-10">
       <header className="space-y-4">
@@ -20,17 +15,13 @@ const TemplatesError = ({
         </h1>
 
         <p className="text-muted max-w-2xl text-base leading-7">
-          Retry this gallery, or return to your dashboard and continue from
-          there.
+          Retry this gallery, or return to your dashboard and continue from there.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <Button onClick={() => reset()}>Try again</Button>
 
-          <Button
-            variant="secondary"
-            onClick={() => (window.location.href = "/dashboard")}
-          >
+          <Button variant="secondary" onClick={() => (window.location.href = "/dashboard")}>
             Back to Dashboard
           </Button>
         </div>

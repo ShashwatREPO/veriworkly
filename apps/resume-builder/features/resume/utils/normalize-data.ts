@@ -1,13 +1,6 @@
-import type {
-  ResumeData,
-  ResumeLinkItem,
-  ResumeLinkType,
-} from "@/types/resume";
+import type { ResumeData, ResumeLinkItem, ResumeLinkType } from "@/types/resume";
 
-import {
-  defaultResume,
-  defaultSections,
-} from "@/features/resume/constants/default-resume";
+import { defaultResume, defaultSections } from "@/features/resume/constants/default-resume";
 import { normalizeResumeFontFamilyId } from "@/features/resume/constants/resume-fonts";
 
 function isKnownLinkType(value: string): value is ResumeLinkType {
@@ -87,9 +80,7 @@ function normalizeLinks(value: Partial<ResumeData> | null | undefined) {
   };
 }
 
-function normalizeCustomSections(
-  value: Partial<ResumeData> | null | undefined,
-) {
+function normalizeCustomSections(value: Partial<ResumeData> | null | undefined) {
   const incoming = value?.customSections ?? [];
 
   return defaultResume.customSections.map((fallback) => {
@@ -147,16 +138,12 @@ function normalizeSections(value: Partial<ResumeData> | null | undefined) {
     }));
 }
 
-export function normalizeResumeData(
-  value: Partial<ResumeData> | null | undefined,
-): ResumeData {
-  const normalizedTemplateId =
-    value?.templateId === "faang" ? "ats" : value?.templateId;
+export function normalizeResumeData(value: Partial<ResumeData> | null | undefined): ResumeData {
+  const normalizedTemplateId = value?.templateId === "faang" ? "ats" : value?.templateId;
 
   const incomingCustomization = value?.customization;
-  const incomingFontFamily = (
-    incomingCustomization as { fontFamily?: string } | undefined
-  )?.fontFamily;
+  const incomingFontFamily = (incomingCustomization as { fontFamily?: string } | undefined)
+    ?.fontFamily;
 
   return {
     ...defaultResume,
@@ -171,8 +158,7 @@ export function normalizeResumeData(
     education: value?.education?.length
       ? value.education.map((item) => ({
           ...item,
-          current:
-            item.current ?? item.endDate?.trim().toLowerCase() === "present",
+          current: item.current ?? item.endDate?.trim().toLowerCase() === "present",
         }))
       : defaultResume.education,
     projects: value?.projects ? value.projects : defaultResume.projects,

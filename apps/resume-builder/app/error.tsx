@@ -13,12 +13,7 @@ export default function Error({
     <main className="flex min-h-screen items-center justify-center">
       <Container className="flex flex-col items-center text-center">
         <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-red-500/10 text-red-600">
-          <svg
-            className="h-8 w-8"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
+          <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -28,13 +23,11 @@ export default function Error({
           </svg>
         </div>
 
-        <h1 className="text-foreground text-3xl font-bold tracking-tight">
-          Something went wrong
-        </h1>
+        <h1 className="text-foreground text-3xl font-bold tracking-tight">Something went wrong</h1>
 
         <p className="text-muted mt-4 max-w-md text-sm leading-6">
-          An unexpected error occurred. This might be due to a corrupted local
-          storage or a temporary glitch.
+          An unexpected error occurred. This might be due to a corrupted local storage or a
+          temporary glitch.
         </p>
 
         <div className="mt-10 flex gap-4">
@@ -42,10 +35,7 @@ export default function Error({
             Try again
           </Button>
 
-          <Button
-            variant="secondary"
-            onClick={() => (window.location.href = "/")}
-          >
+          <Button variant="secondary" onClick={() => (window.location.href = "/")}>
             Go Home
           </Button>
         </div>

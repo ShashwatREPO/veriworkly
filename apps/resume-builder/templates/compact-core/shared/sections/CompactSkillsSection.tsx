@@ -17,9 +17,7 @@ export function CompactSkillsSection({
       <div className="space-y-1">
         {resume.skills.map((skill) => (
           <p className={bodyTextClassName} key={skill.id}>
-            <span className="font-semibold text-(--resume-text)">
-              {skill.name}:
-            </span>{" "}
+            <span className="font-semibold text-(--resume-text)">{skill.name}:</span>{" "}
             {skill.keywords.join(", ")}
           </p>
         ))}

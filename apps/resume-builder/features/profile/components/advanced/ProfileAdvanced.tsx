@@ -28,14 +28,8 @@ type ProfileAdvancedProps = {
   isSaving?: boolean;
 };
 
-const ProfileAdvanced = ({
-  profile,
-  onSave,
-  isSaving,
-}: ProfileAdvancedProps) => {
-  const [jsonValue, setJsonValue] = useState(() =>
-    JSON.stringify(profile, null, 2),
-  );
+const ProfileAdvanced = ({ profile, onSave, isSaving }: ProfileAdvancedProps) => {
+  const [jsonValue, setJsonValue] = useState(() => JSON.stringify(profile, null, 2));
   const [isJsonValid, setIsJsonValid] = useState(true);
   const [isExporting, setIsExporting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -67,15 +61,11 @@ const ProfileAdvanced = ({
       setTimeout(() => setStatusMessage(null), 3000);
     } catch (error) {
       if (error instanceof ApiRequestError && error.status === 409) {
-        setErrorMessage(
-          "Conflict: This profile was updated elsewhere. Please refresh.",
-        );
+        setErrorMessage("Conflict: This profile was updated elsewhere. Please refresh.");
         return;
       }
       setErrorMessage(
-        error instanceof SyntaxError
-          ? `Syntax Error: ${error.message}`
-          : "Save failed",
+        error instanceof SyntaxError ? `Syntax Error: ${error.message}` : "Save failed",
       );
     }
   };
@@ -146,9 +136,7 @@ const ProfileAdvanced = ({
             <div className="animate-in slide-in-from-top-2 flex items-start gap-3 rounded-xl border border-red-500/20 bg-red-500/5 p-4">
               <AlertCircle className="h-5 w-5 shrink-0 text-red-500" />
 
-              <p className="text-xs leading-normal font-medium text-red-600">
-                {errorMessage}
-              </p>
+              <p className="text-xs leading-normal font-medium text-red-600">{errorMessage}</p>
             </div>
           )}
 
@@ -156,9 +144,7 @@ const ProfileAdvanced = ({
             <div className="animate-in slide-in-from-top-2 flex items-center gap-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-4">
               <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-500" />
 
-              <p className="text-xs leading-normal font-medium text-emerald-600">
-                {statusMessage}
-              </p>
+              <p className="text-xs leading-normal font-medium text-emerald-600">{statusMessage}</p>
             </div>
           )}
         </div>
@@ -175,12 +161,7 @@ const ProfileAdvanced = ({
               {isSaving ? "Saving..." : "Commit Changes"}
             </Button>
 
-            <Button
-              size="sm"
-              variant="secondary"
-              onClick={handleReset}
-              title="Reset to original"
-            >
+            <Button size="sm" variant="secondary" onClick={handleReset} title="Reset to original">
               <RotateCcw className="h-4 w-4" />
             </Button>
           </div>
@@ -220,9 +201,7 @@ const ProfileAdvanced = ({
             const text = await file.text();
             JSON.parse(text);
             setJsonValue(text);
-            setStatusMessage(
-              "JSON imported successfully. Review before committing.",
-            );
+            setStatusMessage("JSON imported successfully. Review before committing.");
           } catch {
             setErrorMessage("Import failed: The file is not a valid JSON.");
           } finally {

@@ -12,13 +12,9 @@ const AdminNavbar = () => {
     <header className="border-border/70 bg-card/90 sticky top-0 z-40 border-b backdrop-blur">
       <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:px-6">
         <div>
-          <p className="text-muted text-xs font-medium tracking-[0.18em] uppercase">
-            VeriWorkly
-          </p>
+          <p className="text-muted text-xs font-medium tracking-[0.18em] uppercase">VeriWorkly</p>
 
-          <p className="text-foreground text-lg font-semibold">
-            Admin Workspace
-          </p>
+          <p className="text-foreground text-lg font-semibold">Admin Workspace</p>
         </div>
 
         <nav className="flex flex-wrap items-center gap-2">

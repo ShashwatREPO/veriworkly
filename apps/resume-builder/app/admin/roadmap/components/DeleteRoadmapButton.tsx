@@ -7,13 +7,7 @@ import { Button } from "@veriworkly/ui";
 
 import { deleteRoadmapFeature } from "@/features/roadmap/services/admin-roadmap";
 
-export default function DeleteRoadmapButton({
-  id,
-  title,
-}: {
-  id: string;
-  title: string;
-}) {
+export default function DeleteRoadmapButton({ id, title }: { id: string; title: string }) {
   const router = useRouter();
   const [isDeleting, setIsDeleting] = useState(false);
 

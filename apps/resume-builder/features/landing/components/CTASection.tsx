@@ -8,9 +8,7 @@ const CTASection = () => {
       aria-labelledby="cta-heading"
       className="border-border bg-card rounded-4xl border p-8 text-center md:p-12"
     >
-      <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">
-        Final call
-      </p>
+      <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">Final call</p>
 
       <h2
         id="cta-heading"
@@ -20,8 +18,8 @@ const CTASection = () => {
       </h2>
 
       <p className="text-muted mx-auto mt-3 max-w-2xl text-sm leading-6 md:text-base">
-        No sign-up. No lock-in. Just open the editor and create a professional
-        resume that feels like yours.
+        No sign-up. No lock-in. Just open the editor and create a professional resume that feels
+        like yours.
       </p>
 
       <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

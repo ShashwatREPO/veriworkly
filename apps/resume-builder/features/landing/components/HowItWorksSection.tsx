@@ -31,9 +31,7 @@ const HowItWorksSection = () => {
   return (
     <section className="space-y-8" aria-labelledby="how-it-works-heading">
       <div className="space-y-2">
-        <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">
-          Process
-        </p>
+        <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">Process</p>
 
         <h2
           id="how-it-works-heading"
@@ -43,21 +41,15 @@ const HowItWorksSection = () => {
         </h2>
 
         <p className="text-muted -mt-1 text-base leading-7">
-          Start with your master profile to create and manage your resume
-          details...
+          Start with your master profile to create and manage your resume details...
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((step) => (
-          <Card
-            key={step.number}
-            className="flex flex-col justify-between space-y-4 p-6"
-          >
+          <Card key={step.number} className="flex flex-col justify-between space-y-4 p-6">
             <p className="text-accent text-2xl font-bold">{step.number}</p>
-            <h3 className="text-foreground text-lg font-semibold">
-              {step.title}
-            </h3>
+            <h3 className="text-foreground text-lg font-semibold">{step.title}</h3>
             <p className="text-muted text-sm leading-6">{step.description}</p>
           </Card>
         ))}

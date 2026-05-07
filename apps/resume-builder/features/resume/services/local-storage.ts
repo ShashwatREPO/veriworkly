@@ -80,9 +80,7 @@ function clearPendingSaveTimer() {
   pendingSaveTimer = null;
 }
 
-function writeCollection(
-  collection: ResumeCollection,
-): LocalStorageWriteResult {
+function writeCollection(collection: ResumeCollection): LocalStorageWriteResult {
   if (!isBrowser()) return { ok: true };
 
   const payload = JSON.stringify(collection);
@@ -99,11 +97,7 @@ function writeCollection(
 
   window.localStorage.removeItem(RESUME_STORAGE_KEY);
 
-  return safeSetLocalStorageItem(
-    window.localStorage,
-    RESUME_COLLECTION_STORAGE_KEY,
-    payload,
-  );
+  return safeSetLocalStorageItem(window.localStorage, RESUME_COLLECTION_STORAGE_KEY, payload);
 }
 
 function persistResume(resume: ResumeData): SaveResumeResult {
@@ -119,8 +113,7 @@ function persistResume(resume: ResumeData): SaveResumeResult {
 
   const existingResume = collection.items[normalizedResume.id];
   const shouldMarkPending =
-    normalizedResume.sync.enabled &&
-    hasResumePayloadChanged(existingResume, normalizedResume);
+    normalizedResume.sync.enabled && hasResumePayloadChanged(existingResume, normalizedResume);
 
   const resumeToPersist: ResumeData = shouldMarkPending
     ? {
@@ -128,9 +121,7 @@ function persistResume(resume: ResumeData): SaveResumeResult {
         sync: {
           ...normalizedResume.sync,
           status: "pending",
-          lastSyncedAt:
-            existingResume?.sync.lastSyncedAt ??
-            normalizedResume.sync.lastSyncedAt,
+          lastSyncedAt: existingResume?.sync.lastSyncedAt ?? normalizedResume.sync.lastSyncedAt,
         },
       }
     : normalizedResume;
@@ -169,11 +160,7 @@ export function getActiveResumeIdFromLocalStorage() {
 export function setActiveResumeIdInLocalStorage(resumeId: string) {
   if (!isBrowser()) return;
 
-  safeSetLocalStorageItem(
-    window.localStorage,
-    RESUME_ACTIVE_ID_STORAGE_KEY,
-    resumeId,
-  );
+  safeSetLocalStorageItem(window.localStorage, RESUME_ACTIVE_ID_STORAGE_KEY, resumeId);
 }
 
 export function loadResumeCollectionFromLocalStorage() {
@@ -181,9 +168,7 @@ export function loadResumeCollectionFromLocalStorage() {
     return toCollection({});
   }
 
-  const rawCollection = window.localStorage.getItem(
-    RESUME_COLLECTION_STORAGE_KEY,
-  );
+  const rawCollection = window.localStorage.getItem(RESUME_COLLECTION_STORAGE_KEY);
 
   if (!rawCollection) {
     const legacy = loadLegacyResumeFromLocalStorage();
@@ -210,9 +195,7 @@ export function loadResumeCollectionFromLocalStorage() {
   }
 }
 
-export function saveResumeCollectionToLocalStorage(
-  collection: ResumeCollection,
-) {
+export function saveResumeCollectionToLocalStorage(collection: ResumeCollection) {
   if (!isBrowser()) {
     return { ok: true } as const;
   }

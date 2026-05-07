@@ -5,11 +5,13 @@ First off, thank you for considering contributing to **VeriWorkly**! We are buil
 ## 🏗️ Getting Started
 
 ### 📦 Development Prerequisites
+
 - **Node.js 20+**
 - **npm v10+**
 - **Docker** (Optional, for full stack testing)
 
 ### 🛠️ Local Setup
+
 1. **Fork** the repository.
 2. **Clone** your fork:
    ```bash
@@ -38,6 +40,7 @@ First off, thank you for considering contributing to **VeriWorkly**! We are buil
 - `dev`: Active development and integration branch. **Base your PRs here.**
 
 ### Branch Naming Convention
+
 - `feat/feature-name`
 - `fix/bug-name`
 - `docs/doc-update`
@@ -48,13 +51,16 @@ First off, thank you for considering contributing to **VeriWorkly**! We are buil
 ## 🛠️ Development Guidelines
 
 ### 🎨 Architecture
+
 We use a **Monorepo** structure.
+
 - **apps/resume-builder**: Core Next.js application.
 - **apps/server**: Express API.
 - **apps/docs-platform**: Documentation (Fumadocs).
 - **packages/ui**: Shared Design System.
 
 ### 📝 Coding Standards
+
 - **TypeScript**: Mandatory for all new code.
 - **Linting**: Run `npm run lint` before committing.
 - **Formatting**: We use Prettier. Run `npm run format:write`.

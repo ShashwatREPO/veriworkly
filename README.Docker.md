@@ -5,6 +5,7 @@ VeriWorkly provides a comprehensive Docker Compose setup for self-hosting.
 ## 🚀 Quick Deploy
 
 1. **Configure Docker environment**:
+
    ```bash
    cp .env.docker.example .env.docker
    cp .env.example .env

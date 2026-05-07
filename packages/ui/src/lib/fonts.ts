@@ -10,7 +10,4 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const globalFontVariables = [
-  geistSans.variable,
-  geistMono.variable,
-].join(" ");
+export const globalFontVariables = [geistSans.variable, geistMono.variable].join(" ");

@@ -120,51 +120,35 @@ export function validateMasterProfileForSave(profile: MasterProfileData) {
 
   for (const project of profile.projects) {
     if (project.link.trim() && !isValidAbsoluteUrl(project.link.trim())) {
-      issues.push(
-        `Project \"${project.name || "Untitled"}\" has an invalid link URL.`,
-      );
+      issues.push(`Project \"${project.name || "Untitled"}\" has an invalid link URL.`);
       break;
     }
   }
 
   for (const award of profile.awards) {
     if (award.website?.trim() && !isValidAbsoluteUrl(award.website.trim())) {
-      issues.push(
-        `Award \"${award.title || "Untitled"}\" has an invalid website URL.`,
-      );
+      issues.push(`Award \"${award.title || "Untitled"}\" has an invalid website URL.`);
       break;
     }
   }
 
   for (const certificate of profile.certificates) {
-    if (
-      certificate.website?.trim() &&
-      !isValidAbsoluteUrl(certificate.website.trim())
-    ) {
-      issues.push(
-        `Certificate \"${certificate.title || "Untitled"}\" has an invalid website URL.`,
-      );
+    if (certificate.website?.trim() && !isValidAbsoluteUrl(certificate.website.trim())) {
+      issues.push(`Certificate \"${certificate.title || "Untitled"}\" has an invalid website URL.`);
       break;
     }
   }
 
   for (const publication of profile.publications) {
-    if (
-      publication.website?.trim() &&
-      !isValidAbsoluteUrl(publication.website.trim())
-    ) {
-      issues.push(
-        `Publication \"${publication.title || "Untitled"}\" has an invalid website URL.`,
-      );
+    if (publication.website?.trim() && !isValidAbsoluteUrl(publication.website.trim())) {
+      issues.push(`Publication \"${publication.title || "Untitled"}\" has an invalid website URL.`);
       break;
     }
   }
 
   for (const reference of profile.references) {
     if (reference.email?.trim() && !isValidEmail(reference.email.trim())) {
-      issues.push(
-        `Reference \"${reference.name || "Unnamed"}\" has an invalid email.`,
-      );
+      issues.push(`Reference \"${reference.name || "Unnamed"}\" has an invalid email.`);
       break;
     }
   }
@@ -196,10 +180,7 @@ export function validateMasterProfileForSave(profile: MasterProfileData) {
     issues.push("Body Line Height must be between 0.8 and 3.");
   }
 
-  if (
-    customization.headingLineHeight < 0.8 ||
-    customization.headingLineHeight > 3
-  ) {
+  if (customization.headingLineHeight < 0.8 || customization.headingLineHeight > 3) {
     issues.push("Heading Line Height must be between 0.8 and 3.");
   }
 
@@ -209,9 +190,7 @@ export function validateMasterProfileForSave(profile: MasterProfileData) {
   };
 }
 
-export function sanitizeMasterProfileForSave(
-  profile: MasterProfileData,
-): MasterProfileData {
+export function sanitizeMasterProfileForSave(profile: MasterProfileData): MasterProfileData {
   return {
     ...profile,
     basics: {
@@ -270,10 +249,7 @@ export function sanitizeMasterProfileForSave(
   };
 }
 
-export function ensureUniqueIds<T extends { id: string }>(
-  items: T[],
-  prefix: string,
-) {
+export function ensureUniqueIds<T extends { id: string }>(items: T[], prefix: string) {
   const seen = new Set<string>();
 
   return items.map((item) => {
@@ -296,16 +272,13 @@ export function ensureUniqueIds<T extends { id: string }>(
   });
 }
 
-export function normalizeProfileIds(
-  profile: MasterProfileData,
-): MasterProfileData {
-  const normalizedCustomSections = ensureUniqueIds(
-    profile.customSections,
-    "custom",
-  ).map((section) => ({
-    ...section,
-    items: ensureUniqueIds(section.items, "custom-item"),
-  }));
+export function normalizeProfileIds(profile: MasterProfileData): MasterProfileData {
+  const normalizedCustomSections = ensureUniqueIds(profile.customSections, "custom").map(
+    (section) => ({
+      ...section,
+      items: ensureUniqueIds(section.items, "custom-item"),
+    }),
+  );
 
   return {
     ...profile,

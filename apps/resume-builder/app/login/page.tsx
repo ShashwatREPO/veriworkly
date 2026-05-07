@@ -44,10 +44,7 @@ const LoginPage = () => {
     setIsLoading(false);
   };
 
-  if (sent)
-    return (
-      <OtpForm sentTo={sentTo} setSent={setSent} otp={otp} setOtp={setOtp} />
-    );
+  if (sent) return <OtpForm sentTo={sentTo} setSent={setSent} otp={otp} setOtp={setOtp} />;
 
   return (
     <Card className="relative min-h-140 overflow-hidden rounded-4xl p-7">
@@ -63,8 +60,8 @@ const LoginPage = () => {
             </h1>
 
             <p className="text-muted max-w-md text-sm md:text-base">
-              Resume building is fully available without an account. Login adds
-              sync and advanced sharing features.
+              Resume building is fully available without an account. Login adds sync and advanced
+              sharing features.
             </p>
           </div>
         </div>
@@ -79,10 +76,7 @@ const LoginPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <label
-              htmlFor="email"
-              className="text-foreground text-sm font-medium"
-            >
+            <label htmlFor="email" className="text-foreground text-sm font-medium">
               Email
             </label>
 
@@ -110,22 +104,14 @@ const LoginPage = () => {
             </section>
           )}
 
-          <Button
-            size="md"
-            type="submit"
-            className="w-full"
-            disabled={isLoading || !email}
-          >
+          <Button size="md" type="submit" className="w-full" disabled={isLoading || !email}>
             {isLoading ? "Sending Code..." : "Send Sign-in Code"}
           </Button>
         </form>
 
         <p className="text-muted text-center text-xs md:text-sm">
           Want to continue immediately?
-          <Link
-            href="/dashboard"
-            className="text-foreground ml-1 font-semibold hover:opacity-80"
-          >
+          <Link href="/dashboard" className="text-foreground ml-1 font-semibold hover:opacity-80">
             Open Dashboard (No Login)
           </Link>
         </p>

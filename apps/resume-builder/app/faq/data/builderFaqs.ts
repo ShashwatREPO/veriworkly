@@ -25,8 +25,7 @@ export const builderFaqs = [
 
   {
     question: "Can I reorder sections in my resume?",
-    answer:
-      "Yes. You can control section order and visibility to match each application strategy.",
+    answer: "Yes. You can control section order and visibility to match each application strategy.",
   },
 
   {
@@ -36,8 +35,7 @@ export const builderFaqs = [
   },
 
   {
-    question:
-      "Can I include extra sections like achievements or volunteer work?",
+    question: "Can I include extra sections like achievements or volunteer work?",
     answer:
       "Yes. The builder supports multiple section types beyond basics, including optional sections for broader profile storytelling.",
   },
@@ -92,8 +90,7 @@ export const builderFaqs = [
 
   {
     question: "Do you sell my data?",
-    answer:
-      "No. The product is built around user control and practical value, not data resale.",
+    answer: "No. The product is built around user control and practical value, not data resale.",
   },
 
   {
@@ -110,7 +107,6 @@ export const builderFaqs = [
 
   {
     question: "Is VeriWorkly free?",
-    answer:
-      "Yes. The builder is free to use and designed for broad accessibility.",
+    answer: "Yes. The builder is free to use and designed for broad accessibility.",
   },
 ];

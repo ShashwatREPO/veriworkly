@@ -11,10 +11,7 @@ type AppearanceAndVisibilitySectionsProps = {
     key: keyof MasterProfileData["customization"],
     value: string | number,
   ) => void;
-  updateSectionVisibility: (
-    sectionId: ResumeSection["id"],
-    visible: boolean,
-  ) => void;
+  updateSectionVisibility: (sectionId: ResumeSection["id"], visible: boolean) => void;
 };
 
 export function AppearanceAndVisibilitySections({
@@ -48,16 +45,12 @@ export function AppearanceAndVisibilitySections({
           <ColorField
             label="Page Background"
             value={localProfile.customization.pageBackgroundColor}
-            onChange={(value) =>
-              setCustomizationField("pageBackgroundColor", value)
-            }
+            onChange={(value) => setCustomizationField("pageBackgroundColor", value)}
           />
           <ColorField
             label="Section Background"
             value={localProfile.customization.sectionBackgroundColor}
-            onChange={(value) =>
-              setCustomizationField("sectionBackgroundColor", value)
-            }
+            onChange={(value) => setCustomizationField("sectionBackgroundColor", value)}
           />
           <ColorField
             label="Border Color"
@@ -67,9 +60,7 @@ export function AppearanceAndVisibilitySections({
           <ColorField
             label="Section Heading Color"
             value={localProfile.customization.sectionHeadingColor}
-            onChange={(value) =>
-              setCustomizationField("sectionHeadingColor", value)
-            }
+            onChange={(value) => setCustomizationField("sectionHeadingColor", value)}
           />
           <div className="space-y-2">
             <label className="text-sm font-medium">Font Family</label>
@@ -97,10 +88,7 @@ export function AppearanceAndVisibilitySections({
               max={200}
               value={localProfile.customization.sectionSpacing}
               onChange={(event) =>
-                setCustomizationField(
-                  "sectionSpacing",
-                  Number(event.target.value),
-                )
+                setCustomizationField("sectionSpacing", Number(event.target.value))
               }
             />
           </div>
@@ -111,9 +99,7 @@ export function AppearanceAndVisibilitySections({
               min={0}
               max={200}
               value={localProfile.customization.pagePadding}
-              onChange={(event) =>
-                setCustomizationField("pagePadding", Number(event.target.value))
-              }
+              onChange={(event) => setCustomizationField("pagePadding", Number(event.target.value))}
             />
           </div>
           <div className="space-y-2">
@@ -125,10 +111,7 @@ export function AppearanceAndVisibilitySections({
               max={3}
               value={localProfile.customization.bodyLineHeight}
               onChange={(event) =>
-                setCustomizationField(
-                  "bodyLineHeight",
-                  Number(event.target.value),
-                )
+                setCustomizationField("bodyLineHeight", Number(event.target.value))
               }
             />
           </div>
@@ -141,10 +124,7 @@ export function AppearanceAndVisibilitySections({
               max={3}
               value={localProfile.customization.headingLineHeight}
               onChange={(event) =>
-                setCustomizationField(
-                  "headingLineHeight",
-                  Number(event.target.value),
-                )
+                setCustomizationField("headingLineHeight", Number(event.target.value))
               }
             />
           </div>
@@ -163,17 +143,13 @@ export function AppearanceAndVisibilitySections({
               className="border-border/60 bg-card/40 flex items-center justify-between gap-4 rounded-xl border px-4 py-3"
             >
               <div>
-                <p className="text-foreground text-sm font-semibold">
-                  {sectionLabels[section.id]}
-                </p>
+                <p className="text-foreground text-sm font-semibold">{sectionLabels[section.id]}</p>
                 <p className="text-muted text-xs">Order {section.order}</p>
               </div>
               <input
                 type="checkbox"
                 checked={section.visible}
-                onChange={(event) =>
-                  updateSectionVisibility(section.id, event.target.checked)
-                }
+                onChange={(event) => updateSectionVisibility(section.id, event.target.checked)}
               />
             </label>
           ))}

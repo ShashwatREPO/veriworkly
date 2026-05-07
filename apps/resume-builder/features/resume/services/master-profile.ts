@@ -70,9 +70,7 @@ function getDefaultProfile(): MasterProfileData {
   };
 }
 
-function normalizeProfile(
-  value: Partial<MasterProfileData> | null | undefined,
-) {
+function normalizeProfile(value: Partial<MasterProfileData> | null | undefined) {
   const baseProfile = getDefaultProfile();
 
   const nextProfile = {
@@ -87,36 +85,18 @@ function normalizeProfile(
       ...value?.links,
       items: value?.links?.items ?? baseProfile.links.items,
     },
-    experience: value?.experience?.length
-      ? value.experience
-      : baseProfile.experience,
-    education: value?.education?.length
-      ? value.education
-      : baseProfile.education,
+    experience: value?.experience?.length ? value.experience : baseProfile.experience,
+    education: value?.education?.length ? value.education : baseProfile.education,
     projects: value?.projects?.length ? value.projects : baseProfile.projects,
     skills: value?.skills?.length ? value.skills : baseProfile.skills,
-    languages: value?.languages?.length
-      ? value.languages
-      : baseProfile.languages,
-    interests: value?.interests?.length
-      ? value.interests
-      : baseProfile.interests,
+    languages: value?.languages?.length ? value.languages : baseProfile.languages,
+    interests: value?.interests?.length ? value.interests : baseProfile.interests,
     awards: value?.awards?.length ? value.awards : baseProfile.awards,
-    certificates: value?.certificates?.length
-      ? value.certificates
-      : baseProfile.certificates,
-    publications: value?.publications?.length
-      ? value.publications
-      : baseProfile.publications,
-    volunteer: value?.volunteer?.length
-      ? value.volunteer
-      : baseProfile.volunteer,
-    references: value?.references?.length
-      ? value.references
-      : baseProfile.references,
-    achievements: value?.achievements?.length
-      ? value.achievements
-      : baseProfile.achievements,
+    certificates: value?.certificates?.length ? value.certificates : baseProfile.certificates,
+    publications: value?.publications?.length ? value.publications : baseProfile.publications,
+    volunteer: value?.volunteer?.length ? value.volunteer : baseProfile.volunteer,
+    references: value?.references?.length ? value.references : baseProfile.references,
+    achievements: value?.achievements?.length ? value.achievements : baseProfile.achievements,
     customSections: value?.customSections?.length
       ? value.customSections
       : baseProfile.customSections,
@@ -202,11 +182,7 @@ export function saveMasterProfileToLocalStorage(profile: MasterProfileData) {
     profile: normalizeProfile(profile),
   };
 
-  safeSetLocalStorageItem(
-    window.localStorage,
-    MASTER_PROFILE_STORAGE_KEY,
-    JSON.stringify(payload),
-  );
+  safeSetLocalStorageItem(window.localStorage, MASTER_PROFILE_STORAGE_KEY, JSON.stringify(payload));
 }
 
 export function resetMasterProfileToLocalStorage() {
@@ -270,12 +246,9 @@ function parseSavedMasterProfileResponse(
 
 export async function loadMasterProfileFromDatabase() {
   try {
-    const profileRecord = await fetchApiData<MasterProfileApiRecord>(
-      "/profiles/master",
-      {
-        method: "GET",
-      },
-    );
+    const profileRecord = await fetchApiData<MasterProfileApiRecord>("/profiles/master", {
+      method: "GET",
+    });
 
     const profile = toMasterProfileData(profileRecord.profile.content);
 
@@ -284,10 +257,7 @@ export async function loadMasterProfileFromDatabase() {
     }
 
     return {
-      updatedAt:
-        profileRecord.profile.updatedAt ??
-        profile.updatedAt ??
-        new Date().toISOString(),
+      updatedAt: profileRecord.profile.updatedAt ?? profile.updatedAt ?? new Date().toISOString(),
       profile,
       summary: profileRecord.summary ?? null,
     } satisfies MasterProfileBundleState;
@@ -302,12 +272,13 @@ export async function saveMasterProfileToDatabase(
 ) {
   const normalized = normalizeProfile(profile);
 
-  const payload = await fetchApiData<
-    MasterProfileApiRecord | MasterProfileUpdatedRecord
-  >("/profiles/master", {
-    method: "PUT",
-    body: JSON.stringify({ profile: normalized, expectedUpdatedAt }),
-  });
+  const payload = await fetchApiData<MasterProfileApiRecord | MasterProfileUpdatedRecord>(
+    "/profiles/master",
+    {
+      method: "PUT",
+      body: JSON.stringify({ profile: normalized, expectedUpdatedAt }),
+    },
+  );
 
   return parseSavedMasterProfileResponse(payload, normalized);
 }

@@ -13,9 +13,7 @@ const Sidebar = () => {
   const selectSection = useResumeStore((state) => state.selectSection);
   const reorderSections = useResumeStore((state) => state.reorderSections);
 
-  const [draggedSectionIndex, setDraggedSectionIndex] = useState<number | null>(
-    null,
-  );
+  const [draggedSectionIndex, setDraggedSectionIndex] = useState<number | null>(null);
 
   function handleDrop(targetIndex: number) {
     if (draggedSectionIndex === null || draggedSectionIndex === targetIndex) {
@@ -30,13 +28,9 @@ const Sidebar = () => {
   return (
     <aside className="border-border bg-card rounded-4xl border p-5 shadow-sm">
       <div className="mb-6">
-        <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">
-          Editor Map
-        </p>
+        <p className="text-muted text-xs font-semibold tracking-[0.24em] uppercase">Editor Map</p>
 
-        <h2 className="text-foreground mt-2 text-xl font-semibold">
-          Resume sections
-        </h2>
+        <h2 className="text-foreground mt-2 text-xl font-semibold">Resume sections</h2>
       </div>
 
       <div className="space-y-2">

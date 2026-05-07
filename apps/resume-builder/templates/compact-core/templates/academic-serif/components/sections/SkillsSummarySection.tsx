@@ -14,9 +14,7 @@ export function SkillsSummarySection({ resume }: { resume: ResumeData }) {
       <div className="space-y-0.5 text-[10pt] leading-(--resume-body-leading) text-(--resume-muted)">
         {resume.skills.map((skill) => (
           <p key={skill.id}>
-            <span className="font-bold text-(--resume-text)">
-              - {skill.name}:
-            </span>{" "}
+            <span className="font-bold text-(--resume-text)">- {skill.name}:</span>{" "}
             {skill.keywords.join(", ")}
           </p>
         ))}

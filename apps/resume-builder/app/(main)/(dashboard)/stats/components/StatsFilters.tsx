@@ -14,19 +14,12 @@ interface StatsFiltersProps {
   updatedTo?: string;
 }
 
-export default function StatsFilters({
-  status,
-  kind,
-  updatedFrom,
-  updatedTo,
-}: StatsFiltersProps) {
+export default function StatsFilters({ status, kind, updatedFrom, updatedTo }: StatsFiltersProps) {
   return (
     <section className="mb-8 space-y-5">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <h2 className="text-foreground text-xl font-semibold">
-            Filter by status
-          </h2>
+          <h2 className="text-foreground text-xl font-semibold">Filter by status</h2>
 
           <p className="text-muted text-sm">
             Status, type, and date filters are applied on the server.
@@ -83,19 +76,12 @@ export default function StatsFilters({
         action="/stats"
         className="border-border/70 bg-card/60 flex flex-wrap items-end gap-3 rounded-3xl border p-4"
       >
-        {status !== "all" ? (
-          <input type="hidden" name="status" value={status} />
-        ) : null}
+        {status !== "all" ? <input type="hidden" name="status" value={status} /> : null}
 
-        {kind !== "all" ? (
-          <input type="hidden" name="kind" value={kind} />
-        ) : null}
+        {kind !== "all" ? <input type="hidden" name="kind" value={kind} /> : null}
 
         <div className="flex flex-col gap-1">
-          <label
-            htmlFor="updatedFrom"
-            className="text-muted text-xs font-medium"
-          >
+          <label htmlFor="updatedFrom" className="text-muted text-xs font-medium">
             Updated from
           </label>
 

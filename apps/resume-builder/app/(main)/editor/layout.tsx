@@ -2,11 +2,7 @@ import type { ReactNode } from "react";
 
 import { ResumeFontStylesheetPreload } from "@/components/resume/ResumeFontStylesheetPreload";
 
-export default function EditorRouteLayout({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export default function EditorRouteLayout({ children }: { children: ReactNode }) {
   return (
     <>
       <ResumeFontStylesheetPreload />

@@ -39,34 +39,27 @@ const templateEntries: TemplateEntry[] = [
   },
   {
     meta: atsClassicTemplateMeta,
-    loadComponent: () =>
-      import("@/templates/compact-core/templates/ats-classic"),
+    loadComponent: () => import("@/templates/compact-core/templates/ats-classic"),
   },
   {
     meta: classicAcademicTemplateMeta,
-    loadComponent: () =>
-      import("@/templates/compact-core/templates/professional-classic"),
+    loadComponent: () => import("@/templates/compact-core/templates/professional-classic"),
   },
   {
     meta: structuredProfessionalTemplateMeta,
-    loadComponent: () =>
-      import("@/templates/compact-core/templates/structured-professional"),
+    loadComponent: () => import("@/templates/compact-core/templates/structured-professional"),
   },
   {
     meta: academicSerifTemplateMeta,
-    loadComponent: () =>
-      import("@/templates/compact-core/templates/academic-serif"),
+    loadComponent: () => import("@/templates/compact-core/templates/academic-serif"),
   },
 ];
 
-export const templateRegistry: TemplateDefinition[] = templateEntries.map(
-  (entry) => entry.meta,
-);
+export const templateRegistry: TemplateDefinition[] = templateEntries.map((entry) => entry.meta);
 
-const templateComponentLoaders: Record<string, TemplateComponentLoader> =
-  Object.fromEntries(
-    templateEntries.map((entry) => [entry.meta.id, entry.loadComponent]),
-  ) as Record<string, TemplateComponentLoader>;
+const templateComponentLoaders: Record<string, TemplateComponentLoader> = Object.fromEntries(
+  templateEntries.map((entry) => [entry.meta.id, entry.loadComponent]),
+) as Record<string, TemplateComponentLoader>;
 
 function getFallbackTemplate() {
   return templateRegistry[0];
@@ -81,9 +74,7 @@ export function getTemplateById(templateId: string) {
   );
 }
 
-export async function loadTemplateComponentById(
-  templateId: string,
-): Promise<TemplateComponent> {
+export async function loadTemplateComponentById(templateId: string): Promise<TemplateComponent> {
   const normalizedTemplateId = normalizeTemplateId(templateId);
 
   const loader =

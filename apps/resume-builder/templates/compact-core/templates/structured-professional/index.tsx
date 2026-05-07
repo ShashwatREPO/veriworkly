@@ -26,12 +26,8 @@ export default function StructuredProfessionalTemplate(
 
   const orderedVisibleSections = getOrderedSections(resume.sections);
   const renderHeading = (title: string) => <SectionHeading title={title} />;
-  const showHeader = orderedVisibleSections.some(
-    (section) => section.id === "basics",
-  );
-  const showLinks = orderedVisibleSections.some(
-    (section) => section.id === "links",
-  );
+  const showHeader = orderedVisibleSections.some((section) => section.id === "basics");
+  const showLinks = orderedVisibleSections.some((section) => section.id === "links");
 
   return (
     <BaseShell
@@ -44,9 +40,7 @@ export default function StructuredProfessionalTemplate(
         .filter(Boolean)
         .join(" ")}
     >
-      {showHeader ? (
-        <HeaderSection resume={resume} showLinks={showLinks} />
-      ) : null}
+      {showHeader ? <HeaderSection resume={resume} showLinks={showLinks} /> : null}
 
       {orderedVisibleSections.map((section) => {
         if (section.id === "basics") {
@@ -77,9 +71,7 @@ export default function StructuredProfessionalTemplate(
               containerClassName="space-y-4"
               formatPrimary={(item) => `${item.degree} in ${item.field}`}
               formatRange={(item) =>
-                item.current
-                  ? `${item.startDate} - Present`
-                  : `${item.startDate} - ${item.endDate}`
+                item.current ? `${item.startDate} - Present` : `${item.startDate} - ${item.endDate}`
               }
               formatSecondary={(item) => item.school}
               itemClassName="space-y-1"
@@ -133,9 +125,7 @@ export default function StructuredProfessionalTemplate(
                       target="_blank"
                     >
                       <span aria-hidden="true">Visit link</span>
-                      <span className="sr-only">
-                        Visit project link: {item.link}
-                      </span>
+                      <span className="sr-only">Visit project link: {item.link}</span>
                     </a>
                   ) : null}
                 </div>

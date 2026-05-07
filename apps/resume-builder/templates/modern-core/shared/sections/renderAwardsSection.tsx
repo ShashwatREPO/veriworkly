@@ -41,8 +41,7 @@ export function renderAwardsSection({
               </p>
             ) : null}
 
-            {(variant === "full" || variant === "description-only") &&
-            item.description ? (
+            {(variant === "full" || variant === "description-only") && item.description ? (
               <p
                 className={
                   variant === "description-only"

@@ -14,22 +14,13 @@ const WorkspaceHeader = ({ onCreate, onRefresh, refreshing }: HeaderProps) => (
         Resume Workspace
       </p>
 
-      <h1 className="text-foreground text-xl font-bold tracking-tight sm:text-2xl">
-        Your resumes
-      </h1>
+      <h1 className="text-foreground text-xl font-bold tracking-tight sm:text-2xl">Your resumes</h1>
 
-      <p className="text-muted mt-1 text-sm">
-        Create, share, and manage your resume drafts.
-      </p>
+      <p className="text-muted mt-1 text-sm">Create, share, and manage your resume drafts.</p>
     </div>
 
     <div className="flex w-full flex-wrap justify-end gap-2 sm:w-auto">
-      <Button
-        size="sm"
-        variant="ghost"
-        onClick={onRefresh}
-        loading={refreshing}
-      >
+      <Button size="sm" variant="ghost" onClick={onRefresh} loading={refreshing}>
         Refresh Cloud
       </Button>
 

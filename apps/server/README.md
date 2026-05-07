@@ -5,12 +5,14 @@ The backend engine for VeriWorkly, providing authentication, data sync, and a hi
 ## 🚀 Quick Start
 
 1. **Install dependencies** (from monorepo root):
+
    ```bash
    npm install
    ```
 
 2. **Setup environment variables**:
    Create a `.env` file in `apps/server/`:
+
    ```env
    DATABASE_URL=postgresql://...
    REDIS_URL=redis://localhost:6379
@@ -18,6 +20,7 @@ The backend engine for VeriWorkly, providing authentication, data sync, and a hi
    ```
 
 3. **Initialize the Database**:
+
    ```bash
    npm run db:push -w @veriworkly/server
    ```
@@ -47,4 +50,5 @@ The API will be available at `http://localhost:8080`.
 - `prisma/`: Database schema and migrations.
 
 ## 📖 Full Documentation
+
 For API reference and database details, visit [docs.veriworkly.com/api-reference](https://docs.veriworkly.com/api-reference).

@@ -17,8 +17,7 @@ export function ExperienceItem({ item }: { item: ResumeExperienceItem }) {
         </div>
 
         <p className="text-sm leading-(--resume-body-leading) text-(--resume-muted)">
-          {formatDate(item.startDate)} -{" "}
-          {item.current ? "Present" : formatDate(item.endDate)}
+          {formatDate(item.startDate)} - {item.current ? "Present" : formatDate(item.endDate)}
         </p>
       </div>
 

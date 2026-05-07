@@ -11,12 +11,7 @@ export function LinkRow({ resume }: { resume: TemplateRenderProps["resume"] }) {
     <p className="text-sm leading-(--resume-body-leading) text-(--resume-muted)">
       {items.map((item, index) => (
         <span key={item.id}>
-          <a
-            className="underline"
-            href={item.url}
-            rel="noreferrer"
-            target="_blank"
-          >
+          <a className="underline" href={item.url} rel="noreferrer" target="_blank">
             {item.label}
           </a>
 

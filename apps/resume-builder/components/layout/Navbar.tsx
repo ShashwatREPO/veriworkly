@@ -1,12 +1,6 @@
 "use client";
 
-import {
-  LogOut,
-  Loader2,
-  Settings,
-  UserRound,
-  LayoutDashboard,
-} from "lucide-react";
+import { LogOut, Loader2, Settings, UserRound, LayoutDashboard } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -28,10 +22,7 @@ const Navbar = () => {
 
   const { user, isLoggedIn, loading, logout } = useUserStore();
 
-  const initials = (user?.name || user?.email || "U")
-    .trim()
-    .slice(0, 1)
-    .toUpperCase();
+  const initials = (user?.name || user?.email || "U").trim().slice(0, 1).toUpperCase();
 
   const handleLogout = async () => {
     try {
@@ -64,12 +55,7 @@ const Navbar = () => {
           <ThemeToggle />
 
           {loading ? (
-            <Button
-              size="sm"
-              variant="ghost"
-              disabled
-              aria-label="Loading user session"
-            >
+            <Button size="sm" variant="ghost" disabled aria-label="Loading user session">
               <Loader2 className="h-4 w-4 animate-spin" />
             </Button>
           ) : isLoggedIn ? (
@@ -89,9 +75,7 @@ const Navbar = () => {
                   <span className="inline-flex h-6 w-6 items-center justify-center rounded-full border border-zinc-700/20 bg-zinc-500/10 text-xs font-semibold">
                     {initials}
                   </span>
-                  <span className="hidden sm:inline">
-                    {user?.name || "Account"}
-                  </span>
+                  <span className="hidden sm:inline">{user?.name || "Account"}</span>
                 </Button>
               )}
             >

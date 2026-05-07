@@ -7,11 +7,7 @@ import { TemplateDetailHeader } from "../components/TemplateHeader";
 
 import { defaultResume } from "@/features/resume/constants/default-resume";
 
-import {
-  getTemplateById,
-  templateRegistry,
-  loadTemplateComponentById,
-} from "@/templates";
+import { getTemplateById, templateRegistry, loadTemplateComponentById } from "@/templates";
 
 interface Props {
   params: Promise<{ template: string }>;
@@ -40,9 +36,7 @@ export default async function TemplatePreviewPage({ params }: Props) {
     notFound();
   }
 
-  const TemplateComponent = await loadTemplateComponentById(
-    templateDefinition.id,
-  );
+  const TemplateComponent = await loadTemplateComponentById(templateDefinition.id);
 
   return (
     <div className="space-y-10 py-10">

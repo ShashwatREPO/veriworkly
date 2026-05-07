@@ -85,9 +85,7 @@ export function createResume(): ResumeData {
   nextResume.sync = {
     ...defaultResume.sync,
     enabled: workspaceSettings.autoSyncEnabled,
-    status: (workspaceSettings.autoSyncEnabled
-      ? "pending"
-      : "local-only") as ResumeSyncStatus,
+    status: (workspaceSettings.autoSyncEnabled ? "pending" : "local-only") as ResumeSyncStatus,
   };
 
   saveResume(nextResume);

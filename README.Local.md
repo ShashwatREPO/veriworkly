@@ -12,6 +12,7 @@ This guide covers setting up VeriWorkly for local development.
 ## Step-by-Step Setup
 
 1. **Install Dependencies**:
+
    ```bash
    npm install
    ```
@@ -22,6 +23,7 @@ This guide covers setting up VeriWorkly for local development.
    - See `ENV_SETUP.md` for variable details.
 
 3. **Database Migration**:
+
    ```bash
    npm run db:push -w @veriworkly/server
    ```

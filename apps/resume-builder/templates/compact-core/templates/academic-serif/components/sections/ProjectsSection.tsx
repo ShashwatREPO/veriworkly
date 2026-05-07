@@ -23,12 +23,7 @@ export function ProjectsSection({ resume }: { resume: ResumeData }) {
             {item.link ? (
               <>
                 {" "}
-                <a
-                  className="underline"
-                  href={item.link}
-                  rel="noreferrer"
-                  target="_blank"
-                >
+                <a className="underline" href={item.link} rel="noreferrer" target="_blank">
                   {item.link.replace(/^https?:\/\//, "")}
                 </a>
               </>

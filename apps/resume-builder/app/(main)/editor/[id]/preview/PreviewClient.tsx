@@ -18,8 +18,7 @@ interface PreviewClientProps {
 
 export function PreviewClient({ resumeId }: PreviewClientProps) {
   const { resume, setResume } = useResume();
-  const [templateComponent, setTemplateComponent] =
-    useState<TemplateComponent | null>(null);
+  const [templateComponent, setTemplateComponent] = useState<TemplateComponent | null>(null);
 
   const routeResume = useMemo(() => loadResumeById(resumeId), [resumeId]);
 
@@ -83,13 +82,10 @@ export function PreviewClient({ resumeId }: PreviewClientProps) {
 
       {!routeResume ? (
         <Card className="space-y-3 text-center">
-          <h1 className="text-foreground text-xl font-semibold">
-            Resume not found
-          </h1>
+          <h1 className="text-foreground text-xl font-semibold">Resume not found</h1>
 
           <p className="text-muted text-sm">
-            This resume may have been deleted. Return to dashboard to pick
-            another one.
+            This resume may have been deleted. Return to dashboard to pick another one.
           </p>
 
           <div>

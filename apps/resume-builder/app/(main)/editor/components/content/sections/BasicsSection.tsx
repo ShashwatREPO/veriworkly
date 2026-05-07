@@ -85,9 +85,7 @@ const BasicsSection = ({
           <input
             checked={resume.basics.linkEmail}
             className="accent-accent h-4 w-4"
-            onChange={(event) =>
-              updateBasics({ linkEmail: event.target.checked })
-            }
+            onChange={(event) => updateBasics({ linkEmail: event.target.checked })}
             type="checkbox"
           />
           Email opens mail app
@@ -97,9 +95,7 @@ const BasicsSection = ({
           <input
             checked={resume.basics.linkPhone}
             className="accent-accent h-4 w-4"
-            onChange={(event) =>
-              updateBasics({ linkPhone: event.target.checked })
-            }
+            onChange={(event) => updateBasics({ linkPhone: event.target.checked })}
             type="checkbox"
           />
           Phone opens call
@@ -109,9 +105,7 @@ const BasicsSection = ({
           <input
             checked={resume.basics.linkLocation}
             className="accent-accent h-4 w-4"
-            onChange={(event) =>
-              updateBasics({ linkLocation: event.target.checked })
-            }
+            onChange={(event) => updateBasics({ linkLocation: event.target.checked })}
             type="checkbox"
           />
           Location opens Google search

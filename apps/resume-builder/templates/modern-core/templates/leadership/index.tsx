@@ -40,13 +40,9 @@ export default function ExecutiveTemplate(
 
   const orderedVisibleSections = getOrderedSections(resume.sections);
 
-  const showHeaderLinks = orderedVisibleSections.some(
-    (section) => section.id === "links",
-  );
+  const showHeaderLinks = orderedVisibleSections.some((section) => section.id === "links");
 
-  const sidebarSectionRenderers: Partial<
-    Record<ResumeSectionId, () => ReactNode>
-  > = {
+  const sidebarSectionRenderers: Partial<Record<ResumeSectionId, () => ReactNode>> = {
     skills: () =>
       renderSkillsSection({
         resume,
@@ -80,16 +76,13 @@ export default function ExecutiveTemplate(
       }),
   };
 
-  const mainSectionRenderers: Partial<
-    Record<ResumeSectionId, () => ReactNode>
-  > = {
+  const mainSectionRenderers: Partial<Record<ResumeSectionId, () => ReactNode>> = {
     summary: () =>
       renderSummarySection({
         resume,
         sectionKey: "summary",
         title: "Profile",
-        textClassName:
-          "text-sm leading-[var(--resume-body-leading)] text-(--resume-muted)",
+        textClassName: "text-sm leading-[var(--resume-body-leading)] text-(--resume-muted)",
       }),
 
     experience: () =>
@@ -128,19 +121,16 @@ export default function ExecutiveTemplate(
       renderCustomSection({
         resume,
         sectionKey: "custom",
-        descriptionClassName:
-          "text-xs leading-[var(--resume-body-leading)] text-(--resume-muted)",
-        headingClassName:
-          "text-sm leading-[var(--resume-heading-leading)] font-semibold",
+        descriptionClassName: "text-xs leading-[var(--resume-body-leading)] text-(--resume-muted)",
+        headingClassName: "text-sm leading-[var(--resume-heading-leading)] font-semibold",
         showLink: false,
       }),
   };
 
-  const { main: orderedMain, sidebar: orderedSidebar } =
-    splitSectionsByPlacement(
-      orderedVisibleSections,
-      TEMPLATE_SECTION_PLACEMENT.executive,
-    );
+  const { main: orderedMain, sidebar: orderedSidebar } = splitSectionsByPlacement(
+    orderedVisibleSections,
+    TEMPLATE_SECTION_PLACEMENT.executive,
+  );
 
   return (
     <BaseShell
@@ -151,31 +141,19 @@ export default function ExecutiveTemplate(
         <aside className={executiveStyles.sidebar}>
           {orderedSidebar.map((section) => {
             const renderSection = sidebarSectionRenderers[section.id];
-            return (
-              <Fragment key={section.id}>
-                {renderSection ? renderSection() : null}
-              </Fragment>
-            );
+            return <Fragment key={section.id}>{renderSection ? renderSection() : null}</Fragment>;
           })}
         </aside>
 
         <main className={executiveStyles.main}>
           {orderedVisibleSections.some((s) => s.id === "basics") && (
-            <ResumeHeader
-              basics={resume.basics}
-              links={resume.links}
-              showLinks={showHeaderLinks}
-            />
+            <ResumeHeader basics={resume.basics} links={resume.links} showLinks={showHeaderLinks} />
           )}
 
           <div className="mt-8 space-y-(--section-gap)">
             {orderedMain.map((section) => {
               const renderSection = mainSectionRenderers[section.id];
-              return (
-                <Fragment key={section.id}>
-                  {renderSection ? renderSection() : null}
-                </Fragment>
-              );
+              return <Fragment key={section.id}>{renderSection ? renderSection() : null}</Fragment>;
             })}
           </div>
         </main>

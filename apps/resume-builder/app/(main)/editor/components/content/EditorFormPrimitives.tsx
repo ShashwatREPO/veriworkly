@@ -41,9 +41,7 @@ export function TextArea({
 }
 
 export function invalidClass(error?: string) {
-  return error
-    ? "border-red-500 focus:border-red-500 focus:ring-red-200"
-    : undefined;
+  return error ? "border-red-500 focus:border-red-500 focus:ring-red-200" : undefined;
 }
 
 function parseDelimited(value: string) {

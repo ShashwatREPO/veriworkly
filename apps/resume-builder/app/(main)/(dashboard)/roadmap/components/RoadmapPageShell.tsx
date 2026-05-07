@@ -5,10 +5,7 @@ import {
   type RoadmapResponse,
 } from "@/features/roadmap/services/roadmap-backend";
 
-import {
-  KanbanBoard,
-  type KanbanColumn,
-} from "@/components/roadmap/KanbanBoard";
+import { KanbanBoard, type KanbanColumn } from "@/components/roadmap/KanbanBoard";
 import { Container } from "@veriworkly/ui";
 
 import RoadmapHeader from "./RoadmapHeader";
@@ -62,11 +59,7 @@ const RoadmapPageShell = ({
   const columns: KanbanColumn[] = data.sections.map((section) => ({
     title: section.title,
     color:
-      section.status === "todo"
-        ? "blue"
-        : section.status === "in-progress"
-          ? "amber"
-          : "emerald",
+      section.status === "todo" ? "blue" : section.status === "in-progress" ? "amber" : "emerald",
     items: section.items.map((item) => ({
       ...item,
       eta: item.eta ?? undefined,

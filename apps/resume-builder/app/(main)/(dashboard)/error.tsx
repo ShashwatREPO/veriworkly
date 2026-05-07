@@ -24,8 +24,8 @@ const DashboardSegmentError = ({
           </h1>
 
           <p className="text-muted mt-5 max-w-xl text-base leading-7">
-            You can retry this route immediately, or return to dashboard and
-            open a different section.
+            You can retry this route immediately, or return to dashboard and open a different
+            section.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
@@ -33,10 +33,7 @@ const DashboardSegmentError = ({
               Try again
             </Button>
 
-            <Button
-              variant="secondary"
-              onClick={() => (window.location.href = "/dashboard")}
-            >
+            <Button variant="secondary" onClick={() => (window.location.href = "/dashboard")}>
               Go to Dashboard
             </Button>
           </div>

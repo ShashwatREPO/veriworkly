@@ -1,7 +1,4 @@
-import type {
-  ResumeSection,
-  ResumeAdditionalSectionKind,
-} from "@/types/resume";
+import type { ResumeSection, ResumeAdditionalSectionKind } from "@/types/resume";
 
 import { getCustomSection } from "./helpers";
 import type { CompactAdditionalProps } from "./types";
@@ -14,9 +11,7 @@ export function CompactAdditionalSection({
   metaTextClassName,
   renderHeading,
 }: CompactAdditionalProps) {
-  const kindMap: Partial<
-    Record<ResumeSection["id"], ResumeAdditionalSectionKind>
-  > = {
+  const kindMap: Partial<Record<ResumeSection["id"], ResumeAdditionalSectionKind>> = {
     certifications: "certifications",
     awards: "awards",
     publications: "publications",
@@ -47,9 +42,7 @@ export function CompactAdditionalSection({
                 {item.name}
               </p>
 
-              {item.date ? (
-                <p className={metaTextClassName}>{item.date}</p>
-              ) : null}
+              {item.date ? <p className={metaTextClassName}>{item.date}</p> : null}
             </div>
 
             {[item.issuer, item.referenceId].filter(Boolean).length ? (
@@ -58,9 +51,7 @@ export function CompactAdditionalSection({
               </p>
             ) : null}
 
-            {item.description ? (
-              <p className={bodyTextClassName}>{item.description}</p>
-            ) : null}
+            {item.description ? <p className={bodyTextClassName}>{item.description}</p> : null}
           </article>
         ))}
       </div>

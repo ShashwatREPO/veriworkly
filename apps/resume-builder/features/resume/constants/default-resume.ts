@@ -26,8 +26,7 @@ export const defaultResume: ResumeData = {
   basics: {
     fullName: "VeriWorkly User",
     role: "Indie Developer & Product Builder",
-    headline:
-      "Building useful, fast, and privacy-first web products — one idea at a time.",
+    headline: "Building useful, fast, and privacy-first web products — one idea at a time.",
 
     email: "hello@veriworkly.com",
     phone: "+91 00000 00000",
@@ -75,8 +74,7 @@ export const defaultResume: ResumeData = {
       endDate: "Present",
       current: true,
 
-      summary:
-        "Building a modern resume builder focused on speed, privacy, and user control.",
+      summary: "Building a modern resume builder focused on speed, privacy, and user control.",
 
       highlights: [
         "Designed and developed a full-featured resume builder with real-time preview and multi-template support.",
@@ -125,8 +123,7 @@ export const defaultResume: ResumeData = {
       role: "Full Stack Developer",
       link: "https://github.com/gautam25raj",
 
-      summary:
-        "Collaborative Kanban board with real-time updates and team workflows.",
+      summary: "Collaborative Kanban board with real-time updates and team workflows.",
 
       highlights: [
         "Implemented real-time sync using WebSockets.",

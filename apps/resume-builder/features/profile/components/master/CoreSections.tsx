@@ -17,11 +17,7 @@ import {
   joinLines,
   splitLines,
 } from "./master-utils";
-import type {
-  AddRepeatableItem,
-  RemoveRepeatableItem,
-  UpdateRepeatableItem,
-} from "./types";
+import type { AddRepeatableItem, RemoveRepeatableItem, UpdateRepeatableItem } from "./types";
 
 type CoreSectionsProps = {
   localProfile: MasterProfileData;
@@ -124,14 +120,10 @@ export function CoreSections({
                     type="checkbox"
                     checked={item.current}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "experience",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          current: event.target.checked,
-                        }),
-                      )
+                      updateRepeatableItem("experience", item.id, (current) => ({
+                        ...current,
+                        current: event.target.checked,
+                      }))
                     }
                   />
                   Current role
@@ -282,8 +274,7 @@ export function CoreSections({
         badge={{
           text: `${completeProjects}/${localProfile.projects.length} complete`,
           tone:
-            localProfile.projects.length === 0 ||
-            completeProjects === localProfile.projects.length
+            localProfile.projects.length === 0 || completeProjects === localProfile.projects.length
               ? "success"
               : "warning",
         }}
@@ -297,8 +288,7 @@ export function CoreSections({
             >
               {item.link.trim() && !isValidAbsoluteUrl(item.link.trim()) ? (
                 <p className="text-xs font-medium text-red-600">
-                  Project link should be a valid URL. It will be normalized on
-                  save.
+                  Project link should be a valid URL. It will be normalized on save.
                 </p>
               ) : null}
 
@@ -334,12 +324,10 @@ export function CoreSections({
                   }
                   placeholder="Link"
                   aria-invalid={
-                    item.link.trim().length > 0 &&
-                    !isValidAbsoluteUrl(item.link.trim())
+                    item.link.trim().length > 0 && !isValidAbsoluteUrl(item.link.trim())
                   }
                   className={
-                    item.link.trim().length > 0 &&
-                    !isValidAbsoluteUrl(item.link.trim())
+                    item.link.trim().length > 0 && !isValidAbsoluteUrl(item.link.trim())
                       ? "border-red-500/60"
                       : undefined
                   }
@@ -373,10 +361,7 @@ export function CoreSections({
               </div>
             </SectionItemCard>
           ))}
-          <Button
-            onClick={() => addRepeatableItem("projects", emptyProject())}
-            variant="secondary"
-          >
+          <Button onClick={() => addRepeatableItem("projects", emptyProject())} variant="secondary">
             Add project
           </Button>
         </div>
@@ -389,8 +374,7 @@ export function CoreSections({
         badge={{
           text: `${completeSkills}/${localProfile.skills.length} complete`,
           tone:
-            localProfile.skills.length === 0 ||
-            completeSkills === localProfile.skills.length
+            localProfile.skills.length === 0 || completeSkills === localProfile.skills.length
               ? "success"
               : "warning",
         }}
@@ -427,10 +411,7 @@ export function CoreSections({
               </div>
             </SectionItemCard>
           ))}
-          <Button
-            onClick={() => addRepeatableItem("skills", emptySkill())}
-            variant="secondary"
-          >
+          <Button onClick={() => addRepeatableItem("skills", emptySkill())} variant="secondary">
             Add skill group
           </Button>
         </div>

@@ -6,11 +6,7 @@ import type { ResumeFontFamilyId } from "@/types/resume-font";
 
 import { templateSummaries } from "@/config/templates";
 
-import {
-  SettingsColor,
-  SettingsRange,
-  SettingsSelect,
-} from "./settings/SettingControls";
+import { SettingsColor, SettingsRange, SettingsSelect } from "./settings/SettingControls";
 import AdvancedThemeSettings from "./settings/AdvancedThemeSettings";
 import SectionVisibilitySettings from "./settings/SectionVisibilitySettings";
 
@@ -19,8 +15,7 @@ import { defaultResume } from "@/features/resume/constants/default-resume";
 import { resumeFontOptions } from "@/features/resume/constants/resume-fonts";
 
 const EditorSettingsPanel = () => {
-  const { resume, setSectionVisibility, setTemplateId, updateCustomization } =
-    useResume();
+  const { resume, setSectionVisibility, setTemplateId, updateCustomization } = useResume();
 
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -31,9 +26,7 @@ const EditorSettingsPanel = () => {
           Styles & Settings
         </p>
 
-        <h2 className="text-foreground text-xl font-semibold">
-          Design controls
-        </h2>
+        <h2 className="text-foreground text-xl font-semibold">Design controls</h2>
       </div>
 
       <SettingsSelect
@@ -102,16 +95,11 @@ const EditorSettingsPanel = () => {
         advancedOpen={advancedOpen}
         customization={resume.customization}
         onUpdateCustomization={updateCustomization}
-        onResetThemeDefaults={() =>
-          updateCustomization({ ...defaultResume.customization })
-        }
+        onResetThemeDefaults={() => updateCustomization({ ...defaultResume.customization })}
         onToggleOpen={() => setAdvancedOpen((isOpen) => !isOpen)}
       />
 
-      <SectionVisibilitySettings
-        sections={resume.sections}
-        onToggle={setSectionVisibility}
-      />
+      <SectionVisibilitySettings sections={resume.sections} onToggle={setSectionVisibility} />
     </div>
   );
 };

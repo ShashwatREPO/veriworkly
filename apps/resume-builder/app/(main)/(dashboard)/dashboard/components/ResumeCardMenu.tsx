@@ -51,18 +51,15 @@ const ResumeCardMenu = ({
       )}
     >
       {({ close }) => {
-        const handleAction =
-          (action: () => void) => (event: React.MouseEvent) => {
-            event.preventDefault();
-            close();
-            action();
-          };
+        const handleAction = (action: () => void) => (event: React.MouseEvent) => {
+          event.preventDefault();
+          close();
+          action();
+        };
 
         return (
           <>
-            <MenuItem
-              onClick={handleAction(hasConflict ? onSyncDetails : onOpen)}
-            >
+            <MenuItem onClick={handleAction(hasConflict ? onSyncDetails : onOpen)}>
               <Eye className="h-4 w-4" />
               {hasConflict ? "Resolve Conflict" : "Open Resume"}
             </MenuItem>
@@ -73,9 +70,7 @@ const ResumeCardMenu = ({
             </MenuItem>
 
             <MenuItem disabled={syncing} onClick={handleAction(onSyncNow)}>
-              <RefreshCw
-                className={`h-4 w-4 ${syncing ? "animate-spin" : ""}`}
-              />
+              <RefreshCw className={`h-4 w-4 ${syncing ? "animate-spin" : ""}`} />
               {syncing ? "Syncing..." : "Sync Now"}
             </MenuItem>
 

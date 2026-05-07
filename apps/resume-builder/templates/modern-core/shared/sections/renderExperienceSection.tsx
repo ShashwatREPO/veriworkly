@@ -17,17 +17,11 @@ export function renderExperienceSection({
     return null;
   }
 
-  const items = resume.experience.map((item) => (
-    <ExperienceItem item={item} key={item.id} />
-  ));
+  const items = resume.experience.map((item) => <ExperienceItem item={item} key={item.id} />);
 
   return (
     <ResumeSection key={sectionKey} title={title}>
-      {containerClassName ? (
-        <div className={containerClassName}>{items}</div>
-      ) : (
-        items
-      )}
+      {containerClassName ? <div className={containerClassName}>{items}</div> : items}
     </ResumeSection>
   );
 }

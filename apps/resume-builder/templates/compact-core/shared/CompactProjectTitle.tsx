@@ -1,10 +1,6 @@
 import type { ResumeProjectItem } from "@/types/resume";
 
-export function CompactProjectTitle({
-  project,
-}: {
-  project: ResumeProjectItem;
-}) {
+export function CompactProjectTitle({ project }: { project: ResumeProjectItem }) {
   return (
     <div className="flex w-full flex-wrap items-baseline justify-between gap-2">
       <div className="flex flex-wrap items-center gap-2">

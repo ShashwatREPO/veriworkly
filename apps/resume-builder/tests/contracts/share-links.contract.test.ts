@@ -2,10 +2,7 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { defaultResume } from "@/features/resume/constants/default-resume";
 import { createResumeShareLink } from "@/features/resume/services/share-links";
-import {
-  fetchShareLink,
-  verifyShareLink,
-} from "@/features/resume/services/public-share";
+import { fetchShareLink, verifyShareLink } from "@/features/resume/services/public-share";
 
 const mockedBackendApiUrl = vi.fn((path: string) => {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
@@ -51,9 +48,7 @@ describe("share links contract", () => {
         credentials: "include",
       }),
     );
-    expect(mockedBackendApiUrl).toHaveBeenCalledWith(
-      `/shares/resumes/${defaultResume.id}`,
-    );
+    expect(mockedBackendApiUrl).toHaveBeenCalledWith(`/shares/resumes/${defaultResume.id}`);
   });
 
   it("fetches a public share link snapshot", async () => {
@@ -99,9 +94,7 @@ describe("share links contract", () => {
       json: async () => ({ message: "Invalid password" }),
     } as Response);
 
-    await expect(verifyShareLink("tok_123", "wrong")).rejects.toThrow(
-      "Invalid password",
-    );
+    await expect(verifyShareLink("tok_123", "wrong")).rejects.toThrow("Invalid password");
   });
 
   it("returns not found error for expired or missing link", async () => {
@@ -110,8 +103,6 @@ describe("share links contract", () => {
       json: async () => ({ message: "Shared resume not found" }),
     } as Response);
 
-    await expect(fetchShareLink("expired_or_missing")).rejects.toThrow(
-      "Shared resume not found",
-    );
+    await expect(fetchShareLink("expired_or_missing")).rejects.toThrow("Shared resume not found");
   });
 });

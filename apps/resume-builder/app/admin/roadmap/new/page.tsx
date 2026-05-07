@@ -19,8 +19,7 @@ const AdminRoadmapCreatePage = () => {
             </h2>
 
             <p className="text-muted text-sm md:text-base">
-              Fill complete roadmap metadata including narrative fields and
-              structured details JSON.
+              Fill complete roadmap metadata including narrative fields and structured details JSON.
             </p>
           </div>
 

@@ -19,19 +19,13 @@ const CertificationsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [certificationIndex, setCertificationIndex] = useState(0);
 
   const certificationsSection =
-    resume.customSections.find(
-      (section) => section.kind === "certifications",
-    ) ?? null;
+    resume.customSections.find((section) => section.kind === "certifications") ?? null;
 
   if (!certificationsSection) {
     return null;
@@ -42,8 +36,7 @@ const CertificationsSection = ({
     Math.max(0, certificationsSection.items.length - 1),
   );
 
-  const activeCertification =
-    certificationsSection.items[safeCertificationIndex];
+  const activeCertification = certificationsSection.items[safeCertificationIndex];
 
   return (
     <DraggableSection
@@ -60,9 +53,7 @@ const CertificationsSection = ({
         {certificationsSection.items.length ? (
           <select
             className="border-border bg-background h-10 rounded-xl border px-3 text-sm"
-            onChange={(event) =>
-              setCertificationIndex(Number(event.target.value))
-            }
+            onChange={(event) => setCertificationIndex(Number(event.target.value))}
             value={safeCertificationIndex}
           >
             {certificationsSection.items.map((item, index) => (
@@ -85,9 +76,7 @@ const CertificationsSection = ({
           size="sm"
           variant="ghost"
           disabled={certificationsSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("certifications", safeCertificationIndex)
-          }
+          onClick={() => removeCustomSectionItem("certifications", safeCertificationIndex)}
         >
           Remove
         </Button>
@@ -98,13 +87,9 @@ const CertificationsSection = ({
           <Field label="Certificate name">
             <Input
               onChange={(event) =>
-                updateCustomSectionItem(
-                  "certifications",
-                  safeCertificationIndex,
-                  {
-                    name: event.target.value,
-                  },
-                )
+                updateCustomSectionItem("certifications", safeCertificationIndex, {
+                  name: event.target.value,
+                })
               }
               value={activeCertification.name}
             />
@@ -113,13 +98,9 @@ const CertificationsSection = ({
           <Field label="Issuer">
             <Input
               onChange={(event) =>
-                updateCustomSectionItem(
-                  "certifications",
-                  safeCertificationIndex,
-                  {
-                    issuer: event.target.value,
-                  },
-                )
+                updateCustomSectionItem("certifications", safeCertificationIndex, {
+                  issuer: event.target.value,
+                })
               }
               value={activeCertification.issuer}
             />
@@ -128,13 +109,9 @@ const CertificationsSection = ({
           <Field label="Issue date (YYYY-MM)">
             <Input
               onChange={(event) =>
-                updateCustomSectionItem(
-                  "certifications",
-                  safeCertificationIndex,
-                  {
-                    date: event.target.value,
-                  },
-                )
+                updateCustomSectionItem("certifications", safeCertificationIndex, {
+                  date: event.target.value,
+                })
               }
               value={activeCertification.date}
             />
@@ -143,13 +120,9 @@ const CertificationsSection = ({
           <Field label="Credential ID">
             <Input
               onChange={(event) =>
-                updateCustomSectionItem(
-                  "certifications",
-                  safeCertificationIndex,
-                  {
-                    referenceId: event.target.value,
-                  },
-                )
+                updateCustomSectionItem("certifications", safeCertificationIndex, {
+                  referenceId: event.target.value,
+                })
               }
               value={activeCertification.referenceId}
             />
@@ -158,22 +131,16 @@ const CertificationsSection = ({
           <Field label="Verification link">
             <Input
               onChange={(event) =>
-                updateCustomSectionItem(
-                  "certifications",
-                  safeCertificationIndex,
-                  {
-                    link: event.target.value,
-                  },
-                )
+                updateCustomSectionItem("certifications", safeCertificationIndex, {
+                  link: event.target.value,
+                })
               }
               value={activeCertification.link}
             />
           </Field>
         </div>
       ) : (
-        <p className="text-muted text-sm">
-          No certifications yet. Click Add certification.
-        </p>
+        <p className="text-muted text-sm">No certifications yet. Click Add certification.</p>
       )}
     </DraggableSection>
   );

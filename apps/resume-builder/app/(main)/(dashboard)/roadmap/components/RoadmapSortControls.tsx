@@ -24,10 +24,7 @@ const RoadmapSortControls = ({
         <Link
           key={value}
           href={buildHref(basePath, currentSort, { sort: value })}
-          className={buttonClassName(
-            currentSort === value ? "primary" : "secondary",
-            "sm",
-          )}
+          className={buttonClassName(currentSort === value ? "primary" : "secondary", "sm")}
         >
           {label}
         </Link>

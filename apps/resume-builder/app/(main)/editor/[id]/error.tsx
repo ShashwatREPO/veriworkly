@@ -20,17 +20,14 @@ export default function EditorByIdError({
         </h1>
 
         <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-          The draft may be unavailable in this browser session. Retry, or go
-          back to dashboard to choose another resume.
+          The draft may be unavailable in this browser session. Retry, or go back to dashboard to
+          choose another resume.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <Button onClick={() => reset()}>Retry</Button>
 
-          <Button
-            variant="secondary"
-            onClick={() => (window.location.href = "/dashboard")}
-          >
+          <Button variant="secondary" onClick={() => (window.location.href = "/dashboard")}>
             Dashboard
           </Button>
         </div>

@@ -52,8 +52,7 @@ export default function AtsClassicTemplate(
               </p>
 
               <p className="text-sm leading-(--resume-body-leading) text-(--resume-muted)">
-                {resume.basics.location} | {resume.basics.phone} |{" "}
-                {resume.basics.email}
+                {resume.basics.location} | {resume.basics.phone} | {resume.basics.email}
               </p>
 
               {orderedVisibleSections.some((item) => item.id === "links") ? (
@@ -117,9 +116,7 @@ export default function AtsClassicTemplate(
                     target="_blank"
                   >
                     <span aria-hidden="true">Visit link</span>
-                    <span className="sr-only">
-                      Visit project link: {item.link}
-                    </span>
+                    <span className="sr-only">Visit project link: {item.link}</span>
                   </a>
                 ) : null
               }

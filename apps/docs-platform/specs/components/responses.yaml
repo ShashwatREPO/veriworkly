@@ -29,4 +29,3 @@ NotFoundError:
     application/json:
       schema:
         $ref: "./schemas.yaml#/ErrorResponse"
-

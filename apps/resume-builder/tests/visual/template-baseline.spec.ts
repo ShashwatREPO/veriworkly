@@ -12,11 +12,8 @@ for (const templateId of templateIds) {
     });
 
     await expect(previewRegion).toBeVisible();
-    await expect(previewRegion).toHaveScreenshot(
-      `template-${templateId}-baseline.png`,
-      {
-        maxDiffPixelRatio: 0.01,
-      },
-    );
+    await expect(previewRegion).toHaveScreenshot(`template-${templateId}-baseline.png`, {
+      maxDiffPixelRatio: 0.01,
+    });
   });
 }

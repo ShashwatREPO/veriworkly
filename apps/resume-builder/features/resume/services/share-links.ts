@@ -5,18 +5,12 @@ import type { ResumeData } from "@/types/resume";
 import { backendApiUrl } from "@/lib/constants";
 import { ApiRequestError } from "@/utils/fetchApiData";
 
-async function throwApiError(
-  response: Response,
-  fallbackMessage: string,
-): Promise<never> {
+async function throwApiError(response: Response, fallbackMessage: string): Promise<never> {
   const payload = (await response.json().catch(() => ({}))) as {
     message?: string;
   };
 
-  throw new ApiRequestError(
-    payload.message || fallbackMessage,
-    response.status,
-  );
+  throw new ApiRequestError(payload.message || fallbackMessage, response.status);
 }
 
 type CreateResumeShareLinkOptions = {
@@ -57,8 +51,7 @@ export async function createResumeShareLink(
     body: JSON.stringify({
       resumeId: resume.id,
       snapshot: resume,
-      resumeTitle:
-        options.resumeTitle || resume.basics.fullName || "Shared Resume",
+      resumeTitle: options.resumeTitle || resume.basics.fullName || "Shared Resume",
       password: options.password || undefined,
       expiresAt: options.expiresAt ?? null,
       noExpiry: options.noExpiry ?? false,
@@ -76,9 +69,7 @@ export async function createResumeShareLink(
   return payload.data;
 }
 
-export async function listResumeShareLinks(
-  resumeId: string,
-): Promise<ResumeShareLinkItem[]> {
+export async function listResumeShareLinks(resumeId: string): Promise<ResumeShareLinkItem[]> {
   const response = await fetch(backendApiUrl(`/shares/resumes/${resumeId}`), {
     method: "GET",
     credentials: "include",
@@ -93,17 +84,11 @@ export async function listResumeShareLinks(
   return payload.data;
 }
 
-export async function revokeResumeShareLink(
-  resumeId: string,
-  shareLinkId: string,
-) {
-  const response = await fetch(
-    backendApiUrl(`/shares/resumes/${resumeId}/links/${shareLinkId}`),
-    {
-      method: "DELETE",
-      credentials: "include",
-    },
-  );
+export async function revokeResumeShareLink(resumeId: string, shareLinkId: string) {
+  const response = await fetch(backendApiUrl(`/shares/resumes/${resumeId}/links/${shareLinkId}`), {
+    method: "DELETE",
+    credentials: "include",
+  });
 
   if (!response.ok) {
     await throwApiError(response, "Failed to revoke share link");
@@ -120,21 +105,18 @@ export async function exportResumeViaServer(
       setTimeout(resolve, ms);
     });
 
-  const queueResponse = await fetch(
-    backendApiUrl(`/exports/resumes/${resume.id}/jobs`),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        format,
-        snapshot: resume,
-        renderHtml: renderHtml || undefined,
-      }),
+  const queueResponse = await fetch(backendApiUrl(`/exports/resumes/${resume.id}/jobs`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    credentials: "include",
+    body: JSON.stringify({
+      format,
+      snapshot: resume,
+      renderHtml: renderHtml || undefined,
+    }),
+  });
 
   if (!queueResponse.ok) {
     const payload = (await queueResponse.json().catch(() => ({}))) as {
@@ -154,14 +136,11 @@ export async function exportResumeViaServer(
   const pollTimeoutAt = Date.now() + 60_000;
 
   while (Date.now() < pollTimeoutAt) {
-    const statusResponse = await fetch(
-      backendApiUrl(`/exports/jobs/${jobId}`),
-      {
-        method: "GET",
-        credentials: "include",
-        cache: "no-store",
-      },
-    );
+    const statusResponse = await fetch(backendApiUrl(`/exports/jobs/${jobId}`), {
+      method: "GET",
+      credentials: "include",
+      cache: "no-store",
+    });
 
     if (!statusResponse.ok) {
       const payload = (await statusResponse.json().catch(() => ({}))) as {
@@ -180,9 +159,7 @@ export async function exportResumeViaServer(
     };
 
     if (statusPayload.data.status === "failed") {
-      throw new Error(
-        statusPayload.data.errorMessage || "Server export failed",
-      );
+      throw new Error(statusPayload.data.errorMessage || "Server export failed");
     }
 
     if (statusPayload.data.status === "completed") {

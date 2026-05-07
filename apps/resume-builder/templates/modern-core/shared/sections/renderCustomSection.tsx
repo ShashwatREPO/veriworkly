@@ -33,17 +33,10 @@ export function renderCustomSection({
           <article className="space-y-1" key={item.id}>
             <h3 className={headingClassName}>{item.name}</h3>
 
-            {item.description ? (
-              <p className={descriptionClassName}>{item.description}</p>
-            ) : null}
+            {item.description ? <p className={descriptionClassName}>{item.description}</p> : null}
 
             {showLink && item.link ? (
-              <a
-                className={linkClassName}
-                href={item.link}
-                rel="noreferrer"
-                target="_blank"
-              >
+              <a className={linkClassName} href={item.link} rel="noreferrer" target="_blank">
                 {item.link.replace(/^https?:\/\//, "")}
               </a>
             ) : null}

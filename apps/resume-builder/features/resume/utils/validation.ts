@@ -20,9 +20,7 @@ function isValidUrl(value: string) {
 
 export function validateBasics(
   basics: ResumeBasics,
-): ValidationErrors<
-  "fullName" | "role" | "headline" | "email" | "phone" | "location"
-> {
+): ValidationErrors<"fullName" | "role" | "headline" | "email" | "phone" | "location"> {
   const errors: ValidationErrors<
     "fullName" | "role" | "headline" | "email" | "phone" | "location"
   > = {};
@@ -70,9 +68,7 @@ export function validateSummary(summary: string): ValidationErrors<"summary"> {
 
 export function validateExperience(
   item: ResumeExperienceItem,
-): ValidationErrors<
-  "role" | "company" | "location" | "startDate" | "endDate" | "summary"
-> {
+): ValidationErrors<"role" | "company" | "location" | "startDate" | "endDate" | "summary"> {
   const errors: ValidationErrors<
     "role" | "company" | "location" | "startDate" | "endDate" | "summary"
   > = {};
@@ -109,9 +105,7 @@ export function validateExperience(
 export function validateEducation(
   item: ResumeEducationItem,
 ): ValidationErrors<"school" | "degree" | "field" | "startDate" | "endDate"> {
-  const errors: ValidationErrors<
-    "school" | "degree" | "field" | "startDate" | "endDate"
-  > = {};
+  const errors: ValidationErrors<"school" | "degree" | "field" | "startDate" | "endDate"> = {};
 
   if (!item.school.trim()) {
     errors.school = "School is required.";
@@ -160,9 +154,7 @@ export function validateProject(
   return errors;
 }
 
-export function validateSkillGroup(
-  item: ResumeSkillGroup,
-): ValidationErrors<"name" | "keywords"> {
+export function validateSkillGroup(item: ResumeSkillGroup): ValidationErrors<"name" | "keywords"> {
   const errors: ValidationErrors<"name" | "keywords"> = {};
 
   if (!item.name.trim()) {

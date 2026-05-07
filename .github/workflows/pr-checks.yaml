@@ -31,10 +31,10 @@ jobs:
           npm run lint
           npm run format
 
-      - name: Prisma Generate (Server)
-        run: npm run db:push -w @veriworkly/server -- --skip-generate=false || npx prisma generate --schema=apps/server/prisma/schema.prisma
+      - name: Prisma Generate
+        run: npx prisma generate --schema=apps/server/prisma/schema.prisma
         env:
-          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy" # dummy env for generation
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Run Backend Tests
         run: npm run test -w @veriworkly/server --if-present
@@ -63,6 +63,11 @@ jobs:
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
+
+      - name: Prisma Generate
+        run: npx prisma generate --schema=apps/server/prisma/schema.prisma
+        env:
+          DATABASE_URL: "postgresql://dummy:dummy@localhost:5432/dummy"
 
       - name: Cache Playwright Browsers
         id: playwright-cache

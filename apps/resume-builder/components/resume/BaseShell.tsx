@@ -9,11 +9,7 @@ interface BaseShellProps {
   className?: string;
 }
 
-export function BaseShell({
-  customization,
-  children,
-  className,
-}: BaseShellProps) {
+export function BaseShell({ customization, children, className }: BaseShellProps) {
   const templateStyle = {
     borderColor: customization.borderColor,
     color: customization.textColor,

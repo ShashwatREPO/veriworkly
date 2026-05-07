@@ -10,6 +10,7 @@ The transition to VeriWorkly v2 introduces a standardized monorepo architecture 
 ## Architectural Modifications
 
 ### 1. Unified Monorepo Structure
+
 The project has transitioned from a decoupled frontend/backend directory structure to a consolidated **npm workspaces** model. All core services are now located within the `apps/` directory:
 
 - **`apps/resume-builder`**: The primary Next.js application.
@@ -19,9 +20,11 @@ The project has transitioned from a decoupled frontend/backend directory structu
 - **`packages/ui`**: The shared design system and component library.
 
 ### 2. Operational Workflow
+
 Deployment and development commands are now orchestrated from the root workspace directory.
 
 **Legacy Workflow (v1.x):**
+
 ```bash
 cd server && npm run dev
 # Separate terminal
@@ -29,6 +32,7 @@ npm run dev
 ```
 
 **Current Workflow (v2.x):**
+
 ```bash
 npm run dev           # Initializes all workspace applications
 npm run dev:resume    # Scoped execution for the builder application
@@ -40,6 +44,7 @@ npm run dev:server    # Scoped execution for the API service
 ## Migration Protocol
 
 ### 1. Repository Synchronization
+
 Ensure your local branch is synchronized with the upstream repository and reset the dependency tree to prevent workspace conflicts.
 
 ```bash
@@ -49,9 +54,11 @@ npm install
 ```
 
 ### 2. Environment Configuration
+
 Environment variables are now scoped to individual applications. Refer to the `.env.example` files within the root and `apps/server/` directories for the required configuration keys.
 
 ### 3. Database Schema Alignment
+
 The v2.x release includes significant modifications to the Prisma schema. Execute the following command to synchronize your local database instance with the current data model:
 
 ```bash

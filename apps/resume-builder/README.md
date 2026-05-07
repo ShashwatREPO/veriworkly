@@ -5,12 +5,14 @@ The primary user-facing application for building, editing, and exporting resumes
 ## 🚀 Quick Start
 
 1. **Install dependencies** (from monorepo root):
+
    ```bash
    npm install
    ```
 
 2. **Setup environment variables**:
    Create a `.env` file in the root of the project:
+
    ```env
    NEXT_PUBLIC_BACKEND_URL=http://localhost:8080/api/v1
    AUTH_SECRET=your-secure-secret
@@ -38,4 +40,5 @@ The app will be available at `http://localhost:3000`.
 - `public/`: Static assets and template previews.
 
 ## 📖 Full Documentation
+
 For a deep dive into the builder's architecture and template system, visit [docs.veriworkly.com/docs/architecture/monorepo](https://docs.veriworkly.com/docs/architecture/monorepo).

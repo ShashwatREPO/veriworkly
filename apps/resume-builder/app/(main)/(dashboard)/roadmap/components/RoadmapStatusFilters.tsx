@@ -33,10 +33,7 @@ const RoadmapStatusFilters = ({
         <Link
           key={value}
           href={buildHref(path, currentSort, {})}
-          className={buttonClassName(
-            activeStatus === value ? "primary" : "secondary",
-            "sm",
-          )}
+          className={buttonClassName(activeStatus === value ? "primary" : "secondary", "sm")}
         >
           {label}
         </Link>

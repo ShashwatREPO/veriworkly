@@ -1,7 +1,4 @@
-import type {
-  RoadmapStatus,
-  RoadmapFeature,
-} from "@/features/roadmap/services/roadmap-backend";
+import type { RoadmapStatus, RoadmapFeature } from "@/features/roadmap/services/roadmap-backend";
 
 import { fetchApiData } from "@/utils/fetchApiData";
 
@@ -28,10 +25,7 @@ export async function createRoadmapFeature(payload: AdminRoadmapPayload) {
   });
 }
 
-export async function updateRoadmapFeature(
-  id: string,
-  payload: Partial<AdminRoadmapPayload>,
-) {
+export async function updateRoadmapFeature(id: string, payload: Partial<AdminRoadmapPayload>) {
   return fetchApiData<RoadmapFeature>(`/roadmap/admin/${id}`, {
     method: "PUT",
     body: JSON.stringify(payload),

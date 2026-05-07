@@ -36,8 +36,7 @@ const PasswordGateModal = ({
               </Modal.Title>
 
               <Modal.Description className="text-muted text-xs leading-relaxed font-medium md:text-sm">
-                This document is encrypted. Enter the access key to view and
-                download the document.
+                This document is encrypted. Enter the access key to view and download the document.
               </Modal.Description>
             </div>
 
@@ -54,9 +53,7 @@ const PasswordGateModal = ({
                   placeholder="••••••••"
                   onChange={(event) => onPasswordChange(event.target.value)}
                   className="bg-card border-border focus:ring-accent/20 h-12 rounded-xl text-center text-lg font-black tracking-[0.4em] md:h-14 md:rounded-2xl md:text-xl"
-                  onKeyDown={(event) =>
-                    event.key === "Enter" ? onUnlock() : undefined
-                  }
+                  onKeyDown={(event) => (event.key === "Enter" ? onUnlock() : undefined)}
                 />
               </div>
 

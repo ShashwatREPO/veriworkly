@@ -2,11 +2,7 @@ import { Button } from "@veriworkly/ui";
 import { Input } from "@veriworkly/ui";
 import { Select } from "@veriworkly/ui";
 import { TextArea } from "@veriworkly/ui";
-import type {
-  MasterProfileData,
-  ResumeAdditionalItem,
-  ResumeCustomSection,
-} from "@/types/resume";
+import type { MasterProfileData, ResumeAdditionalItem, ResumeCustomSection } from "@/types/resume";
 
 import { SectionCard, SectionItemCard } from "./master-shared";
 import {
@@ -24,11 +20,7 @@ import {
   splitLines,
   updateItem,
 } from "./master-utils";
-import type {
-  AddRepeatableItem,
-  RemoveRepeatableItem,
-  UpdateRepeatableItem,
-} from "./types";
+import type { AddRepeatableItem, RemoveRepeatableItem, UpdateRepeatableItem } from "./types";
 
 type AdditionalSectionsProps = {
   localProfile: MasterProfileData;
@@ -44,15 +36,9 @@ export function AdditionalSections({
   removeRepeatableItem,
 }: AdditionalSectionsProps) {
   const completeCredentials =
-    localProfile.awards.filter(
-      (item) => item.title.trim() && item.awarder.trim(),
-    ).length +
-    localProfile.certificates.filter(
-      (item) => item.title.trim() && item.issuer.trim(),
-    ).length +
-    localProfile.publications.filter(
-      (item) => item.title.trim() && item.publisher.trim(),
-    ).length;
+    localProfile.awards.filter((item) => item.title.trim() && item.awarder.trim()).length +
+    localProfile.certificates.filter((item) => item.title.trim() && item.issuer.trim()).length +
+    localProfile.publications.filter((item) => item.title.trim() && item.publisher.trim()).length;
   const totalCredentials =
     localProfile.awards.length +
     localProfile.certificates.length +
@@ -164,10 +150,7 @@ export function AdditionalSections({
               </div>
             </SectionItemCard>
           ))}
-          <Button
-            onClick={() => addRepeatableItem("awards", emptyAward())}
-            variant="secondary"
-          >
+          <Button onClick={() => addRepeatableItem("awards", emptyAward())} variant="secondary">
             Add award
           </Button>
 
@@ -181,33 +164,30 @@ export function AdditionalSections({
                 <Input
                   value={item.title}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "certificates",
-                      item.id,
-                      (current) => ({ ...current, title: event.target.value }),
-                    )
+                    updateRepeatableItem("certificates", item.id, (current) => ({
+                      ...current,
+                      title: event.target.value,
+                    }))
                   }
                   placeholder="Title"
                 />
                 <Input
                   value={item.issuer}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "certificates",
-                      item.id,
-                      (current) => ({ ...current, issuer: event.target.value }),
-                    )
+                    updateRepeatableItem("certificates", item.id, (current) => ({
+                      ...current,
+                      issuer: event.target.value,
+                    }))
                   }
                   placeholder="Issuer"
                 />
                 <Input
                   value={item.date}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "certificates",
-                      item.id,
-                      (current) => ({ ...current, date: event.target.value }),
-                    )
+                    updateRepeatableItem("certificates", item.id, (current) => ({
+                      ...current,
+                      date: event.target.value,
+                    }))
                   }
                   placeholder="Date"
                 />
@@ -215,14 +195,10 @@ export function AdditionalSections({
                   type="url"
                   value={item.website ?? ""}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "certificates",
-                      item.id,
-                      (current) => ({
-                        ...current,
-                        website: event.target.value,
-                      }),
-                    )
+                    updateRepeatableItem("certificates", item.id, (current) => ({
+                      ...current,
+                      website: event.target.value,
+                    }))
                   }
                   placeholder="Website"
                   aria-invalid={
@@ -241,14 +217,10 @@ export function AdditionalSections({
                   <TextArea
                     value={item.description}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "certificates",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          description: event.target.value,
-                        }),
-                      )
+                      updateRepeatableItem("certificates", item.id, (current) => ({
+                        ...current,
+                        description: event.target.value,
+                      }))
                     }
                     rows={3}
                   />
@@ -258,14 +230,10 @@ export function AdditionalSections({
                     type="checkbox"
                     checked={item.showLink}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "certificates",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          showLink: event.target.checked,
-                        }),
-                      )
+                      updateRepeatableItem("certificates", item.id, (current) => ({
+                        ...current,
+                        showLink: event.target.checked,
+                      }))
                     }
                   />
                   Show link
@@ -274,9 +242,7 @@ export function AdditionalSections({
             </SectionItemCard>
           ))}
           <Button
-            onClick={() =>
-              addRepeatableItem("certificates", emptyCertificate())
-            }
+            onClick={() => addRepeatableItem("certificates", emptyCertificate())}
             variant="secondary"
           >
             Add certificate
@@ -292,36 +258,30 @@ export function AdditionalSections({
                 <Input
                   value={item.title}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "publications",
-                      item.id,
-                      (current) => ({ ...current, title: event.target.value }),
-                    )
+                    updateRepeatableItem("publications", item.id, (current) => ({
+                      ...current,
+                      title: event.target.value,
+                    }))
                   }
                   placeholder="Title"
                 />
                 <Input
                   value={item.publisher}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "publications",
-                      item.id,
-                      (current) => ({
-                        ...current,
-                        publisher: event.target.value,
-                      }),
-                    )
+                    updateRepeatableItem("publications", item.id, (current) => ({
+                      ...current,
+                      publisher: event.target.value,
+                    }))
                   }
                   placeholder="Publisher"
                 />
                 <Input
                   value={item.date}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "publications",
-                      item.id,
-                      (current) => ({ ...current, date: event.target.value }),
-                    )
+                    updateRepeatableItem("publications", item.id, (current) => ({
+                      ...current,
+                      date: event.target.value,
+                    }))
                   }
                   placeholder="Date"
                 />
@@ -329,14 +289,10 @@ export function AdditionalSections({
                   type="url"
                   value={item.website ?? ""}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "publications",
-                      item.id,
-                      (current) => ({
-                        ...current,
-                        website: event.target.value,
-                      }),
-                    )
+                    updateRepeatableItem("publications", item.id, (current) => ({
+                      ...current,
+                      website: event.target.value,
+                    }))
                   }
                   placeholder="Website"
                   aria-invalid={
@@ -355,14 +311,10 @@ export function AdditionalSections({
                   <TextArea
                     value={item.description}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "publications",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          description: event.target.value,
-                        }),
-                      )
+                      updateRepeatableItem("publications", item.id, (current) => ({
+                        ...current,
+                        description: event.target.value,
+                      }))
                     }
                     rows={3}
                   />
@@ -372,14 +324,10 @@ export function AdditionalSections({
                     type="checkbox"
                     checked={item.showLink}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "publications",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          showLink: event.target.checked,
-                        }),
-                      )
+                      updateRepeatableItem("publications", item.id, (current) => ({
+                        ...current,
+                        showLink: event.target.checked,
+                      }))
                     }
                   />
                   Show link
@@ -388,9 +336,7 @@ export function AdditionalSections({
             </SectionItemCard>
           ))}
           <Button
-            onClick={() =>
-              addRepeatableItem("publications", emptyPublication())
-            }
+            onClick={() => addRepeatableItem("publications", emptyPublication())}
             variant="secondary"
           >
             Add publication
@@ -571,18 +517,15 @@ export function AdditionalSections({
                   }
                   placeholder="Email"
                   aria-invalid={
-                    Boolean(item.email?.trim()) &&
-                    !isValidEmail((item.email ?? "").trim())
+                    Boolean(item.email?.trim()) && !isValidEmail((item.email ?? "").trim())
                   }
                   className={
-                    Boolean(item.email?.trim()) &&
-                    !isValidEmail((item.email ?? "").trim())
+                    Boolean(item.email?.trim()) && !isValidEmail((item.email ?? "").trim())
                       ? "border-red-500/60"
                       : undefined
                   }
                 />
-                {item.email?.trim() &&
-                !isValidEmail((item.email ?? "").trim()) ? (
+                {item.email?.trim() && !isValidEmail((item.email ?? "").trim()) ? (
                   <p className="text-xs font-medium text-red-600 md:col-span-2">
                     Reference email should be a valid email address.
                   </p>
@@ -645,9 +588,7 @@ export function AdditionalSections({
             </SectionItemCard>
           ))}
           <Button
-            onClick={() =>
-              addRepeatableItem("achievements", emptyAchievement())
-            }
+            onClick={() => addRepeatableItem("achievements", emptyAchievement())}
             variant="secondary"
           >
             Add achievement
@@ -671,25 +612,20 @@ export function AdditionalSections({
                 <Input
                   value={item.title}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "customSections",
-                      item.id,
-                      (current) => ({ ...current, title: event.target.value }),
-                    )
+                    updateRepeatableItem("customSections", item.id, (current) => ({
+                      ...current,
+                      title: event.target.value,
+                    }))
                   }
                   placeholder="Title"
                 />
                 <Select
                   value={item.kind}
                   onChange={(event) =>
-                    updateRepeatableItem(
-                      "customSections",
-                      item.id,
-                      (current) => ({
-                        ...current,
-                        kind: event.target.value as ResumeCustomSection["kind"],
-                      }),
-                    )
+                    updateRepeatableItem("customSections", item.id, (current) => ({
+                      ...current,
+                      kind: event.target.value as ResumeCustomSection["kind"],
+                    }))
                   }
                 >
                   <option value="certifications">Certifications</option>
@@ -707,14 +643,10 @@ export function AdditionalSections({
                     type="checkbox"
                     checked={item.editableTitle ?? true}
                     onChange={(event) =>
-                      updateRepeatableItem(
-                        "customSections",
-                        item.id,
-                        (current) => ({
-                          ...current,
-                          editableTitle: event.target.checked,
-                        }),
-                      )
+                      updateRepeatableItem("customSections", item.id, (current) => ({
+                        ...current,
+                        editableTitle: event.target.checked,
+                      }))
                     }
                   />
                   Editable title
@@ -730,130 +662,80 @@ export function AdditionalSections({
                       <Input
                         value={customItem.name}
                         onChange={(event) =>
-                          updateRepeatableItem(
-                            "customSections",
-                            item.id,
-                            (current) => ({
-                              ...current,
-                              items: updateItem(
-                                current.items,
-                                customItem.id,
-                                (currentItem) => ({
-                                  ...currentItem,
-                                  name: event.target.value,
-                                }),
-                              ),
-                            }),
-                          )
+                          updateRepeatableItem("customSections", item.id, (current) => ({
+                            ...current,
+                            items: updateItem(current.items, customItem.id, (currentItem) => ({
+                              ...currentItem,
+                              name: event.target.value,
+                            })),
+                          }))
                         }
                         placeholder="Name"
                       />
                       <Input
                         value={customItem.issuer}
                         onChange={(event) =>
-                          updateRepeatableItem(
-                            "customSections",
-                            item.id,
-                            (current) => ({
-                              ...current,
-                              items: updateItem(
-                                current.items,
-                                customItem.id,
-                                (currentItem) => ({
-                                  ...currentItem,
-                                  issuer: event.target.value,
-                                }),
-                              ),
-                            }),
-                          )
+                          updateRepeatableItem("customSections", item.id, (current) => ({
+                            ...current,
+                            items: updateItem(current.items, customItem.id, (currentItem) => ({
+                              ...currentItem,
+                              issuer: event.target.value,
+                            })),
+                          }))
                         }
                         placeholder="Issuer"
                       />
                       <Input
                         value={customItem.date}
                         onChange={(event) =>
-                          updateRepeatableItem(
-                            "customSections",
-                            item.id,
-                            (current) => ({
-                              ...current,
-                              items: updateItem(
-                                current.items,
-                                customItem.id,
-                                (currentItem) => ({
-                                  ...currentItem,
-                                  date: event.target.value,
-                                }),
-                              ),
-                            }),
-                          )
+                          updateRepeatableItem("customSections", item.id, (current) => ({
+                            ...current,
+                            items: updateItem(current.items, customItem.id, (currentItem) => ({
+                              ...currentItem,
+                              date: event.target.value,
+                            })),
+                          }))
                         }
                         placeholder="Date"
                       />
                       <Input
                         value={customItem.link}
                         onChange={(event) =>
-                          updateRepeatableItem(
-                            "customSections",
-                            item.id,
-                            (current) => ({
-                              ...current,
-                              items: updateItem(
-                                current.items,
-                                customItem.id,
-                                (currentItem) => ({
-                                  ...currentItem,
-                                  link: event.target.value,
-                                }),
-                              ),
-                            }),
-                          )
+                          updateRepeatableItem("customSections", item.id, (current) => ({
+                            ...current,
+                            items: updateItem(current.items, customItem.id, (currentItem) => ({
+                              ...currentItem,
+                              link: event.target.value,
+                            })),
+                          }))
                         }
                         placeholder="Link"
                       />
                       <Input
                         value={customItem.referenceId}
                         onChange={(event) =>
-                          updateRepeatableItem(
-                            "customSections",
-                            item.id,
-                            (current) => ({
-                              ...current,
-                              items: updateItem(
-                                current.items,
-                                customItem.id,
-                                (currentItem) => ({
-                                  ...currentItem,
-                                  referenceId: event.target.value,
-                                }),
-                              ),
-                            }),
-                          )
+                          updateRepeatableItem("customSections", item.id, (current) => ({
+                            ...current,
+                            items: updateItem(current.items, customItem.id, (currentItem) => ({
+                              ...currentItem,
+                              referenceId: event.target.value,
+                            })),
+                          }))
                         }
                         placeholder="Reference ID"
                       />
                       <div className="space-y-2 md:col-span-2">
-                        <label className="text-sm font-medium">
-                          Description
-                        </label>
+                        <label className="text-sm font-medium">Description</label>
                         <TextArea
                           value={customItem.description}
                           onChange={(event) =>
-                            updateRepeatableItem(
-                              "customSections",
-                              item.id,
-                              (current) => ({
-                                ...current,
-                                items: updateItem(
-                                  current.items,
-                                  customItem.id,
-                                  (currentItem) => ({
-                                    ...currentItem,
-                                    description: event.target.value,
-                                  }),
-                                ),
-                              }),
-                            )
+                            updateRepeatableItem("customSections", item.id, (current) => ({
+                              ...current,
+                              items: updateItem(current.items, customItem.id, (currentItem) => ({
+                                ...currentItem,
+                                description: event.target.value,
+                              })),
+                            }))
                           }
                           rows={3}
                         />
@@ -863,21 +745,13 @@ export function AdditionalSections({
                         <TextArea
                           value={joinLines(customItem.details)}
                           onChange={(event) =>
-                            updateRepeatableItem(
-                              "customSections",
-                              item.id,
-                              (current) => ({
-                                ...current,
-                                items: updateItem(
-                                  current.items,
-                                  customItem.id,
-                                  (currentItem) => ({
-                                    ...currentItem,
-                                    details: splitLines(event.target.value),
-                                  }),
-                                ),
-                              }),
-                            )
+                            updateRepeatableItem("customSections", item.id, (current) => ({
+                              ...current,
+                              items: updateItem(current.items, customItem.id, (currentItem) => ({
+                                ...currentItem,
+                                details: splitLines(event.target.value),
+                              })),
+                            }))
                           }
                           rows={3}
                         />
@@ -887,26 +761,22 @@ export function AdditionalSections({
                 ))}
                 <Button
                   onClick={() =>
-                    updateRepeatableItem(
-                      "customSections",
-                      item.id,
-                      (current) => ({
-                        ...current,
-                        items: [
-                          ...current.items,
-                          {
-                            id: createId("custom-item"),
-                            name: "",
-                            issuer: "",
-                            date: "",
-                            link: "",
-                            referenceId: "",
-                            description: "",
-                            details: [],
-                          } satisfies ResumeAdditionalItem,
-                        ],
-                      }),
-                    )
+                    updateRepeatableItem("customSections", item.id, (current) => ({
+                      ...current,
+                      items: [
+                        ...current.items,
+                        {
+                          id: createId("custom-item"),
+                          name: "",
+                          issuer: "",
+                          date: "",
+                          link: "",
+                          referenceId: "",
+                          description: "",
+                          details: [],
+                        } satisfies ResumeAdditionalItem,
+                      ],
+                    }))
                   }
                   variant="secondary"
                 >
@@ -916,9 +786,7 @@ export function AdditionalSections({
             </SectionItemCard>
           ))}
           <Button
-            onClick={() =>
-              addRepeatableItem("customSections", emptyCustomSection())
-            }
+            onClick={() => addRepeatableItem("customSections", emptyCustomSection())}
             variant="secondary"
           >
             Add custom section

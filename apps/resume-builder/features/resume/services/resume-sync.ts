@@ -10,10 +10,7 @@ import {
   saveResumeCollectionToLocalStorage,
   loadResumeCollectionFromLocalStorage,
 } from "@/features/resume/services/local-storage";
-import {
-  saveResume,
-  loadResumeById,
-} from "@/features/resume/services/resume-service";
+import { saveResume, loadResumeById } from "@/features/resume/services/resume-service";
 import { parseResumeDataInput } from "@/features/resume/schemas/resume-storage-schema";
 
 import { backendApiUrl } from "@/lib/constants";
@@ -21,13 +18,7 @@ import { backendApiUrl } from "@/lib/constants";
 type SyncResult = {
   ok: boolean;
   message: string;
-  reason?:
-    | "conflict"
-    | "auth"
-    | "forbidden"
-    | "not-found"
-    | "network"
-    | "unknown";
+  reason?: "conflict" | "auth" | "forbidden" | "not-found" | "network" | "unknown";
 };
 
 interface HydrateCloudResumesOptions {
@@ -88,8 +79,7 @@ type CloudResumeResponse = {
 const CLOUD_HYDRATE_META_KEY = "veriworkly:cloud-hydrate-meta";
 const SYNC_OUTBOX_STORAGE_KEY = "veriworkly:resume-sync-outbox";
 const SYNC_TELEMETRY_STORAGE_KEY = "veriworkly:resume-sync-telemetry";
-export const RESUME_SYNC_OUTBOX_UPDATED_EVENT =
-  "veriworkly:resume-sync-outbox-updated";
+export const RESUME_SYNC_OUTBOX_UPDATED_EVENT = "veriworkly:resume-sync-outbox-updated";
 
 const DEFAULT_AUTO_SYNC_IDLE_DELAY_MS = 12_000;
 const DEFAULT_MIN_HYDRATE_INTERVAL_MS = 2 * 60 * 1000;
@@ -188,18 +178,12 @@ function loadSyncTelemetryState(): SyncTelemetryState {
 function saveSyncTelemetryState(state: SyncTelemetryState) {
   if (!isBrowser()) return;
 
-  window.localStorage.setItem(
-    SYNC_TELEMETRY_STORAGE_KEY,
-    JSON.stringify(state),
-  );
+  window.localStorage.setItem(SYNC_TELEMETRY_STORAGE_KEY, JSON.stringify(state));
 
   emitResumeSyncOutboxUpdate();
 }
 
-function updateSyncTelemetry(
-  resumeId: string,
-  patch: Partial<ResumeSyncTelemetry>,
-) {
+function updateSyncTelemetry(resumeId: string, patch: Partial<ResumeSyncTelemetry>) {
   const state = loadSyncTelemetryState();
   const existing = state.byResumeId[resumeId] ?? {
     lastAttemptAt: null,
@@ -442,9 +426,7 @@ function setLastCloudHydrateMeta(meta: {
     JSON.stringify({
       lastHydratedAt: meta.lastHydratedAt,
       lastServerCursor:
-        meta.lastServerCursor === undefined
-          ? current.lastServerCursor
-          : meta.lastServerCursor,
+        meta.lastServerCursor === undefined ? current.lastServerCursor : meta.lastServerCursor,
     }),
   );
 }
@@ -452,10 +434,7 @@ function setLastCloudHydrateMeta(meta: {
 function shouldHydrateCloudResumes(options?: HydrateCloudResumesOptions) {
   if (options?.force) return true;
 
-  const minIntervalMs = Math.max(
-    0,
-    options?.minIntervalMs ?? DEFAULT_MIN_HYDRATE_INTERVAL_MS,
-  );
+  const minIntervalMs = Math.max(0, options?.minIntervalMs ?? DEFAULT_MIN_HYDRATE_INTERVAL_MS);
 
   if (minIntervalMs === 0) {
     return true;
@@ -483,10 +462,7 @@ function toKnownSyncStatus(
   return fallback;
 }
 
-function applyCloudSyncMetadata(
-  resume: ResumeData,
-  record: CloudResumeRecord,
-): ResumeData {
+function applyCloudSyncMetadata(resume: ResumeData, record: CloudResumeRecord): ResumeData {
   const fallbackStatus = resume.sync.enabled ? "pending" : "local-only";
 
   return {
@@ -656,14 +632,8 @@ export function getResumeSyncTelemetryByIds(
 export function getWorkspaceSyncTelemetry() {
   const telemetry = loadSyncTelemetryState();
   const values = Object.values(telemetry.byResumeId);
-  const maxAttempt = Math.max(
-    ...values.map((item) => toTimestamp(item.lastAttemptAt)),
-    0,
-  );
-  const maxSuccess = Math.max(
-    ...values.map((item) => toTimestamp(item.lastSuccessAt)),
-    0,
-  );
+  const maxAttempt = Math.max(...values.map((item) => toTimestamp(item.lastAttemptAt)), 0);
+  const maxSuccess = Math.max(...values.map((item) => toTimestamp(item.lastSuccessAt)), 0);
 
   return {
     lastAttemptAt: toIsoOrNull(maxAttempt),
@@ -673,10 +643,7 @@ export function getWorkspaceSyncTelemetry() {
 
 export function startResumeSyncWorker(options: ResumeSyncWorkerOptions) {
   workerEnabled = options.enabled;
-  workerIdleDelayMs = Math.max(
-    2_000,
-    options.idleDelayMs ?? DEFAULT_AUTO_SYNC_IDLE_DELAY_MS,
-  );
+  workerIdleDelayMs = Math.max(2_000, options.idleDelayMs ?? DEFAULT_AUTO_SYNC_IDLE_DELAY_MS);
 
   attachWorkerListeners();
 
@@ -810,8 +777,7 @@ export async function syncResumeNow(
     });
     updateSyncTelemetry(resumeId, {
       lastErrorAt: new Date().toISOString(),
-      lastErrorMessage:
-        "Could not reach sync service. Check your network and retry.",
+      lastErrorMessage: "Could not reach sync service. Check your network and retry.",
     });
     emitResumeStorageUpdate();
 
@@ -903,9 +869,7 @@ export async function hydrateCloudResumesToLocalStorage(
   };
 }
 
-export async function hydrateCloudResumeByIdToLocalStorage(
-  resumeId: string,
-): Promise<SyncResult> {
+export async function hydrateCloudResumeByIdToLocalStorage(resumeId: string): Promise<SyncResult> {
   const records = await fetchCloudResumeRecords(`/resumes/${resumeId}`);
 
   if (!records || records.length === 0) {
@@ -960,15 +924,11 @@ export function keepResumeLocalOnly(resumeId: string): SyncResult {
   };
 }
 
-export async function resolveConflictUseLocal(
-  resumeId: string,
-): Promise<SyncResult> {
+export async function resolveConflictUseLocal(resumeId: string): Promise<SyncResult> {
   return syncResumeNow(resumeId, { force: true });
 }
 
-export async function resolveConflictUseCloud(
-  resumeId: string,
-): Promise<SyncResult> {
+export async function resolveConflictUseCloud(resumeId: string): Promise<SyncResult> {
   const result = await hydrateCloudResumeByIdToLocalStorage(resumeId);
 
   if (result.ok) {

@@ -25,16 +25,12 @@ export function EducationSection({ resume }: { resume: ResumeData }) {
                 {item.degree} - {item.field}
               </span>
 
-              <span>
-                {formatRange(item.startDate, item.endDate, item.current)}
-              </span>
+              <span>{formatRange(item.startDate, item.endDate, item.current)}</span>
             </div>
 
             {item.summary ? (
               <p className="mt-1 text-[9.5pt] leading-(--resume-body-leading) text-(--resume-muted)">
-                <span className="font-bold text-(--resume-text) italic">
-                  Courses:
-                </span>{" "}
+                <span className="font-bold text-(--resume-text) italic">Courses:</span>{" "}
                 {item.summary}
               </p>
             ) : null}

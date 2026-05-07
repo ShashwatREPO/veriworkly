@@ -25,9 +25,7 @@ const AdvancedThemeSettings = ({
     <div className="space-y-3 rounded-2xl border border-dashed border-[color-mix(in_oklab,var(--border)_75%,transparent)] p-4">
       <div className="flex items-center justify-between gap-2">
         <div>
-          <p className="text-foreground text-sm font-semibold">
-            Advanced Theme
-          </p>
+          <p className="text-foreground text-sm font-semibold">Advanced Theme</p>
 
           <p className="text-muted text-xs">
             Full color control for resume surface and typography.
@@ -44,27 +42,21 @@ const AdvancedThemeSettings = ({
           <SettingsColor
             compact
             label="Text color"
-            onChange={(event) =>
-              onUpdateCustomization({ textColor: event.target.value })
-            }
+            onChange={(event) => onUpdateCustomization({ textColor: event.target.value })}
             value={customization.textColor}
           />
 
           <SettingsColor
             compact
             label="Muted text color"
-            onChange={(event) =>
-              onUpdateCustomization({ mutedTextColor: event.target.value })
-            }
+            onChange={(event) => onUpdateCustomization({ mutedTextColor: event.target.value })}
             value={customization.mutedTextColor}
           />
 
           <SettingsColor
             compact
             label="Page background"
-            onChange={(event) =>
-              onUpdateCustomization({ pageBackgroundColor: event.target.value })
-            }
+            onChange={(event) => onUpdateCustomization({ pageBackgroundColor: event.target.value })}
             value={customization.pageBackgroundColor}
           />
 
@@ -82,18 +74,14 @@ const AdvancedThemeSettings = ({
           <SettingsColor
             compact
             label="Border color"
-            onChange={(event) =>
-              onUpdateCustomization({ borderColor: event.target.value })
-            }
+            onChange={(event) => onUpdateCustomization({ borderColor: event.target.value })}
             value={customization.borderColor}
           />
 
           <SettingsColor
             compact
             label="Section heading color"
-            onChange={(event) =>
-              onUpdateCustomization({ sectionHeadingColor: event.target.value })
-            }
+            onChange={(event) => onUpdateCustomization({ sectionHeadingColor: event.target.value })}
             value={customization.sectionHeadingColor}
           />
 
@@ -124,11 +112,7 @@ const AdvancedThemeSettings = ({
           />
 
           <div className="md:col-span-2">
-            <Button
-              onClick={onResetThemeDefaults}
-              size="sm"
-              variant="secondary"
-            >
+            <Button onClick={onResetThemeDefaults} size="sm" variant="secondary">
               Reset Theme Defaults
             </Button>
           </div>

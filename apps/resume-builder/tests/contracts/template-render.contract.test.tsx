@@ -1,10 +1,7 @@
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 
-import {
-  defaultResume,
-  defaultSections,
-} from "@/features/resume/constants/default-resume";
+import { defaultResume, defaultSections } from "@/features/resume/constants/default-resume";
 import { loadTemplateComponentById, templateRegistry } from "@/templates";
 import {
   splitSectionsByPlacement,
@@ -17,9 +14,7 @@ describe("template render contract", () => {
     const uniqueTemplateIds = new Set(templateIds);
 
     expect(uniqueTemplateIds.size).toBe(templateIds.length);
-    expect(templateIds).toEqual(
-      expect.arrayContaining(["modern", "minimal", "executive", "ats"]),
-    );
+    expect(templateIds).toEqual(expect.arrayContaining(["modern", "minimal", "executive", "ats"]));
   });
 
   it("renders every registered template for canonical resume data", async () => {
@@ -54,7 +49,7 @@ describe("template render contract", () => {
       expect(() =>
         renderToStaticMarkup(
           // @ts-expect-error - testing invalid props
-          <TemplateComponent resume={null} />
+          <TemplateComponent resume={null} />,
         ),
       ).not.toThrow();
     }
@@ -72,9 +67,7 @@ describe("template render contract", () => {
       const TemplateComponent = await loadTemplateComponentById(template.id);
 
       const html = renderToStaticMarkup(
-        <TemplateComponent
-          resume={{ ...hiddenBasicsResume, templateId: template.id }}
-        />,
+        <TemplateComponent resume={{ ...hiddenBasicsResume, templateId: template.id }} />,
       );
 
       expect(html).not.toContain(defaultResume.basics.fullName);
@@ -84,9 +77,7 @@ describe("template render contract", () => {
 
 describe("template placement contract", () => {
   it("does not duplicate or drop sections for modern placement", () => {
-    const orderedSections = [...defaultSections].sort(
-      (left, right) => left.order - right.order,
-    );
+    const orderedSections = [...defaultSections].sort((left, right) => left.order - right.order);
 
     const { main, sidebar } = splitSectionsByPlacement(
       orderedSections,
@@ -108,9 +99,7 @@ describe("template placement contract", () => {
   });
 
   it("does not duplicate or drop sections for executive placement", () => {
-    const orderedSections = [...defaultSections].sort(
-      (left, right) => left.order - right.order,
-    );
+    const orderedSections = [...defaultSections].sort((left, right) => left.order - right.order);
 
     const { main, sidebar } = splitSectionsByPlacement(
       orderedSections,

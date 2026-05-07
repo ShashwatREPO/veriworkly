@@ -30,8 +30,7 @@ export default function StatsPagination({
         <p className="text-foreground text-sm font-semibold">Pagination</p>
 
         <p className="text-muted text-sm">
-          Each page returns {PAGE_SIZE} items and remains cached until the next
-          sync.
+          Each page returns {PAGE_SIZE} items and remains cached until the next sync.
         </p>
       </div>
 

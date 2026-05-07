@@ -1,13 +1,7 @@
 import type { ResumeData } from "@/types/resume";
 import { structuredProfessionalStyles } from "../styles";
 
-export function HeaderSection({
-  resume,
-  showLinks,
-}: {
-  resume: ResumeData;
-  showLinks: boolean;
-}) {
+export function HeaderSection({ resume, showLinks }: { resume: ResumeData; showLinks: boolean }) {
   const visibleLinks = resume.links.items.filter((item) => Boolean(item.url));
 
   return (

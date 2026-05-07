@@ -68,21 +68,12 @@ interface ResumeStoreState {
     values: Partial<ResumeAdditionalItem>,
   ) => void;
   addCustomSectionItem: (kind: ResumeAdditionalSectionKind) => void;
-  removeCustomSectionItem: (
-    kind: ResumeAdditionalSectionKind,
-    index: number,
-  ) => void;
-  updateExperience: (
-    index: number,
-    values: Partial<ResumeExperienceItem>,
-  ) => void;
+  removeCustomSectionItem: (kind: ResumeAdditionalSectionKind, index: number) => void;
+  updateExperience: (index: number, values: Partial<ResumeExperienceItem>) => void;
   addExperience: () => void;
   removeExperience: (index: number) => void;
   reorderExperience: (fromIndex: number, toIndex: number) => void;
-  updateEducation: (
-    index: number,
-    values: Partial<ResumeEducationItem>,
-  ) => void;
+  updateEducation: (index: number, values: Partial<ResumeEducationItem>) => void;
   addEducation: () => void;
   removeEducation: (index: number) => void;
   reorderEducation: (fromIndex: number, toIndex: number) => void;
@@ -119,8 +110,7 @@ function withTimestamp(resume: ResumeData) {
 export const useResumeStore = create<ResumeStoreState>((set, get) => ({
   resume: defaultResume,
   selectedSection: "basics",
-  setResume: (resume) =>
-    set({ resume: withTimestamp(normalizeResumeData(resume)) }),
+  setResume: (resume) => set({ resume: withTimestamp(normalizeResumeData(resume)) }),
 
   hydrateFromStorage: () => {
     const storedResume = loadResumeFromLocalStorage();
@@ -162,14 +152,12 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
 
   reorderSections: (fromIndex, toIndex) =>
     set((state) => {
-      const reorderedSections = reorderItems(
-        state.resume.sections,
-        fromIndex,
-        toIndex,
-      ).map((section, index) => ({
-        ...section,
-        order: index,
-      }));
+      const reorderedSections = reorderItems(state.resume.sections, fromIndex, toIndex).map(
+        (section, index) => ({
+          ...section,
+          order: index,
+        }),
+      );
 
       return {
         resume: withTimestamp({
@@ -258,9 +246,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
         ...state.resume,
         links: {
           ...state.resume.links,
-          items: state.resume.links.items.filter(
-            (_, itemIndex) => itemIndex !== index,
-          ),
+          items: state.resume.links.items.filter((_, itemIndex) => itemIndex !== index),
         },
       }),
     })),
@@ -300,9 +286,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
       return {
         resume: withTimestamp({
           ...state.resume,
-          skills: state.resume.skills.filter(
-            (_, itemIndex) => itemIndex !== index,
-          ),
+          skills: state.resume.skills.filter((_, itemIndex) => itemIndex !== index),
         }),
       };
     }),
@@ -373,9 +357,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
 
             return {
               ...section,
-              items: section.items.filter(
-                (_, itemIndex) => itemIndex !== index,
-              ),
+              items: section.items.filter((_, itemIndex) => itemIndex !== index),
             };
           }),
         }),
@@ -409,9 +391,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
       return {
         resume: withTimestamp({
           ...state.resume,
-          experience: state.resume.experience.filter(
-            (_, itemIndex) => itemIndex !== index,
-          ),
+          experience: state.resume.experience.filter((_, itemIndex) => itemIndex !== index),
         }),
       };
     }),
@@ -451,9 +431,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
       return {
         resume: withTimestamp({
           ...state.resume,
-          education: state.resume.education.filter(
-            (_, itemIndex) => itemIndex !== index,
-          ),
+          education: state.resume.education.filter((_, itemIndex) => itemIndex !== index),
         }),
       };
     }),
@@ -493,9 +471,7 @@ export const useResumeStore = create<ResumeStoreState>((set, get) => ({
       return {
         resume: withTimestamp({
           ...state.resume,
-          projects: state.resume.projects.filter(
-            (_, itemIndex) => itemIndex !== index,
-          ),
+          projects: state.resume.projects.filter((_, itemIndex) => itemIndex !== index),
         }),
       };
     }),

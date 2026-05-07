@@ -17,17 +17,11 @@ export function renderProjectsSection({
     return null;
   }
 
-  const items = resume.projects.map((item) => (
-    <ProjectItem item={item} key={item.id} />
-  ));
+  const items = resume.projects.map((item) => <ProjectItem item={item} key={item.id} />);
 
   return (
     <ResumeSection key={sectionKey} title={title}>
-      {containerClassName ? (
-        <div className={containerClassName}>{items}</div>
-      ) : (
-        items
-      )}
+      {containerClassName ? <div className={containerClassName}>{items}</div> : items}
     </ResumeSection>
   );
 }

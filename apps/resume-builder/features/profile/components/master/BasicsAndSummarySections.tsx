@@ -2,11 +2,7 @@ import { Input } from "@veriworkly/ui";
 import { Select } from "@veriworkly/ui";
 import { TextArea } from "@veriworkly/ui";
 import { templateSummaries } from "@/config/templates";
-import type {
-  MasterProfileData,
-  ResumeLinkDisplayMode,
-  ResumeLinkType,
-} from "@/types/resume";
+import type { MasterProfileData, ResumeLinkDisplayMode, ResumeLinkType } from "@/types/resume";
 
 import { SectionCard } from "./master-shared";
 import { isValidAbsoluteUrl, isValidEmail, linkTypes } from "./master-utils";
@@ -15,10 +11,7 @@ import type { UpdateProfile } from "./types";
 type BasicsAndSummarySectionsProps = {
   localProfile: MasterProfileData;
   updateProfile: UpdateProfile;
-  setBasicField: (
-    key: keyof MasterProfileData["basics"],
-    value: string | boolean,
-  ) => void;
+  setBasicField: (key: keyof MasterProfileData["basics"], value: string | boolean) => void;
   updateLinkDisplayMode: (displayMode: ResumeLinkDisplayMode) => void;
   updateLink: (type: ResumeLinkType, value: string) => void;
 };
@@ -80,9 +73,7 @@ export function BasicsAndSummarySections({
             <Select
               value={localProfile.links.displayMode}
               onChange={(event) =>
-                updateLinkDisplayMode(
-                  event.target.value as ResumeLinkDisplayMode,
-                )
+                updateLinkDisplayMode(event.target.value as ResumeLinkDisplayMode)
               }
             >
               <option value="icon">Icons only</option>
@@ -95,9 +86,7 @@ export function BasicsAndSummarySections({
             <label className="text-sm font-medium">Full Name</label>
             <Input
               value={localProfile.basics.fullName}
-              onChange={(event) =>
-                setBasicField("fullName", event.target.value)
-              }
+              onChange={(event) => setBasicField("fullName", event.target.value)}
             />
           </div>
 
@@ -113,9 +102,7 @@ export function BasicsAndSummarySections({
             <label className="text-sm font-medium">Headline</label>
             <Input
               value={localProfile.basics.headline}
-              onChange={(event) =>
-                setBasicField("headline", event.target.value)
-              }
+              onChange={(event) => setBasicField("headline", event.target.value)}
             />
           </div>
 
@@ -130,9 +117,7 @@ export function BasicsAndSummarySections({
               className={hasInvalidEmail ? "border-red-500/60" : undefined}
             />
             {hasInvalidEmail ? (
-              <p className="text-xs font-medium text-red-600">
-                Enter a valid email address.
-              </p>
+              <p className="text-xs font-medium text-red-600">Enter a valid email address.</p>
             ) : null}
           </div>
 
@@ -148,9 +133,7 @@ export function BasicsAndSummarySections({
             <label className="text-sm font-medium">Location</label>
             <Input
               value={localProfile.basics.location}
-              onChange={(event) =>
-                setBasicField("location", event.target.value)
-              }
+              onChange={(event) => setBasicField("location", event.target.value)}
             />
           </div>
         </div>
@@ -160,9 +143,7 @@ export function BasicsAndSummarySections({
             <input
               type="checkbox"
               checked={localProfile.basics.linkEmail}
-              onChange={(event) =>
-                setBasicField("linkEmail", event.target.checked)
-              }
+              onChange={(event) => setBasicField("linkEmail", event.target.checked)}
             />
             Show email
           </label>
@@ -170,9 +151,7 @@ export function BasicsAndSummarySections({
             <input
               type="checkbox"
               checked={localProfile.basics.linkPhone}
-              onChange={(event) =>
-                setBasicField("linkPhone", event.target.checked)
-              }
+              onChange={(event) => setBasicField("linkPhone", event.target.checked)}
             />
             Show phone
           </label>
@@ -180,9 +159,7 @@ export function BasicsAndSummarySections({
             <input
               type="checkbox"
               checked={localProfile.basics.linkLocation}
-              onChange={(event) =>
-                setBasicField("linkLocation", event.target.checked)
-              }
+              onChange={(event) => setBasicField("linkLocation", event.target.checked)}
             />
             Show location
           </label>
@@ -195,10 +172,7 @@ export function BasicsAndSummarySections({
         description="A short summary and your public profile links."
         badge={{
           text: `${linksWithValidUrls}/${linksCount} valid links`,
-          tone:
-            linksCount === 0 || linksWithValidUrls === linksCount
-              ? "success"
-              : "warning",
+          tone: linksCount === 0 || linksWithValidUrls === linksCount ? "success" : "warning",
         }}
       >
         <div className="space-y-2">
@@ -218,18 +192,13 @@ export function BasicsAndSummarySections({
         <div className="space-y-4 pt-2">
           <div className="grid gap-4 md:grid-cols-3">
             {linkTypes.map((type) => {
-              const existing = localProfile.links.items.find(
-                (item) => item.type === type,
-              );
+              const existing = localProfile.links.items.find((item) => item.type === type);
               const rawUrl = existing?.url ?? "";
-              const hasInvalidUrl =
-                rawUrl.trim().length > 0 && !isValidAbsoluteUrl(rawUrl.trim());
+              const hasInvalidUrl = rawUrl.trim().length > 0 && !isValidAbsoluteUrl(rawUrl.trim());
 
               return (
                 <div key={type} className="space-y-2">
-                  <label className="text-sm font-medium capitalize">
-                    {type}
-                  </label>
+                  <label className="text-sm font-medium capitalize">{type}</label>
                   <Input
                     type="url"
                     value={rawUrl}

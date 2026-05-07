@@ -43,16 +43,11 @@ const ProfileMaster = ({ profile, onSave, isSaving }: ProfileMasterProps) => {
 
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
 
-  const initialFingerprint = useMemo(
-    () => JSON.stringify(normalizeProfileIds(profile)),
-    [profile],
-  );
+  const initialFingerprint = useMemo(() => JSON.stringify(normalizeProfileIds(profile)), [profile]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const currentFingerprint = JSON.stringify(
-        normalizeProfileIds(localProfile),
-      );
+      const currentFingerprint = JSON.stringify(normalizeProfileIds(localProfile));
 
       setHasUnsavedChanges(initialFingerprint !== currentFingerprint);
     }, 150);
@@ -125,9 +120,7 @@ const ProfileMaster = ({ profile, onSave, isSaving }: ProfileMasterProps) => {
           updateSectionVisibility={(id, visible) =>
             updateProfile((p) => ({
               ...p,
-              sections: p.sections.map((s) =>
-                s.id === id ? { ...s, visible } : s,
-              ),
+              sections: p.sections.map((s) => (s.id === id ? { ...s, visible } : s)),
             }))
           }
         />
@@ -190,9 +183,7 @@ const ProfileMaster = ({ profile, onSave, isSaving }: ProfileMasterProps) => {
             <div
               className={cn(
                 "h-2.5 w-2.5 rounded-full",
-                hasUnsavedChanges
-                  ? "animate-pulse bg-amber-500"
-                  : "bg-emerald-500",
+                hasUnsavedChanges ? "animate-pulse bg-amber-500" : "bg-emerald-500",
               )}
             />
 

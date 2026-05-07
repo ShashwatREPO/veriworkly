@@ -10,40 +10,32 @@ const SecuritySection = () => {
           Trust & Safety
         </p>
 
-        <h2
-          id="security-heading"
-          className="text-foreground text-3xl font-semibold tracking-tight"
-        >
+        <h2 id="security-heading" className="text-foreground text-3xl font-semibold tracking-tight">
           Built with privacy-first resume security
         </h2>
 
         <p className="text-muted text-base leading-7">
-          Your resume data is sensitive. Our resume builder is designed to keep
-          your information private and secure.
+          Your resume data is sensitive. Our resume builder is designed to keep your information
+          private and secure.
         </p>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2">
         <Card className="space-y-4 p-6">
-          <h3 className="text-foreground text-lg font-semibold">
-            Local-First Architecture
-          </h3>
+          <h3 className="text-foreground text-lg font-semibold">Local-First Architecture</h3>
 
           <p className="text-muted text-sm leading-6">
-            All your resume data is stored locally on your device, making this a
-            privacy-first resume builder.
+            All your resume data is stored locally on your device, making this a privacy-first
+            resume builder.
           </p>
         </Card>
 
         <Card className="space-y-4 p-6">
-          <h3 className="text-foreground text-lg font-semibold">
-            Minimal Product Analytics
-          </h3>
+          <h3 className="text-foreground text-lg font-semibold">Minimal Product Analytics</h3>
 
           <p className="text-muted text-sm leading-6">
-            We measure essential product events, like sign-in, dashboard usage,
-            and resume actions, to improve reliability and roadmap decisions. We
-            do not sell resume data.
+            We measure essential product events, like sign-in, dashboard usage, and resume actions,
+            to improve reliability and roadmap decisions. We do not sell resume data.
           </p>
         </Card>
 
@@ -51,19 +43,17 @@ const SecuritySection = () => {
           <h3 className="text-foreground text-lg font-semibold">Open Source</h3>
 
           <p className="text-muted text-sm leading-6">
-            Our code is transparent and available for review. Anyone can audit
-            our security practices.
+            Our code is transparent and available for review. Anyone can audit our security
+            practices.
           </p>
         </Card>
 
         <Card className="space-y-4 p-6">
-          <h3 className="text-foreground text-lg font-semibold">
-            End-to-End Encryption
-          </h3>
+          <h3 className="text-foreground text-lg font-semibold">End-to-End Encryption</h3>
 
           <p className="text-muted text-sm leading-6">
-            When sharing resumes, optional password protection ensures only
-            intended recipients can view.
+            When sharing resumes, optional password protection ensures only intended recipients can
+            view.
           </p>
         </Card>
       </div>

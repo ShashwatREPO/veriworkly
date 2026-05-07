@@ -57,21 +57,18 @@ export async function downloadPublicShareExport(
       setTimeout(resolve, ms);
     });
 
-  const queueResponse = await fetch(
-    backendApiUrl(`/share-links/${token}/export/jobs`),
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify({
-        format,
-        password,
-        renderHtml: renderHtml || undefined,
-      }),
+  const queueResponse = await fetch(backendApiUrl(`/share-links/${token}/export/jobs`), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-  );
+    credentials: "include",
+    body: JSON.stringify({
+      format,
+      password,
+      renderHtml: renderHtml || undefined,
+    }),
+  });
 
   if (!queueResponse.ok) {
     const payload = (await queueResponse.json().catch(() => ({}))) as {
@@ -115,9 +112,7 @@ export async function downloadPublicShareExport(
     };
 
     if (statusPayload.data.status === "failed") {
-      throw new Error(
-        statusPayload.data.errorMessage || "Shared export failed",
-      );
+      throw new Error(statusPayload.data.errorMessage || "Shared export failed");
     }
 
     if (statusPayload.data.status === "completed") {
@@ -134,13 +129,10 @@ export async function downloadPublicShareExport(
   let response: Response | null = null;
 
   for (let attempt = 0; attempt < 3; attempt += 1) {
-    response = await fetch(
-      backendApiUrl(`/share-links/${token}/export/jobs/${jobId}/download`),
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
+    response = await fetch(backendApiUrl(`/share-links/${token}/export/jobs/${jobId}/download`), {
+      method: "GET",
+      credentials: "include",
+    });
 
     if (response.ok) {
       break;

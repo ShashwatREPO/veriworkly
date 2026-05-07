@@ -35,17 +35,13 @@ function formatDateLabel(value?: string) {
 
 function formatEducationDate(education: ResumeEducationItem) {
   const start = formatDateLabel(education.startDate);
-  const end = education.current
-    ? "Present"
-    : formatDateLabel(education.endDate);
+  const end = education.current ? "Present" : formatDateLabel(education.endDate);
   return `${start} - ${end}`;
 }
 
 function formatExperienceDate(experience: ResumeExperienceItem) {
   const start = formatDateLabel(experience.startDate);
-  const end = experience.current
-    ? "Present"
-    : formatDateLabel(experience.endDate);
+  const end = experience.current ? "Present" : formatDateLabel(experience.endDate);
   return `${start} - ${end}`;
 }
 
@@ -65,11 +61,7 @@ export default function ClassicAcademicTemplate(
   return (
     <BaseShell
       customization={resume.customization}
-      className={[
-        classicAcademicStyles.wrapper,
-        classicAcademicStyles.stack,
-        className,
-      ]
+      className={[classicAcademicStyles.wrapper, classicAcademicStyles.stack, className]
         .filter(Boolean)
         .join(" ")}
     >
@@ -84,14 +76,11 @@ export default function ClassicAcademicTemplate(
                 {resume.basics.role}
               </p>
               <p className="text-center text-sm leading-(--resume-body-leading) text-(--resume-muted)">
-                {resume.basics.location} • {resume.basics.phone} •{" "}
-                {resume.basics.email}
+                {resume.basics.location} • {resume.basics.phone} • {resume.basics.email}
               </p>
               {visibleLinks.length > 0 ? (
                 <p className="text-center text-xs leading-(--resume-body-leading) tracking-[0.03em] text-(--resume-muted)">
-                  {visibleLinks
-                    .map((link) => link.url.replace(/^https?:\/\//, ""))
-                    .join(" • ")}
+                  {visibleLinks.map((link) => link.url.replace(/^https?:\/\//, "")).join(" • ")}
                 </p>
               ) : null}
             </header>

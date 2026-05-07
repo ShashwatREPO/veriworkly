@@ -20,18 +20,13 @@ const VolunteerSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [volunteerIndex, setVolunteerIndex] = useState(0);
 
   const volunteerSection =
-    resume.customSections.find((section) => section.kind === "volunteer") ??
-    null;
+    resume.customSections.find((section) => section.kind === "volunteer") ?? null;
 
   if (!volunteerSection) {
     return null;
@@ -70,19 +65,13 @@ const VolunteerSection = ({
           </select>
         ) : null}
 
-        <Button
-          onClick={() => addCustomSectionItem("volunteer")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("volunteer")} size="sm" variant="secondary">
           Add volunteer entry
         </Button>
 
         <Button
           disabled={volunteerSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("volunteer", safeVolunteerIndex)
-          }
+          onClick={() => removeCustomSectionItem("volunteer", safeVolunteerIndex)}
           size="sm"
           variant="ghost"
         >
@@ -152,9 +141,7 @@ const VolunteerSection = ({
           </div>
         </>
       ) : (
-        <p className="text-muted text-sm">
-          No volunteer entries yet. Click Add volunteer entry.
-        </p>
+        <p className="text-muted text-sm">No volunteer entries yet. Click Add volunteer entry.</p>
       )}
     </DraggableSection>
   );

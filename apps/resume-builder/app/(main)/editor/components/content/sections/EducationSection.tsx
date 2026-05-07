@@ -21,15 +21,11 @@ const EducationSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const { addEducation, removeEducation, resume, updateEducation } =
-    useResume();
+  const { addEducation, removeEducation, resume, updateEducation } = useResume();
 
   const [educationIndex, setEducationIndex] = useState(0);
 
-  const safeEducationIndex = Math.min(
-    educationIndex,
-    Math.max(0, resume.education.length - 1),
-  );
+  const safeEducationIndex = Math.min(educationIndex, Math.max(0, resume.education.length - 1));
 
   const activeEducation = resume.education[safeEducationIndex];
 

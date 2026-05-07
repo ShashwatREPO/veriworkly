@@ -20,26 +20,18 @@ const AwardsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [awardIndex, setAwardIndex] = useState(0);
 
-  const awardsSection =
-    resume.customSections.find((section) => section.kind === "awards") ?? null;
+  const awardsSection = resume.customSections.find((section) => section.kind === "awards") ?? null;
 
   if (!awardsSection) {
     return null;
   }
 
-  const safeAwardIndex = Math.min(
-    awardIndex,
-    Math.max(0, awardsSection.items.length - 1),
-  );
+  const safeAwardIndex = Math.min(awardIndex, Math.max(0, awardsSection.items.length - 1));
 
   const activeAward = awardsSection.items[safeAwardIndex];
 
@@ -69,11 +61,7 @@ const AwardsSection = ({
           </select>
         ) : null}
 
-        <Button
-          onClick={() => addCustomSectionItem("awards")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("awards")} size="sm" variant="secondary">
           Add award
         </Button>
 

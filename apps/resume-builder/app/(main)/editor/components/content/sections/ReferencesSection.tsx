@@ -20,18 +20,13 @@ const ReferencesSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [referenceIndex, setReferenceIndex] = useState(0);
 
   const referencesSection =
-    resume.customSections.find((section) => section.kind === "references") ??
-    null;
+    resume.customSections.find((section) => section.kind === "references") ?? null;
 
   if (!referencesSection) {
     return null;
@@ -70,19 +65,13 @@ const ReferencesSection = ({
           </select>
         ) : null}
 
-        <Button
-          onClick={() => addCustomSectionItem("references")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("references")} size="sm" variant="secondary">
           Add reference
         </Button>
 
         <Button
           disabled={referencesSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("references", safeReferenceIndex)
-          }
+          onClick={() => removeCustomSectionItem("references", safeReferenceIndex)}
           size="sm"
           variant="ghost"
         >
@@ -159,9 +148,7 @@ const ReferencesSection = ({
           </Field>
         </div>
       ) : (
-        <p className="text-muted text-sm">
-          No references yet. Click Add reference.
-        </p>
+        <p className="text-muted text-sm">No references yet. Click Add reference.</p>
       )}
     </DraggableSection>
   );

@@ -18,20 +18,13 @@ export function HeaderSection({ resume }: { resume: ResumeData }) {
             {leftLinks.map((item) => (
               <p key={item.id}>
                 {item.label || item.type}:{" "}
-                <a
-                  href={item.url}
-                  rel="noreferrer"
-                  target="_blank"
-                  className="underline"
-                >
+                <a href={item.url} rel="noreferrer" target="_blank" className="underline">
                   {item.url.replace(/^https?:\/\//, "")}
                 </a>
               </p>
             ))}
 
-            {!leftLinks.length && resume.basics.headline ? (
-              <p>{resume.basics.headline}</p>
-            ) : null}
+            {!leftLinks.length && resume.basics.headline ? <p>{resume.basics.headline}</p> : null}
           </div>
         </div>
 
@@ -48,12 +41,7 @@ export function HeaderSection({ resume }: { resume: ResumeData }) {
           {rightLinks.map((item) => (
             <p key={item.id}>
               {item.label || item.type}:{" "}
-              <a
-                href={item.url}
-                rel="noreferrer"
-                target="_blank"
-                className="underline"
-              >
+              <a href={item.url} rel="noreferrer" target="_blank" className="underline">
                 {item.url.replace(/^https?:\/\//, "")}
               </a>
             </p>

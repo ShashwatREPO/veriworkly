@@ -50,16 +50,10 @@ const KanbanBoard = ({
   const singleStatusMode = columns.length === 1;
 
   return (
-    <div
-      className={cn(
-        "grid gap-6",
-        singleStatusMode ? "grid-cols-1" : "lg:grid-cols-3",
-      )}
-    >
+    <div className={cn("grid gap-6", singleStatusMode ? "grid-cols-1" : "lg:grid-cols-3")}>
       {columns.map((column, idx) => {
         const columnColor = column.color || ["blue", "amber", "emerald"][idx];
-        const colorClass =
-          statusColorMap[columnColor as keyof typeof statusColorMap];
+        const colorClass = statusColorMap[columnColor as keyof typeof statusColorMap];
 
         return (
           <KanbanColumnView

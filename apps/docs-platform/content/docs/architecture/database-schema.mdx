@@ -17,6 +17,7 @@ The source of truth for the database schema can be found in the repository:
 VeriWorkly implements a session-based authentication system.
 
 ### User
+
 The central entity for account management and ownership.
 
 ```prisma
@@ -37,6 +38,7 @@ model User {
 ```
 
 ### Session
+
 Handles active authentication states and security metadata.
 
 ```prisma
@@ -56,6 +58,7 @@ model Session {
 ## Content Management
 
 ### Resume
+
 Stores individual resume documents and their synchronization status.
 
 ```prisma
@@ -75,6 +78,7 @@ model Resume {
 ```
 
 ### Master Profile
+
 A centralized career profile used for seeding multiple resumes.
 
 ```prisma
@@ -93,6 +97,7 @@ model MasterProfile {
 ## Sharing and Analytics
 
 ### ResumeShareLink
+
 Manages public access to resumes with snapshotting and optional protection.
 
 ```prisma
@@ -115,6 +120,7 @@ model ResumeShareLink {
 ## System Operations
 
 ### AuditLog
+
 Tracks API access and security events across the platform.
 
 ```prisma
@@ -131,6 +137,7 @@ model AuditLog {
 ```
 
 ### ApiKey
+
 Manages access control for internal services and third-party integrations.
 
 ```prisma

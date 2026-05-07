@@ -7,11 +7,7 @@ import type { BaseSectionProps } from "./section-types";
 import { Input } from "@veriworkly/ui";
 import { Button } from "@veriworkly/ui";
 
-import {
-  Field,
-  invalidClass,
-  DelimitedTextArea,
-} from "../EditorFormPrimitives";
+import { Field, invalidClass, DelimitedTextArea } from "../EditorFormPrimitives";
 
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { validateSkillGroup } from "@/features/resume/utils/validation";
@@ -26,15 +22,11 @@ const SkillsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const { addSkillGroup, removeSkillGroup, resume, updateSkillGroup } =
-    useResume();
+  const { addSkillGroup, removeSkillGroup, resume, updateSkillGroup } = useResume();
 
   const [skillIndex, setSkillIndex] = useState(0);
 
-  const safeSkillIndex = Math.min(
-    skillIndex,
-    Math.max(0, resume.skills.length - 1),
-  );
+  const safeSkillIndex = Math.min(skillIndex, Math.max(0, resume.skills.length - 1));
 
   const activeSkillGroup = resume.skills[safeSkillIndex];
 

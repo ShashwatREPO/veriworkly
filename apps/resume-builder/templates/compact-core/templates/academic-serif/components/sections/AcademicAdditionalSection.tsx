@@ -1,19 +1,9 @@
-import type {
-  ResumeData,
-  ResumeAdditionalItem,
-  ResumeAdditionalSectionKind,
-} from "@/types/resume";
+import type { ResumeData, ResumeAdditionalItem, ResumeAdditionalSectionKind } from "@/types/resume";
 
 import { getAdditionalSection } from "./helpers";
 import { academicSerifStyles } from "../../styles";
 
-function AdditionalListSection({
-  title,
-  items,
-}: {
-  title: string;
-  items: ResumeAdditionalItem[];
-}) {
+function AdditionalListSection({ title, items }: { title: string; items: ResumeAdditionalItem[] }) {
   if (!items.length) {
     return null;
   }

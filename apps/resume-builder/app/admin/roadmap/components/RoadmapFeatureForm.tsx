@@ -5,10 +5,7 @@ import { useState, useCallback } from "react";
 
 import { cn } from "@/lib/utils";
 
-import type {
-  RoadmapStatus,
-  RoadmapFeature,
-} from "@/features/roadmap/services/roadmap-backend";
+import type { RoadmapStatus, RoadmapFeature } from "@/features/roadmap/services/roadmap-backend";
 
 import { Card } from "@veriworkly/ui";
 import { Input } from "@veriworkly/ui";
@@ -35,9 +32,7 @@ const toDatetimeLocalValue = (value?: string | null) => {
   const date = new Date(value);
   if (isNaN(date.getTime())) return "";
 
-  return new Date(date.getTime() - date.getTimezoneOffset() * 60000)
-    .toISOString()
-    .slice(0, 16);
+  return new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
 };
 
 export default function RoadmapFeatureForm({
@@ -64,20 +59,13 @@ export default function RoadmapFeatureForm({
     timeline: feature?.timeline ?? "",
     startedAt: toDatetimeLocalValue(feature?.startedAt),
     completedAt: toDatetimeLocalValue(feature?.completedAt),
-    detailsJson: feature?.details
-      ? JSON.stringify(feature.details, null, 2)
-      : "",
+    detailsJson: feature?.details ? JSON.stringify(feature.details, null, 2) : "",
   });
 
-  const titleText =
-    mode === "create" ? "Create roadmap item" : "Update roadmap item";
+  const titleText = mode === "create" ? "Create roadmap item" : "Update roadmap item";
 
   const handleInputChange = useCallback(
-    (
-      e: React.ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-      >,
-    ) => {
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
       const { id, value } = e.target;
       setFormData((prev) => ({ ...prev, [id]: value }));
     },
@@ -113,12 +101,8 @@ export default function RoadmapFeatureForm({
         fullDescription: formData.fullDescription.trim() || null,
         whyItMatters: formData.whyItMatters.trim() || null,
         timeline: formData.timeline.trim() || null,
-        startedAt: formData.startedAt
-          ? new Date(formData.startedAt).toISOString()
-          : null,
-        completedAt: formData.completedAt
-          ? new Date(formData.completedAt).toISOString()
-          : null,
+        startedAt: formData.startedAt ? new Date(formData.startedAt).toISOString() : null,
+        completedAt: formData.completedAt ? new Date(formData.completedAt).toISOString() : null,
         completedQuarter: formData.completedQuarter.trim() || null,
         details,
       };
@@ -141,22 +125,16 @@ export default function RoadmapFeatureForm({
   return (
     <Card className="rounded-4xl p-6 md:p-8">
       <header className="mb-8">
-        <h2 className="text-foreground text-2xl font-bold tracking-tight">
-          {titleText}
-        </h2>
+        <h2 className="text-foreground text-2xl font-bold tracking-tight">{titleText}</h2>
 
         <p className="text-muted-foreground mt-2 text-sm">
-          Define feature details, narrative blocks, and custom JSON metadata for
-          the roadmap.
+          Define feature details, narrative blocks, and custom JSON metadata for the roadmap.
         </p>
       </header>
 
       <form onSubmit={handleSubmit} className="grid gap-6 md:grid-cols-2">
         <div className="space-y-2 md:col-span-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="title"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="title">
             Title
           </label>
 
@@ -171,10 +149,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="status"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="status">
             Status
           </label>
           <Select
@@ -192,10 +167,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="eta"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="eta">
             ETA
           </label>
 
@@ -209,10 +181,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="description"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="description">
             Short Summary
           </label>
 
@@ -228,10 +197,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="startedAt"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="startedAt">
             Started At
           </label>
 
@@ -245,10 +211,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="completedAt"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="completedAt">
             Completed At
           </label>
 
@@ -262,10 +225,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="completedQuarter"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="completedQuarter">
             Quarter Label
           </label>
 
@@ -279,10 +239,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="tags"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="tags">
             Tags
           </label>
 
@@ -296,10 +253,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="fullDescription"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="fullDescription">
             Full Narrative
           </label>
 
@@ -314,10 +268,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="whyItMatters"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="whyItMatters">
             Value Proposition
           </label>
 
@@ -331,10 +282,7 @@ export default function RoadmapFeatureForm({
         </div>
 
         <div className="space-y-2">
-          <label
-            className="text-foreground text-sm font-semibold"
-            htmlFor="timeline"
-          >
+          <label className="text-foreground text-sm font-semibold" htmlFor="timeline">
             Detailed Timeline
           </label>
 
@@ -389,8 +337,7 @@ export default function RoadmapFeatureForm({
           </div>
 
           <p className="text-muted-foreground/70 pl-1 text-[11px]">
-            Valid JSON required. Used for technical highlights and impact
-            metrics.
+            Valid JSON required. Used for technical highlights and impact metrics.
           </p>
         </div>
 

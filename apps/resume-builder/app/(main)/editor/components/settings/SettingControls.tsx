@@ -1,20 +1,10 @@
 "use client";
 
-import type {
-  ReactNode,
-  InputHTMLAttributes,
-  SelectHTMLAttributes,
-} from "react";
+import type { ReactNode, InputHTMLAttributes, SelectHTMLAttributes } from "react";
 
 import { Select } from "@veriworkly/ui";
 
-export function SettingsField({
-  children,
-  label,
-}: {
-  children: ReactNode;
-  label: string;
-}) {
+export function SettingsField({ children, label }: { children: ReactNode; label: string }) {
   return (
     <label className="space-y-2 text-sm font-medium">
       <span>{label}</span>
@@ -27,11 +17,7 @@ interface SettingsSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string;
 }
 
-export function SettingsSelect({
-  children,
-  label,
-  ...props
-}: SettingsSelectProps) {
+export function SettingsSelect({ children, label, ...props }: SettingsSelectProps) {
   return (
     <SettingsField label={label}>
       <Select {...props}>{children}</Select>
@@ -39,10 +25,7 @@ export function SettingsSelect({
   );
 }
 
-interface SettingsRangeProps extends Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  "type"
-> {
+interface SettingsRangeProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   label: string;
 }
 
@@ -54,19 +37,12 @@ export function SettingsRange({ label, ...props }: SettingsRangeProps) {
   );
 }
 
-interface SettingsColorProps extends Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  "type"
-> {
+interface SettingsColorProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "type"> {
   compact?: boolean;
   label: string;
 }
 
-export function SettingsColor({
-  compact = false,
-  label,
-  ...props
-}: SettingsColorProps) {
+export function SettingsColor({ compact = false, label, ...props }: SettingsColorProps) {
   return (
     <SettingsField label={label}>
       <input

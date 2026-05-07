@@ -13,9 +13,7 @@ function collectStylesAndLinks() {
     .map((tag) => tag.outerHTML)
     .join("\n");
 
-  const stylesheetLinks = Array.from(
-    document.querySelectorAll('link[rel="stylesheet"]'),
-  )
+  const stylesheetLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
     .map((linkTag) => {
       const href = linkTag.getAttribute("href");
 
@@ -94,9 +92,7 @@ function toCssVariablesBlock(variables: Record<string, string>) {
 }
 
 function resolveExportGridTemplateColumns(className: string) {
-  const arbitraryMatch = className.match(
-    /^(?:[a-z0-9-]+:)*grid-cols-\[(.+)\]$/i,
-  );
+  const arbitraryMatch = className.match(/^(?:[a-z0-9-]+:)*grid-cols-\[(.+)\]$/i);
 
   if (arbitraryMatch?.[1]) {
     const raw = arbitraryMatch[1].trim();
@@ -184,8 +180,7 @@ export function buildExportHtml(targetId: string) {
     return null;
   }
 
-  const sourceNode =
-    (targetNode.firstElementChild as HTMLElement | null) ?? targetNode;
+  const sourceNode = (targetNode.firstElementChild as HTMLElement | null) ?? targetNode;
 
   const sourceRect = sourceNode.getBoundingClientRect();
   const sourceWidth = Math.max(1, Math.round(sourceRect.width));
@@ -207,8 +202,7 @@ export function buildExportHtml(targetId: string) {
     ...sourceFontVariables,
   };
 
-  const sourceFontFamilyVariables =
-    collectFontVariableNamesFromFontFamily(sourceFontFamily);
+  const sourceFontFamilyVariables = collectFontVariableNamesFromFontFamily(sourceFontFamily);
 
   const fontVariableNames = new Set<string>([
     ...Object.keys(mergedFontVariables),

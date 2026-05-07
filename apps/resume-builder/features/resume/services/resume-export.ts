@@ -38,9 +38,7 @@ function getComputedStyleText(style: CSSStyleDeclaration): string {
     }
 
     const priority = style.getPropertyPriority(propertyName);
-    declarations.push(
-      `${propertyName}: ${propertyValue}${priority ? ` !${priority}` : ""};`,
-    );
+    declarations.push(`${propertyName}: ${propertyValue}${priority ? ` !${priority}` : ""};`);
   }
 
   return declarations.join(" ");
@@ -100,17 +98,11 @@ function buildMarkdown(resume: ResumeData): string {
 
   parts.push("");
 
-  if (
-    isSectionVisible(visibleSections, "summary") &&
-    safeText(resume.summary)
-  ) {
+  if (isSectionVisible(visibleSections, "summary") && safeText(resume.summary)) {
     parts.push(toMarkdownSection("Summary", [safeText(resume.summary)]));
   }
 
-  if (
-    isSectionVisible(visibleSections, "experience") &&
-    resume.experience.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "experience") && resume.experience.length > 0) {
     const lines = resume.experience.flatMap((item) => {
       const heading = `### ${safeText(item.role) || "Role"} - ${safeText(item.company) || "Company"}`;
 
@@ -128,41 +120,26 @@ function buildMarkdown(resume: ResumeData): string {
 
       const summary = safeText(item.summary);
 
-      return [
-        heading,
-        meta,
-        ...(summary ? [summary] : []),
-        ...bullets,
-        "",
-      ].filter(Boolean);
+      return [heading, meta, ...(summary ? [summary] : []), ...bullets, ""].filter(Boolean);
     });
 
     parts.push(toMarkdownSection("Experience", lines));
   }
 
-  if (
-    isSectionVisible(visibleSections, "education") &&
-    resume.education.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "education") && resume.education.length > 0) {
     const lines = resume.education.flatMap((item) => {
       const title = `${safeText(item.degree) || "Degree"}${safeText(item.field) ? `, ${safeText(item.field)}` : ""}`;
       const school = safeText(item.school) || "School";
       const meta = formatDateRange(item.startDate, item.endDate, item.current);
       const summary = safeText(item.summary);
 
-      return [
-        `- **${title}** - ${school} (${meta})`,
-        ...(summary ? [`  - ${summary}`] : []),
-      ];
+      return [`- **${title}** - ${school} (${meta})`, ...(summary ? [`  - ${summary}`] : [])];
     });
 
     parts.push(toMarkdownSection("Education", lines));
   }
 
-  if (
-    isSectionVisible(visibleSections, "projects") &&
-    resume.projects.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "projects") && resume.projects.length > 0) {
     const lines = resume.projects.flatMap((item) => {
       const title = safeText(item.name) || "Project";
       const roleLabel = safeText(item.role);
@@ -201,10 +178,7 @@ function buildMarkdown(resume: ResumeData): string {
     parts.push(toMarkdownSection("Skills", lines));
   }
 
-  if (
-    isSectionVisible(visibleSections, "links") &&
-    resume.links.items.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "links") && resume.links.items.length > 0) {
     const lines = resume.links.items
       .map((link) => {
         const label = safeText(link.label) || safeText(link.type) || "Link";
@@ -221,10 +195,7 @@ function buildMarkdown(resume: ResumeData): string {
     parts.push(toMarkdownSection("Links", lines));
   }
 
-  if (
-    isSectionVisible(visibleSections, "custom") &&
-    resume.customSections.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "custom") && resume.customSections.length > 0) {
     resume.customSections.forEach((section) => {
       const lines = section.items.flatMap((item) => {
         const title = safeText(item.name) || "Item";
@@ -247,9 +218,7 @@ function buildMarkdown(resume: ResumeData): string {
         ];
       });
 
-      parts.push(
-        toMarkdownSection(safeText(section.title) || "Section", lines),
-      );
+      parts.push(toMarkdownSection(safeText(section.title) || "Section", lines));
     });
   }
 
@@ -365,9 +334,7 @@ function buildHtml(resume: ResumeData): string {
   const links = isSectionVisible(visibleSections, "links")
     ? resume.links.items
         .map((link) => {
-          const label = escapeHtml(
-            safeText(link.label) || safeText(link.type) || "Link",
-          );
+          const label = escapeHtml(safeText(link.label) || safeText(link.type) || "Link");
           const url = safeText(link.url);
 
           if (!url) {
@@ -396,9 +363,7 @@ function buildHtml(resume: ResumeData): string {
               <article>
                 <h3>${escapeHtml(safeText(item.name) || "Item")}</h3>
                 <p class="meta">${escapeHtml(
-                  [safeText(item.issuer), safeText(item.date)]
-                    .filter(Boolean)
-                    .join(" · "),
+                  [safeText(item.issuer), safeText(item.date)].filter(Boolean).join(" · "),
                 )}</p>
                 ${safeText(item.description) ? `<p>${escapeHtml(safeText(item.description))}</p>` : ""}
                 ${details ? `<ul>${details}</ul>` : ""}
@@ -460,10 +425,7 @@ function buildHtml(resume: ResumeData): string {
             </html>`;
 }
 
-function buildRenderedHtmlDocument(
-  targetId: string,
-  resume: ResumeData,
-): string | null {
+function buildRenderedHtmlDocument(targetId: string, resume: ResumeData): string | null {
   if (typeof window === "undefined") {
     return null;
   }
@@ -474,8 +436,7 @@ function buildRenderedHtmlDocument(
     return null;
   }
 
-  const sourceNode =
-    (printableNode.firstElementChild as HTMLElement | null) ?? printableNode;
+  const sourceNode = (printableNode.firstElementChild as HTMLElement | null) ?? printableNode;
   const clonedResume = sourceNode.cloneNode(true) as HTMLElement;
   const sourceRect = sourceNode.getBoundingClientRect();
 
@@ -551,10 +512,7 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
     children.push(createDocxParagraph(contactLine));
   }
 
-  if (
-    isSectionVisible(visibleSections, "summary") &&
-    safeText(resume.summary)
-  ) {
+  if (isSectionVisible(visibleSections, "summary") && safeText(resume.summary)) {
     children.push(
       new Paragraph({
         heading: HeadingLevel.HEADING_1,
@@ -564,10 +522,7 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
     );
   }
 
-  if (
-    isSectionVisible(visibleSections, "experience") &&
-    resume.experience.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "experience") && resume.experience.length > 0) {
     children.push(
       new Paragraph({
         heading: HeadingLevel.HEADING_1,
@@ -586,10 +541,7 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
           ],
         }),
         createDocxParagraph(
-          [
-            formatDateRange(item.startDate, item.endDate, item.current),
-            safeText(item.location),
-          ]
+          [formatDateRange(item.startDate, item.endDate, item.current), safeText(item.location)]
             .filter(Boolean)
             .join(" | "),
         ),
@@ -613,10 +565,7 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
     });
   }
 
-  if (
-    isSectionVisible(visibleSections, "education") &&
-    resume.education.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "education") && resume.education.length > 0) {
     children.push(
       new Paragraph({
         heading: HeadingLevel.HEADING_1,
@@ -643,10 +592,7 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
     });
   }
 
-  if (
-    isSectionVisible(visibleSections, "projects") &&
-    resume.projects.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "projects") && resume.projects.length > 0) {
     children.push(
       new Paragraph({
         heading: HeadingLevel.HEADING_1,
@@ -706,16 +652,11 @@ async function buildDocx(resume: ResumeData): Promise<Blob> {
         return;
       }
 
-      children.push(
-        createDocxParagraph(`${safeText(group.name) || "Skills"}: ${keywords}`),
-      );
+      children.push(createDocxParagraph(`${safeText(group.name) || "Skills"}: ${keywords}`));
     });
   }
 
-  if (
-    isSectionVisible(visibleSections, "links") &&
-    resume.links.items.length > 0
-  ) {
+  if (isSectionVisible(visibleSections, "links") && resume.links.items.length > 0) {
     children.push(
       new Paragraph({
         heading: HeadingLevel.HEADING_1,
@@ -771,13 +712,8 @@ export function exportResumeAsText(resume: ResumeData): void {
   downloadBlob(blob, `${getResumeFileBaseName(resume)}.txt`);
 }
 
-export function exportResumeAsHtml(
-  resume: ResumeData,
-  targetId?: string,
-): void {
-  const html = targetId
-    ? buildRenderedHtmlDocument(targetId, resume)
-    : buildHtml(resume);
+export function exportResumeAsHtml(resume: ResumeData, targetId?: string): void {
+  const html = targetId ? buildRenderedHtmlDocument(targetId, resume) : buildHtml(resume);
   const outputHtml = html ?? buildHtml(resume);
   const blob = new Blob([outputHtml], { type: "text/html;charset=utf-8" });
 

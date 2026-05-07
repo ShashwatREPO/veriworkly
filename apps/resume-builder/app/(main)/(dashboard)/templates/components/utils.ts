@@ -1,7 +1,4 @@
-export const familyByTemplateId: Record<
-  string,
-  "Compact Core" | "Modern Core"
-> = {
+export const familyByTemplateId: Record<string, "Compact Core" | "Modern Core"> = {
   modern: "Modern Core",
   minimal: "Modern Core",
   executive: "Modern Core",
@@ -11,10 +8,7 @@ export const familyByTemplateId: Record<
   "academic-serif": "Compact Core",
 };
 
-export function getSingleParam(
-  value: string | string[] | undefined,
-  fallback: string,
-) {
+export function getSingleParam(value: string | string[] | undefined, fallback: string) {
   if (!value) return fallback;
   return Array.isArray(value) ? (value[0] ?? fallback) : value;
 }

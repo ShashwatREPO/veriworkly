@@ -20,19 +20,11 @@ const LinksSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addLinkItem,
-    removeLinkItem,
-    updateLinkItem,
-    updateLinkDisplayMode,
-  } = useResume();
+  const { resume, addLinkItem, removeLinkItem, updateLinkItem, updateLinkDisplayMode } =
+    useResume();
   const [linkIndex, setLinkIndex] = useState(0);
 
-  const safeLinkIndex = Math.min(
-    linkIndex,
-    Math.max(0, resume.links.items.length - 1),
-  );
+  const safeLinkIndex = Math.min(linkIndex, Math.max(0, resume.links.items.length - 1));
 
   const activeLink = resume.links.items[safeLinkIndex];
 
@@ -80,9 +72,7 @@ const LinksSection = ({
         <select
           className="border-border bg-background h-11 w-full rounded-2xl border px-4 text-sm"
           onChange={(event) =>
-            updateLinkDisplayMode(
-              event.target.value as "icon" | "url" | "icon-username",
-            )
+            updateLinkDisplayMode(event.target.value as "icon" | "url" | "icon-username")
           }
           value={resume.links.displayMode}
         >

@@ -65,7 +65,9 @@ export const DeveloperSection = () => {
 
             <p>
               <span className="text-purple-400">open</span>{" "}
-              <span className="text-zinc-400">&quot;https://docs.veriworkly.com/api-reference&quot;</span>
+              <span className="text-zinc-400">
+                &quot;https://docs.veriworkly.com/api-reference&quot;
+              </span>
             </p>
 
             <p className="pl-4">

@@ -20,27 +20,19 @@ const InterestsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [interestIndex, setInterestIndex] = useState(0);
 
   const interestsSection =
-    resume.customSections.find((section) => section.kind === "interests") ??
-    null;
+    resume.customSections.find((section) => section.kind === "interests") ?? null;
 
   if (!interestsSection) {
     return null;
   }
 
-  const safeInterestIndex = Math.min(
-    interestIndex,
-    Math.max(0, interestsSection.items.length - 1),
-  );
+  const safeInterestIndex = Math.min(interestIndex, Math.max(0, interestsSection.items.length - 1));
 
   const activeInterest = interestsSection.items[safeInterestIndex];
 
@@ -70,19 +62,13 @@ const InterestsSection = ({
           </select>
         ) : null}
 
-        <Button
-          onClick={() => addCustomSectionItem("interests")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("interests")} size="sm" variant="secondary">
           Add interest
         </Button>
 
         <Button
           disabled={interestsSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("interests", safeInterestIndex)
-          }
+          onClick={() => removeCustomSectionItem("interests", safeInterestIndex)}
           size="sm"
           variant="ghost"
         >
@@ -118,9 +104,7 @@ const InterestsSection = ({
           </Field>
         </div>
       ) : (
-        <p className="text-muted text-sm">
-          No interests yet. Click Add interest.
-        </p>
+        <p className="text-muted text-sm">No interests yet. Click Add interest.</p>
       )}
     </DraggableSection>
   );

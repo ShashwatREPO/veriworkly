@@ -1,7 +1,4 @@
-import type {
-  ResumeSection,
-  ResumeAdditionalSectionKind,
-} from "@/types/resume";
+import type { ResumeSection, ResumeAdditionalSectionKind } from "@/types/resume";
 import type { TemplateRenderProps } from "@/types/template";
 
 import { atsClassicStyles } from "../styles";
@@ -19,9 +16,7 @@ export function renderAdditionalSection(
   resume: TemplateRenderProps["resume"],
   section: ResumeSection,
 ) {
-  const kindMap: Partial<
-    Record<ResumeSection["id"], ResumeAdditionalSectionKind>
-  > = {
+  const kindMap: Partial<Record<ResumeSection["id"], ResumeAdditionalSectionKind>> = {
     certifications: "certifications",
     awards: "awards",
     publications: "publications",
@@ -52,9 +47,7 @@ export function renderAdditionalSection(
             </p>
 
             <p className="text-sm leading-(--resume-body-leading) text-(--resume-muted)">
-              {[item.issuer, item.referenceId, item.date]
-                .filter(Boolean)
-                .join(" | ")}
+              {[item.issuer, item.referenceId, item.date].filter(Boolean).join(" | ")}
             </p>
 
             {item.description ? (

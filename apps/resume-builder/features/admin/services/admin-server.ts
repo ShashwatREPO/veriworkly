@@ -88,18 +88,14 @@ export async function fetchAdminDashboardStatsServer() {
     throw new Error(`Admin stats request failed (${response.status})`);
   }
 
-  const payload =
-    (await response.json()) as ApiSuccessResponse<AdminDashboardStats>;
+  const payload = (await response.json()) as ApiSuccessResponse<AdminDashboardStats>;
   return payload.data;
 }
 
 export async function fetchAdminRoadmapServer(sort = "newest") {
-  const response = await fetchWithSession(
-    `/roadmap?sort=${sort}&limit=20&offset=0`,
-    {
-      method: "GET",
-    },
-  );
+  const response = await fetchWithSession(`/roadmap?sort=${sort}&limit=20&offset=0`, {
+    method: "GET",
+  });
 
   if (!response.ok) {
     throw new Error(`Roadmap request failed (${response.status})`);

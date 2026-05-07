@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Cloud,
-  Monitor,
-  History,
-  CloudOff,
-  RefreshCw,
-  AlertTriangle,
-} from "lucide-react";
+import { Cloud, Monitor, History, CloudOff, RefreshCw, AlertTriangle } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import { Modal, Button } from "@veriworkly/ui";
@@ -79,8 +72,7 @@ const SyncDetailsModal = ({
 
   const currentStatus = !resume.sync.enabled
     ? statusConfig.disabled
-    : statusConfig[resume.sync.status as keyof typeof statusConfig] ||
-      statusConfig.disabled;
+    : statusConfig[resume.sync.status as keyof typeof statusConfig] || statusConfig.disabled;
 
   const StatusIcon = currentStatus.icon;
 
@@ -123,12 +115,7 @@ const SyncDetailsModal = ({
             </div>
           </div>
 
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={onClose}
-            className="h-8 text-xs"
-          >
+          <Button size="sm" variant="ghost" onClick={onClose} className="h-8 text-xs">
             Close
           </Button>
         </div>
@@ -188,13 +175,11 @@ const SyncDetailsModal = ({
                 <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0" />
 
                 <div className="space-y-1">
-                  <p className="text-sm leading-none font-bold">
-                    Conflict Detected
-                  </p>
+                  <p className="text-sm leading-none font-bold">Conflict Detected</p>
 
                   <p className="text-xs leading-snug opacity-80">
-                    The version in the cloud is different from your local
-                    version. How would you like to resolve this?
+                    The version in the cloud is different from your local version. How would you
+                    like to resolve this?
                   </p>
                 </div>
               </div>
@@ -224,9 +209,7 @@ const SyncDetailsModal = ({
                     variant="ghost"
                     className="text-[10px] font-bold tracking-tighter uppercase"
                     onClick={() => {
-                      onNotice(
-                        "Resolve fields in editor, then click Sync Now.",
-                      );
+                      onNotice("Resolve fields in editor, then click Sync Now.");
                       router.push(`/editor/${resume.id}`);
                     }}
                   >

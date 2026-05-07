@@ -22,6 +22,7 @@ The authentication infrastructure is distributed between the client and server a
 - **Backend (`apps/server`)**: Operates as the centralized authentication authority. Responsibilities include database interaction, OTP generation, and secure email dispatch via SMTP.
 
 ### Session Management Strategy
+
 - **Persistence**: Active sessions are persisted in the `Session` table within the PostgreSQL database.
 - **Cookie Security**: Sessions are managed via browser cookies configured with `HttpOnly`, `Secure`, and `SameSite=Lax` attributes.
 - **Cross-Domain Compatibility**: In production environments, cookies are scoped to the root domain (e.g., `.veriworkly.com`) to allow seamless session persistence across all platform subdomains.

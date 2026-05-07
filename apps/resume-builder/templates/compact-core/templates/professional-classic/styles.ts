@@ -6,6 +6,5 @@ export const classicAcademicStyles = {
   section: "space-y-3 border-t border-[var(--resume-border)] pt-3",
   sectionTitle:
     "text-[11px] leading-[var(--resume-heading-leading)] font-bold uppercase tracking-[0.2em] text-[var(--resume-section-heading)]",
-  bodyText:
-    "text-sm leading-[var(--resume-body-leading)] text-[var(--resume-muted)]",
+  bodyText: "text-sm leading-[var(--resume-body-leading)] text-[var(--resume-muted)]",
 } as const;

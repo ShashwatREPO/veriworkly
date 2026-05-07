@@ -8,12 +8,7 @@ import { Input } from "@veriworkly/ui";
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { validateProject } from "@/features/resume/utils/validation";
 
-import {
-  Field,
-  TextArea,
-  invalidClass,
-  DelimitedTextArea,
-} from "../EditorFormPrimitives";
+import { Field, TextArea, invalidClass, DelimitedTextArea } from "../EditorFormPrimitives";
 import DraggableSection from "./DraggableSection";
 import type { BaseSectionProps } from "./section-types";
 
@@ -29,10 +24,7 @@ const ProjectsSection = ({
 
   const [projectIndex, setProjectIndex] = useState(0);
 
-  const safeProjectIndex = Math.min(
-    projectIndex,
-    Math.max(0, resume.projects.length - 1),
-  );
+  const safeProjectIndex = Math.min(projectIndex, Math.max(0, resume.projects.length - 1));
 
   const activeProject = resume.projects[safeProjectIndex];
 
@@ -148,9 +140,7 @@ const ProjectsSection = ({
           </div>
         </>
       ) : (
-        <p className="text-muted text-sm">
-          No projects yet. Click Add to create one.
-        </p>
+        <p className="text-muted text-sm">No projects yet. Click Add to create one.</p>
       )}
     </DraggableSection>
   );

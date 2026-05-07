@@ -7,12 +7,7 @@ interface FullScreenMessageProps {
   action?: ReactNode;
 }
 
-const FullScreenMessage = ({
-  icon,
-  title,
-  action,
-  description,
-}: FullScreenMessageProps) => {
+const FullScreenMessage = ({ icon, title, action, description }: FullScreenMessageProps) => {
   return (
     <div className="bg-background surface-grid flex min-h-screen flex-col items-center justify-center space-y-6 p-6 text-center">
       {icon ? (
@@ -27,9 +22,7 @@ const FullScreenMessage = ({
         </h1>
 
         {description ? (
-          <p className="text-muted max-w-sm text-xs font-medium md:text-sm">
-            {description}
-          </p>
+          <p className="text-muted max-w-sm text-xs font-medium md:text-sm">{description}</p>
         ) : null}
       </div>
 

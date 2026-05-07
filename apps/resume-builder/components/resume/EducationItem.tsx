@@ -3,8 +3,7 @@ import type { ResumeEducationItem } from "@/types/resume";
 import { formatDate } from "@/features/resume/utils/format-date";
 
 export function EducationItem({ item }: { item: ResumeEducationItem }) {
-  const isCurrent =
-    item.current || item.endDate.trim().toLowerCase() === "present";
+  const isCurrent = item.current || item.endDate.trim().toLowerCase() === "present";
 
   return (
     <article className="space-y-1">
@@ -20,8 +19,7 @@ export function EducationItem({ item }: { item: ResumeEducationItem }) {
         </div>
 
         <p className="text-sm leading-(--resume-body-leading) text-(--resume-muted)">
-          {formatDate(item.startDate)} -{" "}
-          {isCurrent ? "Present" : formatDate(item.endDate)}
+          {formatDate(item.startDate)} - {isCurrent ? "Present" : formatDate(item.endDate)}
         </p>
       </div>
 

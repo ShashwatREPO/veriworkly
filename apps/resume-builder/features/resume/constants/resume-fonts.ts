@@ -51,22 +51,17 @@ const RESUME_FONT_ID_SET = new Set<ResumeFontFamilyId>(
   resumeFontDefinitions.map((font) => font.id),
 );
 
-export const RESUME_FONT_REGISTRY: Record<
-  ResumeFontFamilyId,
-  ResumeFontRegistryEntry
-> = Object.fromEntries(
-  resumeFontDefinitions.map((font) => [font.id, font]),
-) as Record<ResumeFontFamilyId, ResumeFontRegistryEntry>;
+export const RESUME_FONT_REGISTRY: Record<ResumeFontFamilyId, ResumeFontRegistryEntry> =
+  Object.fromEntries(resumeFontDefinitions.map((font) => [font.id, font])) as Record<
+    ResumeFontFamilyId,
+    ResumeFontRegistryEntry
+  >;
 
-export function isResumeFontFamilyId(
-  value: string,
-): value is ResumeFontFamilyId {
+export function isResumeFontFamilyId(value: string): value is ResumeFontFamilyId {
   return RESUME_FONT_ID_SET.has(value as ResumeFontFamilyId);
 }
 
-export function normalizeResumeFontFamilyId(
-  value: string | null | undefined,
-): ResumeFontFamilyId {
+export function normalizeResumeFontFamilyId(value: string | null | undefined): ResumeFontFamilyId {
   const normalized = (value ?? "").trim().toLowerCase();
 
   if (isResumeFontFamilyId(normalized)) {
@@ -92,14 +87,11 @@ function toFontFamilyValue(font: ResumeFontRegistryEntry) {
   return `'${font.primaryFamily}', ${font.fallbackStack}`;
 }
 
-export const RESUME_FONT_FAMILY_MAP: Record<ResumeFontFamilyId, string> =
-  Object.fromEntries(
-    resumeFontDefinitions.map((font) => [font.id, toFontFamilyValue(font)]),
-  ) as Record<ResumeFontFamilyId, string>;
+export const RESUME_FONT_FAMILY_MAP: Record<ResumeFontFamilyId, string> = Object.fromEntries(
+  resumeFontDefinitions.map((font) => [font.id, toFontFamilyValue(font)]),
+) as Record<ResumeFontFamilyId, string>;
 
-export function getResumeFontStylesheetHref(
-  fontFamily: string | null | undefined,
-) {
+export function getResumeFontStylesheetHref(fontFamily: string | null | undefined) {
   const normalized = normalizeResumeFontFamilyId(fontFamily);
   return RESUME_FONT_REGISTRY[normalized].stylesheetHref;
 }

@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Mail,
-  Link2,
-  RefreshCw,
-  ShieldCheck,
-  ShieldAlert,
-  CalendarDays,
-} from "lucide-react";
+import { Mail, Link2, RefreshCw, ShieldCheck, ShieldAlert, CalendarDays } from "lucide-react";
 
 import { Card } from "@veriworkly/ui";
 import { Badge } from "@veriworkly/ui";
@@ -78,8 +71,7 @@ const ProfileStatsGrid = () => {
                   <Badge
                     className={cn(
                       "flex items-center px-2 text-[10px] font-bold tracking-wider uppercase",
-                      stat.status === "success" &&
-                        "bg-emerald-500/10 text-emerald-600",
+                      stat.status === "success" && "bg-emerald-500/10 text-emerald-600",
                     )}
                   >
                     {stat.status === "success" ? (

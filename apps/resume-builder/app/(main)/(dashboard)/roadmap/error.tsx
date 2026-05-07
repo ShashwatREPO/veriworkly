@@ -26,8 +26,7 @@ const DashboardSegmentError = ({
           </h1>
 
           <p className="text-muted mt-5 max-w-xl text-base leading-7">
-            You can retry this page immediately, or return to dashboard and try
-            again later.
+            You can retry this page immediately, or return to dashboard and try again later.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

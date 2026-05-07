@@ -20,18 +20,13 @@ const AchievementsSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [achievementIndex, setAchievementIndex] = useState(0);
 
   const achievementsSection =
-    resume.customSections.find((section) => section.kind === "achievements") ??
-    null;
+    resume.customSections.find((section) => section.kind === "achievements") ?? null;
 
   if (!achievementsSection) {
     return null;
@@ -59,9 +54,7 @@ const AchievementsSection = ({
         {achievementsSection.items.length ? (
           <select
             className="border-border bg-background h-10 rounded-xl border px-3 text-sm"
-            onChange={(event) =>
-              setAchievementIndex(Number(event.target.value))
-            }
+            onChange={(event) => setAchievementIndex(Number(event.target.value))}
             value={safeAchievementIndex}
           >
             {achievementsSection.items.map((item, index) => (
@@ -72,19 +65,13 @@ const AchievementsSection = ({
           </select>
         ) : null}
 
-        <Button
-          onClick={() => addCustomSectionItem("achievements")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("achievements")} size="sm" variant="secondary">
           Add achievement
         </Button>
 
         <Button
           disabled={achievementsSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("achievements", safeAchievementIndex)
-          }
+          onClick={() => removeCustomSectionItem("achievements", safeAchievementIndex)}
           size="sm"
           variant="ghost"
         >
@@ -98,13 +85,9 @@ const AchievementsSection = ({
             <Field label="Title">
               <Input
                 onChange={(event) =>
-                  updateCustomSectionItem(
-                    "achievements",
-                    safeAchievementIndex,
-                    {
-                      name: event.target.value,
-                    },
-                  )
+                  updateCustomSectionItem("achievements", safeAchievementIndex, {
+                    name: event.target.value,
+                  })
                 }
                 value={activeAchievement.name}
               />
@@ -115,13 +98,9 @@ const AchievementsSection = ({
             <Field label="Description">
               <TextArea
                 onChange={(event) =>
-                  updateCustomSectionItem(
-                    "achievements",
-                    safeAchievementIndex,
-                    {
-                      description: event.target.value,
-                    },
-                  )
+                  updateCustomSectionItem("achievements", safeAchievementIndex, {
+                    description: event.target.value,
+                  })
                 }
                 value={activeAchievement.description}
               />
@@ -129,9 +108,7 @@ const AchievementsSection = ({
           </div>
         </>
       ) : (
-        <p className="text-muted text-sm">
-          No achievements yet. Click Add achievement.
-        </p>
+        <p className="text-muted text-sm">No achievements yet. Click Add achievement.</p>
       )}
     </DraggableSection>
   );

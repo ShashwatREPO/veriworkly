@@ -22,8 +22,7 @@ export function CompactEducationSection({
 
   const range =
     formatRange ??
-    ((item: ResumeEducationItem) =>
-      defaultRange(item.startDate, item.endDate, item.current));
+    ((item: ResumeEducationItem) => defaultRange(item.startDate, item.endDate, item.current));
 
   return (
     <section className={sectionClassName}>
@@ -41,9 +40,7 @@ export function CompactEducationSection({
 
             <p className={bodyTextClassName}>{formatSecondary(item)}</p>
 
-            {item.summary ? (
-              <p className={bodyTextClassName}>{item.summary}</p>
-            ) : null}
+            {item.summary ? <p className={bodyTextClassName}>{item.summary}</p> : null}
           </article>
         ))}
       </div>

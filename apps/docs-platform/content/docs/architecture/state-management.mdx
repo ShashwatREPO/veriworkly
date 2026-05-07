@@ -19,11 +19,13 @@ VeriWorkly implements a **Local-First** state management architecture. This appr
 ## Technical Implementation
 
 ### Core Technologies
+
 - **Zustand**: A performance-oriented state management library for React.
 - **Persist Middleware**: Facilitates automatic serialization and deserialization of application state to `localStorage`.
 - **Zod**: Provides a robust schema validation layer for data integrity and type safety.
 
 ### Architecture of the Resume Store
+
 The application's core state resides in the `resume-store.ts`, which manages document collections, active editor sessions, and asynchronous operation states.
 
 ```typescript
@@ -31,7 +33,7 @@ interface ResumeStore {
   resumes: Resume[];
   currentResume: Resume | null;
   isLoading: boolean;
-  
+
   // State Mutators
   updateResume: (id: string, partial: Partial<Resume>) => void;
   deleteResume: (id: string) => Promise<void>;
@@ -44,12 +46,15 @@ interface ResumeStore {
 ## Persistence and Performance Optimization
 
 ### Debouncing Strategy
+
 To maintain interface responsiveness during high-frequency editing sessions, VeriWorkly implements a debounced persistence strategy. This reduces the frequency of write operations to the browser's storage engine.
 
 ### Schema Versioning and Migration
+
 The state store incorporates a versioning system. During initialization, the persistence layer detects version mismatches and executes necessary migration logic to ensure backward compatibility as the document schema evolves.
 
 ### Resource Constraints
+
 The application includes error handling for storage quotas. If the browser's storage capacity is reached, the system notifies the user and provides options for cloud-based offloading or document cleanup.
 
 ---

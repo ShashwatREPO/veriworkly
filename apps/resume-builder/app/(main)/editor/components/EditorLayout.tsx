@@ -35,19 +35,15 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
 
   const [panelOpen, setPanelOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"editor" | "preview">("editor");
-  const [activePanel, setActivePanel] = useState<"content" | "settings">(
-    "content",
-  );
+  const [activePanel, setActivePanel] = useState<"content" | "settings">("content");
 
-  const [templateComponent, setTemplateComponent] =
-    useState<TemplateComponent | null>(null);
+  const [templateComponent, setTemplateComponent] = useState<TemplateComponent | null>(null);
 
   const deferredResume = useDeferredValue(resume);
 
   const resumePreviewId = `resume-preview-${resume.id}`;
 
-  const stagePaddingClass =
-    resume.customization.pagePadding === 0 ? "p-0" : "p-3 md:p-6";
+  const stagePaddingClass = resume.customization.pagePadding === 0 ? "p-0" : "p-3 md:p-6";
 
   useEffect(() => {
     let cancelled = false;
@@ -62,8 +58,7 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
           return;
         }
 
-        const cloudResult =
-          await hydrateCloudResumeByIdToLocalStorage(resumeId);
+        const cloudResult = await hydrateCloudResumeByIdToLocalStorage(resumeId);
 
         if (!cancelled && cloudResult.ok) {
           const hydratedResume = loadResumeById(resumeId);
@@ -118,9 +113,7 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
     let cancelled = false;
 
     const loadTemplate = async () => {
-      const nextTemplate = await loadTemplateComponentById(
-        deferredResume.templateId,
-      );
+      const nextTemplate = await loadTemplateComponentById(deferredResume.templateId);
 
       if (!cancelled) {
         setTemplateComponent(() => nextTemplate);
@@ -143,9 +136,7 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
       <div className="border-border bg-card inline-flex rounded-2xl border p-1 md:hidden">
         <button
           className={`rounded-xl px-4 py-2 text-sm font-medium ${
-            activeTab === "editor"
-              ? "bg-accent text-accent-foreground"
-              : "text-muted"
+            activeTab === "editor" ? "bg-accent text-accent-foreground" : "text-muted"
           }`}
           onClick={() => setActiveTab("editor")}
           type="button"
@@ -155,9 +146,7 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
 
         <button
           className={`rounded-xl px-4 py-2 text-sm font-medium ${
-            activeTab === "preview"
-              ? "bg-accent text-accent-foreground"
-              : "text-muted"
+            activeTab === "preview" ? "bg-accent text-accent-foreground" : "text-muted"
           }`}
           onClick={() => setActiveTab("preview")}
           type="button"
@@ -168,27 +157,17 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
 
       <div
         className={`grid min-h-0 flex-1 gap-4 overflow-hidden ${
-          panelOpen
-            ? "xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]"
-            : "grid-cols-1"
+          panelOpen ? "xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]" : "grid-cols-1"
         }`}
       >
         {panelOpen ? (
-          <div
-            className={
-              activeTab === "preview"
-                ? "hidden min-h-0 md:block"
-                : "block min-h-0"
-            }
-          >
+          <div className={activeTab === "preview" ? "hidden min-h-0 md:block" : "block min-h-0"}>
             <Card className="flex h-full min-h-0 flex-col p-4">
               <div className="mb-4 flex items-center justify-between gap-3">
                 <div className="border-border bg-background inline-flex rounded-2xl border p-1">
                   <button
                     className={`rounded-xl px-3 py-2 text-sm font-medium ${
-                      activePanel === "content"
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted"
+                      activePanel === "content" ? "bg-accent text-accent-foreground" : "text-muted"
                     }`}
                     onClick={() => setActivePanel("content")}
                     type="button"
@@ -198,9 +177,7 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
 
                   <button
                     className={`rounded-xl px-3 py-2 text-sm font-medium ${
-                      activePanel === "settings"
-                        ? "bg-accent text-accent-foreground"
-                        : "text-muted"
+                      activePanel === "settings" ? "bg-accent text-accent-foreground" : "text-muted"
                     }`}
                     onClick={() => setActivePanel("settings")}
                     type="button"
@@ -219,24 +196,14 @@ const EditorLayout = ({ resumeId }: EditorLayoutProps) => {
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto pr-1">
-                {activePanel === "content" ? (
-                  <EditorContentPanel />
-                ) : (
-                  <EditorSettingsPanel />
-                )}
+                {activePanel === "content" ? <EditorContentPanel /> : <EditorSettingsPanel />}
               </div>
             </Card>
           </div>
         ) : null}
 
         {!panelOpen ? (
-          <div
-            className={
-              activeTab === "preview"
-                ? "hidden min-h-0 md:block"
-                : "block min-h-0"
-            }
-          >
+          <div className={activeTab === "preview" ? "hidden min-h-0 md:block" : "block min-h-0"}>
             <Card className="space-y-3 p-3">
               <p className="text-muted px-1 text-xs font-semibold tracking-[0.2em] uppercase">
                 Panels

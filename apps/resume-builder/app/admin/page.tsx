@@ -28,13 +28,8 @@ function humanizeMetricKey(key: string): string {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function buildMetricCards(
-  source: Record<string, unknown> = {},
-  fallbackKeys: string[] = [],
-) {
-  const uniqueKeys = Array.from(
-    new Set([...fallbackKeys, ...Object.keys(source)]),
-  );
+function buildMetricCards(source: Record<string, unknown> = {}, fallbackKeys: string[] = []) {
+  const uniqueKeys = Array.from(new Set([...fallbackKeys, ...Object.keys(source)]));
 
   return uniqueKeys
     .filter((key) => key !== "raw")
@@ -46,36 +41,28 @@ function buildMetricCards(
 }
 
 export default async function AdminPage() {
-  const [user, stats] = await Promise.all([
-    fetchCurrentUser(),
-    fetchAdminDashboardStatsServer(),
-  ]);
+  const [user, stats] = await Promise.all([fetchCurrentUser(), fetchAdminDashboardStatsServer()]);
 
-  const githubStats = (stats?.githubStats?.stats || {}) as Record<
-    string,
-    unknown
-  >;
+  const githubStats = (stats?.githubStats?.stats || {}) as Record<string, unknown>;
   const usageMetrics = stats?.usageMetrics || {};
 
   const githubTotal = toNumber(githubStats.total ?? githubStats.totalItems);
 
-  const todayMetrics = buildMetricCards(
-    (usageMetrics.today as Record<string, unknown>) || {},
-    ["resumeCreated", "resumeExported", "loginSuccess"],
-  );
+  const todayMetrics = buildMetricCards((usageMetrics.today as Record<string, unknown>) || {}, [
+    "resumeCreated",
+    "resumeExported",
+    "loginSuccess",
+  ]);
 
-  const totalMetrics = buildMetricCards(
-    (usageMetrics.totals as Record<string, unknown>) || {},
-    [
-      "resumeCreated",
-      "resumeDeleted",
-      "resumeExported",
-      "loginSuccess",
-      "otpSent",
-      "dashboardOpened",
-      "roadmapViewed",
-    ],
-  );
+  const totalMetrics = buildMetricCards((usageMetrics.totals as Record<string, unknown>) || {}, [
+    "resumeCreated",
+    "resumeDeleted",
+    "resumeExported",
+    "loginSuccess",
+    "otpSent",
+    "dashboardOpened",
+    "roadmapViewed",
+  ]);
 
   const formattedGeneratedAt = usageMetrics.generatedAt
     ? new Date(usageMetrics.generatedAt).toLocaleString(undefined, {
@@ -105,10 +92,7 @@ export default async function AdminPage() {
 
                 <p className="text-muted mt-2 text-sm leading-6 md:text-base">
                   Signed in as
-                  <span className="text-foreground font-semibold">
-                    {" "}
-                    {user?.email || "Admin"}
-                  </span>
+                  <span className="text-foreground font-semibold"> {user?.email || "Admin"}</span>
                 </p>
               </div>
             </div>
@@ -128,14 +112,11 @@ export default async function AdminPage() {
                 </h3>
 
                 <p className="text-muted text-sm leading-6">
-                  Browse, create, and edit detailed roadmap items from the new
-                  admin routes.
+                  Browse, create, and edit detailed roadmap items from the new admin routes.
                 </p>
               </div>
 
-              <div className="text-accent mt-5 text-sm font-semibold">
-                Open Admin Roadmap
-              </div>
+              <div className="text-accent mt-5 text-sm font-semibold">Open Admin Roadmap</div>
             </Card>
           </Link>
 
@@ -149,14 +130,11 @@ export default async function AdminPage() {
                 </h3>
 
                 <p className="text-muted text-sm leading-6">
-                  Use dedicated create/edit pages to manage complete
-                  schema-backed feature details.
+                  Use dedicated create/edit pages to manage complete schema-backed feature details.
                 </p>
               </div>
 
-              <div className="text-accent mt-5 text-sm font-semibold">
-                Create New Item
-              </div>
+              <div className="text-accent mt-5 text-sm font-semibold">Create New Item</div>
             </Card>
           </Link>
         </section>
@@ -164,9 +142,7 @@ export default async function AdminPage() {
         <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           <Card className="space-y-2 rounded-4xl p-6">
             <p className="text-muted text-sm">GitHub Items Tracked</p>
-            <p className="text-foreground text-3xl font-semibold">
-              {githubTotal}
-            </p>
+            <p className="text-foreground text-3xl font-semibold">{githubTotal}</p>
           </Card>
 
           <Card className="space-y-2 rounded-4xl p-6">
@@ -179,9 +155,7 @@ export default async function AdminPage() {
 
           <Card className="space-y-2 rounded-4xl p-6">
             <p className="text-muted text-sm">GitHub Issues</p>
-            <p className="text-foreground text-3xl font-semibold">
-              {toNumber(githubStats.issues)}
-            </p>
+            <p className="text-foreground text-3xl font-semibold">{toNumber(githubStats.issues)}</p>
           </Card>
 
           <Card className="space-y-2 rounded-4xl p-6">
@@ -194,9 +168,7 @@ export default async function AdminPage() {
 
         <section className="space-y-4">
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-foreground text-lg font-semibold tracking-tight">
-              Today Metrics
-            </h3>
+            <h3 className="text-foreground text-lg font-semibold tracking-tight">Today Metrics</h3>
 
             <span className="text-muted text-sm">{formattedGeneratedAt}</span>
           </div>
@@ -205,30 +177,21 @@ export default async function AdminPage() {
             {todayMetrics.map((metric) => (
               <Card key={metric.key} className="space-y-2 rounded-4xl p-6">
                 <p className="text-muted text-sm">{metric.label}</p>
-                <p className="text-foreground text-3xl font-semibold">
-                  {metric.value}
-                </p>
+                <p className="text-foreground text-3xl font-semibold">{metric.value}</p>
               </Card>
             ))}
           </div>
         </section>
 
         <Card className="space-y-4 rounded-4xl p-6 md:p-7">
-          <h3 className="text-foreground text-lg font-semibold tracking-tight">
-            Platform Signals
-          </h3>
+          <h3 className="text-foreground text-lg font-semibold tracking-tight">Platform Signals</h3>
 
           <div className="grid gap-3 text-sm md:grid-cols-2 md:text-base">
             {totalMetrics.map((metric) => (
-              <div
-                key={metric.key}
-                className="flex items-center justify-between"
-              >
+              <div key={metric.key} className="flex items-center justify-between">
                 <span className="text-muted">Total {metric.label}</span>
 
-                <span className="text-foreground font-semibold">
-                  {metric.value}
-                </span>
+                <span className="text-foreground font-semibold">{metric.value}</span>
               </div>
             ))}
           </div>
@@ -236,8 +199,7 @@ export default async function AdminPage() {
           <div className="bg-border h-px" />
 
           <p className="text-muted text-sm leading-6">
-            GitHub sync runs every 12 hours. Usage metrics are buffered in Redis
-            and flushed daily.
+            GitHub sync runs every 12 hours. Usage metrics are buffered in Redis and flushed daily.
           </p>
 
           <Button asChild variant="secondary" size="sm" className="w-fit">

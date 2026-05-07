@@ -5,13 +5,7 @@ import { normalizeResumeFontFamilyId } from "@/features/resume/constants/resume-
 const languageSchema = z.object({
   id: z.string(),
   language: z.string().min(1),
-  fluency: z.enum([
-    "elementary",
-    "limited",
-    "professional",
-    "fluent",
-    "native",
-  ]),
+  fluency: z.enum(["elementary", "limited", "professional", "fluent", "native"]),
 });
 
 const interestSchema = z.object({

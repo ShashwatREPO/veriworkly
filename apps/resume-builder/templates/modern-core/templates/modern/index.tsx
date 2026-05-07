@@ -29,9 +29,7 @@ import {
 } from "@/templates/modern-core/shared/section-placement";
 import { modernStyles } from "@/templates/modern-core/templates/modern/styles";
 
-export default function ModernTemplate(
-  props: TemplateRenderProps | null | undefined = undefined,
-) {
+export default function ModernTemplate(props: TemplateRenderProps | null | undefined = undefined) {
   const { className, resume } = props ?? {};
 
   if (!resume) {
@@ -39,13 +37,9 @@ export default function ModernTemplate(
   }
 
   const orderedVisibleSections = getOrderedSections(resume.sections);
-  const showHeaderLinks = orderedVisibleSections.some(
-    (section) => section.id === "links",
-  );
+  const showHeaderLinks = orderedVisibleSections.some((section) => section.id === "links");
 
-  const mainSectionRenderers: Partial<
-    Record<ResumeSectionId, () => ReactNode>
-  > = {
+  const mainSectionRenderers: Partial<Record<ResumeSectionId, () => ReactNode>> = {
     summary: () =>
       renderSummarySection({
         resume,
@@ -98,9 +92,7 @@ export default function ModernTemplate(
       }),
   };
 
-  const sidebarSectionRenderers: Partial<
-    Record<ResumeSectionId, () => ReactNode>
-  > = {
+  const sidebarSectionRenderers: Partial<Record<ResumeSectionId, () => ReactNode>> = {
     skills: () =>
       renderSkillsSection({
         resume,
@@ -135,11 +127,10 @@ export default function ModernTemplate(
       }),
   };
 
-  const { main: orderedMain, sidebar: orderedSidebar } =
-    splitSectionsByPlacement(
-      orderedVisibleSections,
-      TEMPLATE_SECTION_PLACEMENT.modern,
-    );
+  const { main: orderedMain, sidebar: orderedSidebar } = splitSectionsByPlacement(
+    orderedVisibleSections,
+    TEMPLATE_SECTION_PLACEMENT.modern,
+  );
 
   return (
     <BaseShell
@@ -147,33 +138,21 @@ export default function ModernTemplate(
       className={[modernStyles.wrapper, className].filter(Boolean).join(" ")}
     >
       {orderedVisibleSections.some((section) => section.id === "basics") ? (
-        <ResumeHeader
-          basics={resume.basics}
-          links={resume.links}
-          showLinks={showHeaderLinks}
-        />
+        <ResumeHeader basics={resume.basics} links={resume.links} showLinks={showHeaderLinks} />
       ) : null}
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[1.75fr_1fr]">
         <div className={modernStyles.content}>
           {orderedMain.map((section) => {
             const renderSection = mainSectionRenderers[section.id];
-            return (
-              <Fragment key={section.id}>
-                {renderSection ? renderSection() : null}
-              </Fragment>
-            );
+            return <Fragment key={section.id}>{renderSection ? renderSection() : null}</Fragment>;
           })}
         </div>
 
         <div className={modernStyles.sidebar}>
           {orderedSidebar.map((section) => {
             const renderSection = sidebarSectionRenderers[section.id];
-            return (
-              <Fragment key={section.id}>
-                {renderSection ? renderSection() : null}
-              </Fragment>
-            );
+            return <Fragment key={section.id}>{renderSection ? renderSection() : null}</Fragment>;
           })}
         </div>
       </div>

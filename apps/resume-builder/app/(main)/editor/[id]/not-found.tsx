@@ -15,8 +15,7 @@ export default function EditorByIdNotFound() {
         </h1>
 
         <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-          This resume link is invalid or the draft is not available in the
-          current browser storage.
+          This resume link is invalid or the draft is not available in the current browser storage.
         </p>
 
         <div className="mt-5 flex flex-wrap items-center gap-3">

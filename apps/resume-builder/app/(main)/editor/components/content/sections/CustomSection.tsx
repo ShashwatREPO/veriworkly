@@ -29,8 +29,7 @@ const CustomSection = ({
   } = useResume();
   const [customSectionIndex, setCustomSectionIndex] = useState(0);
 
-  const customSection =
-    resume.customSections.find((section) => section.kind === "custom") ?? null;
+  const customSection = resume.customSections.find((section) => section.kind === "custom") ?? null;
 
   if (!customSection) {
     return null;
@@ -57,9 +56,7 @@ const CustomSection = ({
         {customSection.items.length ? (
           <select
             className="border-border bg-background h-10 rounded-xl border px-3 text-sm"
-            onChange={(event) =>
-              setCustomSectionIndex(Number(event.target.value))
-            }
+            onChange={(event) => setCustomSectionIndex(Number(event.target.value))}
             value={safeCustomItemIndex}
           >
             {customSection.items.map((item, index) => (
@@ -69,11 +66,7 @@ const CustomSection = ({
             ))}
           </select>
         ) : null}
-        <Button
-          onClick={() => addCustomSectionItem("custom")}
-          size="sm"
-          variant="secondary"
-        >
+        <Button onClick={() => addCustomSectionItem("custom")} size="sm" variant="secondary">
           Add item
         </Button>
         <Button
@@ -136,9 +129,7 @@ const CustomSection = ({
           </Field>
         </>
       ) : (
-        <p className="text-muted text-sm">
-          No custom items yet. Click Add item.
-        </p>
+        <p className="text-muted text-sm">No custom items yet. Click Add item.</p>
       )}
     </DraggableSection>
   );

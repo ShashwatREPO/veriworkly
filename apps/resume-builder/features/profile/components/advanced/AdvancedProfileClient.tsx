@@ -55,10 +55,7 @@ const AdvancedProfileClient = () => {
   const handleSave = async (nextProfile: MasterProfile) => {
     setSaving(true);
     try {
-      const savedBundle = await saveMasterProfileToDatabase(
-        nextProfile,
-        updatedAt ?? undefined,
-      );
+      const savedBundle = await saveMasterProfileToDatabase(nextProfile, updatedAt ?? undefined);
 
       saveMasterProfileToLocalStorage(nextProfile);
       setProfile(nextProfile);
@@ -98,23 +95,13 @@ const AdvancedProfileClient = () => {
           </div>
 
           <div className="border-border/40 flex flex-col gap-2 border-t pt-4">
-            <Button
-              asChild
-              variant="secondary"
-              size="sm"
-              className="justify-start gap-2"
-            >
+            <Button asChild variant="secondary" size="sm" className="justify-start gap-2">
               <Link href="/profile">
                 <ArrowLeft className="mr-1 h-3 w-3" /> Dashboard
               </Link>
             </Button>
 
-            <Button
-              asChild
-              size="sm"
-              variant="secondary"
-              className="justify-start gap-2"
-            >
+            <Button asChild size="sm" variant="secondary" className="justify-start gap-2">
               <Link href="/profile/master">
                 <FileJson className="mr-1 h-3 w-3" /> Form Editor
               </Link>
@@ -131,19 +118,14 @@ const AdvancedProfileClient = () => {
             </p>
 
             <p className="text-muted-foreground text-xs leading-relaxed">
-              Modifying JSON directly can lead to schema inconsistencies. Ensure
-              your objects match the required TypeScript definitions before
-              committing changes to the database.
+              Modifying JSON directly can lead to schema inconsistencies. Ensure your objects match
+              the required TypeScript definitions before committing changes to the database.
             </p>
           </div>
         </div>
       </div>
 
-      <ProfileAdvanced
-        isSaving={saving}
-        profile={profile!}
-        onSave={handleSave}
-      />
+      <ProfileAdvanced isSaving={saving} profile={profile!} onSave={handleSave} />
     </div>
   );
 };
@@ -163,4 +145,3 @@ function AdvancedSkeleton() {
 }
 
 export default AdvancedProfileClient;
-

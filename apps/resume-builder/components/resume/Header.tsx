@@ -1,11 +1,6 @@
 import Image from "next/image";
 
-import type {
-  ResumeLinks,
-  ResumeBasics,
-  ResumeLinkItem,
-  ResumeLinkType,
-} from "@/types/resume";
+import type { ResumeLinks, ResumeBasics, ResumeLinkItem, ResumeLinkType } from "@/types/resume";
 
 const LINK_TYPE_ICON: Record<ResumeLinkType, string> = {
   github: "/icons/socials/github.svg",
@@ -20,15 +15,7 @@ const LINK_TYPE_ICON: Record<ResumeLinkType, string> = {
 };
 
 function SocialIcon({ type }: { type: ResumeLinkType }) {
-  return (
-    <Image
-      alt={type}
-      className="h-4 w-4"
-      height={16}
-      src={LINK_TYPE_ICON[type]}
-      width={16}
-    />
-  );
+  return <Image alt={type} className="h-4 w-4" height={16} src={LINK_TYPE_ICON[type]} width={16} />;
 }
 
 function getLinkDisplayText(item: ResumeLinkItem) {
@@ -38,9 +25,7 @@ function getLinkDisplayText(item: ResumeLinkItem) {
 
   try {
     const parsed = new URL(item.url);
-    const firstSegment = parsed.pathname
-      .replace(/^\/+|\/+$/g, "")
-      .split("/")[0];
+    const firstSegment = parsed.pathname.replace(/^\/+|\/+$/g, "").split("/")[0];
 
     if (firstSegment) {
       return firstSegment;

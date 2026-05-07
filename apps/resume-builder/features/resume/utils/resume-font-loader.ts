@@ -4,9 +4,7 @@ import { getResumeFontStylesheetHref } from "@/features/resume/constants/resume-
 
 const loadedResumeFontStylesheets = new Set<string>();
 
-export function ensureResumeFontStylesheet(
-  fontFamily: string | null | undefined,
-) {
+export function ensureResumeFontStylesheet(fontFamily: string | null | undefined) {
   if (typeof document === "undefined") {
     return;
   }
@@ -17,9 +15,7 @@ export function ensureResumeFontStylesheet(
     return;
   }
 
-  const existingLink = document.querySelector(
-    `link[rel="stylesheet"][href="${href}"]`,
-  );
+  const existingLink = document.querySelector(`link[rel="stylesheet"][href="${href}"]`);
 
   if (existingLink) {
     loadedResumeFontStylesheets.add(href);

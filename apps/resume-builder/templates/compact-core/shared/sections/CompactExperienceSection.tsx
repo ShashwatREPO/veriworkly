@@ -23,8 +23,7 @@ export function CompactExperienceSection({
 
   const range =
     formatRange ??
-    ((item: ResumeExperienceItem) =>
-      defaultRange(item.startDate, item.endDate, item.current));
+    ((item: ResumeExperienceItem) => defaultRange(item.startDate, item.endDate, item.current));
 
   return (
     <section className={sectionClassName}>
@@ -42,9 +41,7 @@ export function CompactExperienceSection({
 
             <p className={locationTextClassName}>{item.location}</p>
 
-            {item.summary ? (
-              <p className={bodyTextClassName}>{item.summary}</p>
-            ) : null}
+            {item.summary ? <p className={bodyTextClassName}>{item.summary}</p> : null}
 
             {item.highlights.length ? (
               <ul

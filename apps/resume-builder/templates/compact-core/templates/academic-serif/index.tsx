@@ -33,9 +33,7 @@ export default function AcademicSerifTemplate(
   return (
     <BaseShell
       customization={resume.customization}
-      className={[academicSerifStyles.wrapper, className]
-        .filter(Boolean)
-        .join(" ")}
+      className={[academicSerifStyles.wrapper, className].filter(Boolean).join(" ")}
     >
       {orderedVisibleSections.map((section) => {
         if (section.id === "basics") {

@@ -8,11 +8,7 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function SharedResumePage({
-  params,
-}: {
-  params: Promise<{ token: string }>;
-}) {
+export default async function SharedResumePage({ params }: { params: Promise<{ token: string }> }) {
   const { token } = await params;
 
   return <ShareResumeClient token={token} />;

@@ -92,10 +92,8 @@ export function formatRelativeTime(input: string | null | undefined): string {
   const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
   if (diffInSeconds < 60) return "just now";
-  if (diffInSeconds < 3600)
-    return rtf.format(-Math.floor(diffInSeconds / 60), "minute");
-  if (diffInSeconds < 86400)
-    return rtf.format(-Math.floor(diffInSeconds / 3600), "hour");
+  if (diffInSeconds < 3600) return rtf.format(-Math.floor(diffInSeconds / 60), "minute");
+  if (diffInSeconds < 86400) return rtf.format(-Math.floor(diffInSeconds / 3600), "hour");
 
   return rtf.format(-Math.floor(diffInSeconds / 86400), "day");
 }

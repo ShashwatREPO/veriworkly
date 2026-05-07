@@ -18,12 +18,7 @@ import {
 import { buildExportHtml } from "@/features/resume/utils/build-export-html";
 import { ensureResumeFontStylesheet } from "@/features/resume/utils/resume-font-loader";
 
-import {
-  ResumeCanvas,
-  ShareHeaderBar,
-  FullScreenMessage,
-  PasswordGateModal,
-} from "./components";
+import { ResumeCanvas, ShareHeaderBar, FullScreenMessage, PasswordGateModal } from "./components";
 
 interface TemplateState {
   loading: boolean;
@@ -59,9 +54,7 @@ const ShareResumeClient = ({ token }: { token: string }) => {
     tone: "success" | "error";
     text: string;
   } | null>(null);
-  const [downloadingFormat, setDownloadingFormat] = useState<string | null>(
-    null,
-  );
+  const [downloadingFormat, setDownloadingFormat] = useState<string | null>(null);
 
   const resume = dataState.payload?.snapshot;
 
@@ -103,17 +96,13 @@ const ShareResumeClient = ({ token }: { token: string }) => {
 
     loadTemplateComponentById(resume.templateId)
       .then((component) => {
-        if (isActive)
-          setTemplateState({ loading: false, error: null, component });
+        if (isActive) setTemplateState({ loading: false, error: null, component });
       })
       .catch((err: unknown) => {
         if (isActive) {
           setTemplateState({
             loading: false,
-            error:
-              err instanceof Error
-                ? err.message
-                : "Unable to load resume template",
+            error: err instanceof Error ? err.message : "Unable to load resume template",
             component: null,
           });
         }
@@ -155,24 +144,16 @@ const ShareResumeClient = ({ token }: { token: string }) => {
       try {
         const renderHtml = buildExportHtml(sharePreviewId);
 
-        await downloadPublicShareExport(
-          token,
-          format,
-          password || undefined,
-          renderHtml,
-        );
+        await downloadPublicShareExport(token, format, password || undefined, renderHtml);
 
         setExportNotice({
           tone: "success",
           text: `${format.toUpperCase()} export downloaded`,
         });
       } catch (err: unknown) {
-        const rawMessage =
-          err instanceof Error ? err.message : "Download failed";
+        const rawMessage = err instanceof Error ? err.message : "Download failed";
 
-        const safeMessage = /failed to fetch|networkerror|load failed/i.test(
-          rawMessage,
-        )
+        const safeMessage = /failed to fetch|networkerror|load failed/i.test(rawMessage)
           ? "Unable to export right now. Please try again in a few seconds."
           : rawMessage;
 
@@ -225,12 +206,7 @@ const ShareResumeClient = ({ token }: { token: string }) => {
   }
 
   if (!resume) {
-    return (
-      <FullScreenMessage
-        title="Empty Content"
-        description="The resume data is missing."
-      />
-    );
+    return <FullScreenMessage title="Empty Content" description="The resume data is missing." />;
   }
 
   if (templateState.error) {

@@ -5,6 +5,7 @@ The official blog for VeriWorkly, built with Next.js and Fumadocs.
 ## 🚀 Quick Start
 
 1. **Install dependencies** (from root):
+
    ```bash
    npm install
    ```

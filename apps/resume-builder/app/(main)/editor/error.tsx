@@ -18,15 +18,11 @@ export default function EditorSegmentError({
           We could not open this editor page
         </h1>
         <p className="text-muted mt-2 max-w-2xl text-sm leading-6">
-          Try loading this route again, or return to dashboard and reopen the
-          resume draft.
+          Try loading this route again, or return to dashboard and reopen the resume draft.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-3">
           <Button onClick={() => reset()}>Try again</Button>
-          <Button
-            variant="secondary"
-            onClick={() => (window.location.href = "/dashboard")}
-          >
+          <Button variant="secondary" onClick={() => (window.location.href = "/dashboard")}>
             Go to Dashboard
           </Button>
         </div>

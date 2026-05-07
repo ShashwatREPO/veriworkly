@@ -35,8 +35,7 @@ export async function fetchApiData<T>(
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => ({}));
-    const message =
-      errorMessage || errorData.message || `Request failed: ${response.status}`;
+    const message = errorMessage || errorData.message || `Request failed: ${response.status}`;
 
     throw new ApiRequestError(message, response.status);
   }

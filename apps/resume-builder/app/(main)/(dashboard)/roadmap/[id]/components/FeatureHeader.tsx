@@ -19,11 +19,7 @@ const FeatureHeader = ({ feature }: { feature: RoadmapFeature }) => {
     <div className="space-y-8">
       <div>
         <div className="mb-4 flex items-center gap-3">
-          <Badge
-            className={
-              statusColors[feature.status as keyof typeof statusColors]
-            }
-          >
+          <Badge className={statusColors[feature.status as keyof typeof statusColors]}>
             {statusLabels[feature.status as keyof typeof statusLabels]}
           </Badge>
 
@@ -40,13 +36,9 @@ const FeatureHeader = ({ feature }: { feature: RoadmapFeature }) => {
           )}
         </div>
 
-        <h1 className="text-foreground mb-4 text-4xl font-bold">
-          {feature.title}
-        </h1>
+        <h1 className="text-foreground mb-4 text-4xl font-bold">{feature.title}</h1>
 
-        <p className="text-muted text-lg leading-relaxed">
-          {feature.description}
-        </p>
+        <p className="text-muted text-lg leading-relaxed">{feature.description}</p>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -62,9 +54,7 @@ const FeatureHeader = ({ feature }: { feature: RoadmapFeature }) => {
           <p className="text-muted text-xs">Started</p>
 
           <p className="text-foreground mt-1 text-sm font-semibold">
-            {feature.startedAt
-              ? new Date(feature.startedAt).toLocaleDateString()
-              : "Not started"}
+            {feature.startedAt ? new Date(feature.startedAt).toLocaleDateString() : "Not started"}
           </p>
         </div>
 
@@ -93,10 +83,7 @@ const FeatureHeader = ({ feature }: { feature: RoadmapFeature }) => {
 
           <div className="flex flex-wrap gap-2">
             {feature.tags.map((tag) => (
-              <Badge
-                key={tag}
-                className="bg-slate-500/10 text-slate-700 dark:text-slate-300"
-              >
+              <Badge key={tag} className="bg-slate-500/10 text-slate-700 dark:text-slate-300">
                 {tag}
               </Badge>
             ))}

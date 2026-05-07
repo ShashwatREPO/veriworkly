@@ -52,6 +52,5 @@ export default function robots(): MetadataRoute.Robots {
       "https://blogs.veriworkly.com/sitemap.xml",
       "https://docs.veriworkly.com/sitemap.xml",
     ],
-
   };
 }

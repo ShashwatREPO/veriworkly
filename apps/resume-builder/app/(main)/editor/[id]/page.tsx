@@ -6,11 +6,7 @@ function isValidResumeRouteId(id: string) {
   return id.length > 0 && /^[a-z0-9-]+$/i.test(id);
 }
 
-export default async function EditorByIdPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function EditorByIdPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   if (!isValidResumeRouteId(id)) {

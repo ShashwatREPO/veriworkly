@@ -32,6 +32,4 @@ export type AddRepeatableItem = <K extends RepeatableField>(
 
 export type RemoveRepeatableItem = (field: RepeatableField, id: string) => void;
 
-export type UpdateProfile = (
-  updater: (prev: MasterProfileData) => MasterProfileData,
-) => void;
+export type UpdateProfile = (updater: (prev: MasterProfileData) => MasterProfileData) => void;

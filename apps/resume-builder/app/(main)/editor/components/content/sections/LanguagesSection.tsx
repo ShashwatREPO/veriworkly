@@ -21,27 +21,19 @@ const LanguagesSection = ({
   onDrop,
   onToggle,
 }: BaseSectionProps) => {
-  const {
-    resume,
-    addCustomSectionItem,
-    removeCustomSectionItem,
-    updateCustomSectionItem,
-  } = useResume();
+  const { resume, addCustomSectionItem, removeCustomSectionItem, updateCustomSectionItem } =
+    useResume();
 
   const [languageIndex, setLanguageIndex] = useState(0);
 
   const languagesSection =
-    resume.customSections.find((section) => section.kind === "languages") ??
-    null;
+    resume.customSections.find((section) => section.kind === "languages") ?? null;
 
   if (!languagesSection) {
     return null;
   }
 
-  const safeLanguageIndex = Math.min(
-    languageIndex,
-    Math.max(0, languagesSection.items.length - 1),
-  );
+  const safeLanguageIndex = Math.min(languageIndex, Math.max(0, languagesSection.items.length - 1));
 
   const activeLanguage = languagesSection.items[safeLanguageIndex];
 
@@ -71,11 +63,7 @@ const LanguagesSection = ({
           </select>
         ) : null}
 
-        <Button
-          size="sm"
-          variant="secondary"
-          onClick={() => addCustomSectionItem("languages")}
-        >
+        <Button size="sm" variant="secondary" onClick={() => addCustomSectionItem("languages")}>
           Add language
         </Button>
 
@@ -83,9 +71,7 @@ const LanguagesSection = ({
           size="sm"
           variant="ghost"
           disabled={languagesSection.items.length === 0}
-          onClick={() =>
-            removeCustomSectionItem("languages", safeLanguageIndex)
-          }
+          onClick={() => removeCustomSectionItem("languages", safeLanguageIndex)}
         >
           Remove
         </Button>
@@ -123,9 +109,7 @@ const LanguagesSection = ({
           </Field>
         </div>
       ) : (
-        <p className="text-muted text-sm">
-          No languages yet. Click Add language.
-        </p>
+        <p className="text-muted text-sm">No languages yet. Click Add language.</p>
       )}
     </DraggableSection>
   );

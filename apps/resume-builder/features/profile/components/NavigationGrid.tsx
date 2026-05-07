@@ -32,12 +32,8 @@ const NavigationGrid = () => {
         >
           <div className="space-y-4">
             <div className="space-y-1">
-              <h3 className="text-foreground text-xl font-bold tracking-tight">
-                {route.title}
-              </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">
-                {route.desc}
-              </p>
+              <h3 className="text-foreground text-xl font-bold tracking-tight">{route.title}</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">{route.desc}</p>
             </div>
 
             <Button
@@ -45,10 +41,7 @@ const NavigationGrid = () => {
               variant="secondary"
               className="group-hover:bg-accent w-full transition-colors group-hover:text-white"
             >
-              <Link
-                href={route.href}
-                className="flex items-center justify-between"
-              >
+              <Link href={route.href} className="flex items-center justify-between">
                 Explore Page <ArrowRight className="h-4 w-4" />
               </Link>
             </Button>

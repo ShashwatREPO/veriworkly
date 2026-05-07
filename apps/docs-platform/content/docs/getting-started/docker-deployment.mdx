@@ -10,7 +10,9 @@ import { Step, Steps } from "fumadocs-ui/components/steps";
 VeriWorkly utilizes a standardized Docker Compose configuration to orchestrate its core services, including the Next.js frontend, the Express API, and the Redis cache. This architecture ensures service isolation and consistent operational behavior across different hosting environments.
 
 <Callout type="warn" title="Database Management">
-  **PostgreSQL is not containerized by default.** Due to the complexities of production-grade persistence, backups, and volume management, our `compose.yaml` is configured to utilize an external PostgreSQL instance (e.g., Neon, AWS RDS, or a managed VPS instance).
+  **PostgreSQL is not containerized by default.** Due to the complexities of production-grade
+  persistence, backups, and volume management, our `compose.yaml` is configured to utilize an
+  external PostgreSQL instance (e.g., Neon, AWS RDS, or a managed VPS instance).
 </Callout>
 
 ---
@@ -44,6 +46,7 @@ Accurate environment configuration is essential for secure inter-container commu
     # Backend API configuration
     cp apps/server/.env.example apps/server/.env
     ```
+
   </Step>
 
   <Step>
@@ -52,6 +55,7 @@ Accurate environment configuration is essential for secure inter-container commu
 
     - **`NEXT_PUBLIC_BACKEND_URL`**: The publicly accessible endpoint utilized by the client-side browser (e.g., `https://api.yourdomain.com/api/v1`).
     - **`BACKEND_INTERNAL_URL`**: The internal Docker network address utilized by Next.js for Server-Side Rendering (SSR). Set this to `http://api:8080/api/v1`.
+
   </Step>
 </Steps>
 
@@ -67,6 +71,7 @@ Accurate environment configuration is essential for secure inter-container commu
     ```bash
     docker compose --env-file .env.docker up -d --build
     ```
+
   </Step>
 
   <Step>
@@ -83,6 +88,7 @@ Accurate environment configuration is essential for secure inter-container commu
     # Monitor specific service (API)
     docker compose logs -f api
     ```
+
   </Step>
 </Steps>
 

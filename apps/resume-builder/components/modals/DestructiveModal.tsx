@@ -110,7 +110,11 @@ const DestructiveModal = ({
         </Modal.Body>
 
         <div className="flex flex-col-reverse gap-2 border-t bg-zinc-50/50 p-4 sm:flex-row sm:justify-end dark:bg-zinc-900/50">
-          <Button onClick={onCloseAction} variant="secondary" className="h-9 w-full text-xs sm:w-auto">
+          <Button
+            onClick={onCloseAction}
+            variant="secondary"
+            className="h-9 w-full text-xs sm:w-auto"
+          >
             Cancel
           </Button>
 

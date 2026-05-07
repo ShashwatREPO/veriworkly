@@ -5,8 +5,7 @@ const BenefitsSection = () => {
     {
       icon: "⚡",
       title: "Lightning Fast",
-      description:
-        "Create professional resumes in seconds with a fast, modern builder.",
+      description: "Create professional resumes in seconds with a fast, modern builder.",
     },
 
     {
@@ -26,8 +25,7 @@ const BenefitsSection = () => {
     {
       icon: "🎨",
       title: "Fully Customizable",
-      description:
-        "Complete control over colors, fonts, spacing, and layout. Make it truly yours.",
+      description: "Complete control over colors, fonts, spacing, and layout. Make it truly yours.",
     },
 
     {
@@ -52,10 +50,7 @@ const BenefitsSection = () => {
           Why choose us
         </p>
 
-        <h2
-          id="benefits-heading"
-          className="text-foreground text-3xl font-semibold tracking-tight"
-        >
+        <h2 id="benefits-heading" className="text-foreground text-3xl font-semibold tracking-tight">
           Everything you need to build a professional resume
         </h2>
 
@@ -68,12 +63,8 @@ const BenefitsSection = () => {
         {benefits.map((benefit) => (
           <Card key={benefit.title} className="space-y-4 p-6">
             <div className="text-4xl">{benefit.icon}</div>
-            <h3 className="text-foreground text-lg font-semibold">
-              {benefit.title}
-            </h3>
-            <p className="text-muted text-sm leading-6">
-              {benefit.description}
-            </p>
+            <h3 className="text-foreground text-lg font-semibold">{benefit.title}</h3>
+            <p className="text-muted text-sm leading-6">{benefit.description}</p>
           </Card>
         ))}
       </div>

@@ -16,10 +16,7 @@ export type SessionUser = {
 type SessionPayload = { user?: SessionUser };
 type MasterProfileSummaryPayload = {
   summary?: Partial<
-    Pick<
-      SessionUser,
-      "createdAt" | "emailVerified" | "autoSyncEnabled" | "shareResumeCount"
-    >
+    Pick<SessionUser, "createdAt" | "emailVerified" | "autoSyncEnabled" | "shareResumeCount">
   >;
 };
 
@@ -47,9 +44,7 @@ async function fetchMasterProfileSummary(cookieHeader?: string) {
   }
 }
 
-export async function fetchCurrentUser(
-  force = false,
-): Promise<SessionUser | null> {
+export async function fetchCurrentUser(force = false): Promise<SessionUser | null> {
   const isServer = typeof window === "undefined";
 
   if (isServer) {
@@ -66,9 +61,7 @@ export async function fetchCurrentUser(
       if (!response.ok) return null;
 
       const payload = (await response.json()) as SessionPayload;
-      const summary = payload?.user
-        ? await fetchMasterProfileSummary(cookieHeader)
-        : null;
+      const summary = payload?.user ? await fetchMasterProfileSummary(cookieHeader) : null;
 
       return payload?.user
         ? {
@@ -133,9 +126,7 @@ export async function signOutCurrentUser() {
   }
 }
 
-export async function updateCurrentUserName(
-  name: string,
-): Promise<SessionUser> {
+export async function updateCurrentUserName(name: string): Promise<SessionUser> {
   const response = await fetch(backendApiUrl("/users/me/name"), {
     method: "PUT",
     credentials: "include",

@@ -40,9 +40,7 @@ export function SectionCard({
     >
       <div className="border-border/40 space-y-2 border-b pb-4">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h4 className="text-foreground text-base font-semibold tracking-tight">
-            {title}
-          </h4>
+          <h4 className="text-foreground text-base font-semibold tracking-tight">{title}</h4>
           {badge ? (
             <span
               className={cn(
@@ -74,12 +72,7 @@ export function SectionItemCard({
     <div className="border-border/60 bg-card/45 hover:border-border space-y-4 rounded-2xl border p-4 shadow-[0_12px_40px_-32px_rgba(15,23,42,0.45)] transition">
       <div className="border-border/40 flex items-center justify-between gap-3 border-b pb-3">
         <p className="text-foreground text-sm font-semibold">{title}</p>
-        <Button
-          onClick={onRemove}
-          variant="secondary"
-          size="sm"
-          aria-label={`Remove ${title}`}
-        >
+        <Button onClick={onRemove} variant="secondary" size="sm" aria-label={`Remove ${title}`}>
           Remove
         </Button>
       </div>
@@ -108,10 +101,7 @@ export function ColorField({
           className="border-border h-10 w-14 cursor-pointer rounded-lg border bg-transparent p-1"
           aria-label={`${label} picker`}
         />
-        <Input
-          value={value}
-          onChange={(event) => onChange(event.target.value)}
-        />
+        <Input value={value} onChange={(event) => onChange(event.target.value)} />
       </div>
     </div>
   );

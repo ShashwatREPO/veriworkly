@@ -21,9 +21,7 @@ interface TemplateGroupProps {
 const TemplateGroup = ({ group }: TemplateGroupProps) => {
   return (
     <section className="space-y-5">
-      <h2 className="text-foreground text-2xl font-semibold tracking-tight">
-        {group.title}
-      </h2>
+      <h2 className="text-foreground text-2xl font-semibold tracking-tight">{group.title}</h2>
 
       <div className="grid gap-6 md:grid-cols-2">
         {group.items.map((template) => (

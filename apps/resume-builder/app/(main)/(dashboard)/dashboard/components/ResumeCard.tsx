@@ -15,11 +15,7 @@ import ResumeCardMenu from "./ResumeCardMenu";
 import { ResumeListItem } from "@/features/resume/services/resume-service";
 import type { ResumeSyncTelemetry } from "@/features/resume/services/resume-sync";
 
-import {
-  getSyncTone,
-  getSyncLabel,
-  getSyncActivityLabel,
-} from "./resume-card-utils";
+import { getSyncTone, getSyncLabel, getSyncActivityLabel } from "./resume-card-utils";
 
 interface ResumeCardProps {
   resume: ResumeListItem;
@@ -43,8 +39,7 @@ const ResumeCard = ({
   onDelete,
 }: ResumeCardProps) => {
   const template =
-    templateSummaries.find((t) => t.id === resume.templateId) ??
-    templateSummaries[0];
+    templateSummaries.find((t) => t.id === resume.templateId) ?? templateSummaries[0];
 
   const dateObj = new Date(resume.updatedAt);
   const isValidDate = !isNaN(dateObj.getTime());
@@ -63,10 +58,7 @@ const ResumeCard = ({
             }}
           />
 
-          <div
-            className="h-1.5 w-full"
-            style={{ backgroundColor: template.accentColor }}
-          />
+          <div className="h-1.5 w-full" style={{ backgroundColor: template.accentColor }} />
 
           <div className="relative flex h-full flex-col gap-3.5 p-4 sm:gap-5 sm:p-5">
             <div className="flex items-start gap-4 pr-12 sm:pr-11">
@@ -80,9 +72,7 @@ const ResumeCard = ({
                 </p>
               </div>
 
-              <Badge
-                className={`${getSyncTone(resume.sync)} shrink-0 text-[11px] sm:text-xs`}
-              >
+              <Badge className={`${getSyncTone(resume.sync)} shrink-0 text-[11px] sm:text-xs`}>
                 {getSyncLabel(resume.sync)}
               </Badge>
             </div>
@@ -92,10 +82,7 @@ const ResumeCard = ({
                 <Palette className="h-3.5 w-3.5" />
 
                 <span className="truncate">
-                  Template:{" "}
-                  <span className="text-foreground font-medium">
-                    {template.name}
-                  </span>
+                  Template: <span className="text-foreground font-medium">{template.name}</span>
                 </span>
               </div>
 
@@ -103,8 +90,7 @@ const ResumeCard = ({
                 <FileText className="h-3.5 w-3.5" />
 
                 <span className="truncate">
-                  Resume:{" "}
-                  <span className="text-foreground font-medium">Ready</span>
+                  Resume: <span className="text-foreground font-medium">Ready</span>
                 </span>
               </div>
             </div>
@@ -168,10 +154,7 @@ const ResumeCard = ({
   );
 };
 
-const isSameTelemetry = (
-  left: ResumeSyncTelemetry | null,
-  right: ResumeSyncTelemetry | null,
-) => {
+const isSameTelemetry = (left: ResumeSyncTelemetry | null, right: ResumeSyncTelemetry | null) => {
   if (left === right) {
     return true;
   }
@@ -188,10 +171,7 @@ const isSameTelemetry = (
   );
 };
 
-const areResumeCardPropsEqual = (
-  previous: ResumeCardProps,
-  next: ResumeCardProps,
-) => {
+const areResumeCardPropsEqual = (previous: ResumeCardProps, next: ResumeCardProps) => {
   return (
     previous.syncing === next.syncing &&
     previous.resume === next.resume &&

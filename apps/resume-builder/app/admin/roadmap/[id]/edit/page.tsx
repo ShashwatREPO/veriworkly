@@ -32,8 +32,7 @@ export default async function AdminRoadmapEditPage({
               Edit {feature.title}
             </h2>
             <p className="text-muted text-sm md:text-base">
-              Update all roadmap fields, including schema-backed detail columns
-              and JSON content.
+              Update all roadmap fields, including schema-backed detail columns and JSON content.
             </p>
           </div>
 

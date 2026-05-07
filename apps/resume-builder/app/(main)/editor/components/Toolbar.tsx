@@ -139,9 +139,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
       trackUsageEvent({ event: "resume_exported_server" });
     } catch (error) {
       setMessage(
-        error instanceof Error
-          ? error.message
-          : `Could not export ${format.toUpperCase()}.`,
+        error instanceof Error ? error.message : `Could not export ${format.toUpperCase()}.`,
       );
     } finally {
       setActiveDownload(null);
@@ -194,11 +192,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
       const shareLink = await createResumeShareLink(resume, {
         resumeTitle: resume.basics.fullName || "Shared Resume",
         password: sharePassword.trim() || undefined,
-        expiresAt: shareNoExpiry
-          ? null
-          : shareExpiry
-            ? new Date(shareExpiry).toISOString()
-            : null,
+        expiresAt: shareNoExpiry ? null : shareExpiry ? new Date(shareExpiry).toISOString() : null,
         noExpiry: shareNoExpiry,
       });
 
@@ -230,9 +224,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
       }
 
       setShareError(
-        error instanceof Error
-          ? error.message
-          : "Could not create share link. Try again.",
+        error instanceof Error ? error.message : "Could not create share link. Try again.",
       );
     } finally {
       setShareBusy(false);
@@ -247,10 +239,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
 
   return (
     <div className="border-border bg-card/95 flex flex-wrap items-center justify-between gap-3 rounded-3xl border p-4 shadow-sm backdrop-blur">
-      <ToolbarHeader
-        message={message}
-        onBack={() => router.push("/dashboard")}
-      />
+      <ToolbarHeader message={message} onBack={() => router.push("/dashboard")} />
 
       <div className="flex items-center gap-2">
         <Button
@@ -324,8 +313,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
             <Modal.Title>Delete Resume?</Modal.Title>
 
             <Modal.Description>
-              This will permanently remove the current resume. Type DELETE to
-              continue.
+              This will permanently remove the current resume. Type DELETE to continue.
             </Modal.Description>
           </Modal.Header>
 
@@ -337,11 +325,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
                 value={deleteConfirmText}
               />
 
-              <Button
-                disabled={deleteConfirmText !== "DELETE"}
-                onClick={onDeleteResume}
-                size="sm"
-              >
+              <Button disabled={deleteConfirmText !== "DELETE"} onClick={onDeleteResume} size="sm">
                 Permanently Delete
               </Button>
             </div>
@@ -365,8 +349,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
             <Modal.Title>Create Share Link</Modal.Title>
 
             <Modal.Description>
-              Create a public link for this resume with optional password and
-              expiry.
+              Create a public link for this resume with optional password and expiry.
             </Modal.Description>
           </Modal.Header>
 
@@ -396,15 +379,11 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
                 disabled={shareNoExpiry}
               />
 
-              {shareError ? (
-                <p className="text-destructive text-sm">{shareError}</p>
-              ) : null}
+              {shareError ? <p className="text-destructive text-sm">{shareError}</p> : null}
 
               {shareUrl ? (
                 <div className="space-y-2">
-                  <p className="text-muted text-xs font-semibold uppercase">
-                    Share URL
-                  </p>
+                  <p className="text-muted text-xs font-semibold uppercase">Share URL</p>
                   <Input value={shareUrl} readOnly />
                 </div>
               ) : null}

@@ -23,17 +23,13 @@ export function ExperienceSection({ resume }: { resume: ResumeData }) {
             <div className="mb-1 flex justify-between text-[10pt] text-(--resume-muted) italic">
               <span>{item.role}</span>
 
-              <span>
-                {formatRange(item.startDate, item.endDate, item.current)}
-              </span>
+              <span>{formatRange(item.startDate, item.endDate, item.current)}</span>
             </div>
 
             <ul className="ml-8 list-disc space-y-0.5 text-[9.5pt] leading-(--resume-body-leading) text-(--resume-muted)">
               {item.summary ? (
                 <li>
-                  <span className="font-bold text-(--resume-text) italic">
-                    Summary:
-                  </span>{" "}
+                  <span className="font-bold text-(--resume-text) italic">Summary:</span>{" "}
                   {item.summary}
                 </li>
               ) : null}

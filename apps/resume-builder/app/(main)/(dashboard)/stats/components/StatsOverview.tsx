@@ -23,9 +23,7 @@ export default function StatsOverview({
       <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
         <div className="space-y-4">
           <div className="flex items-center gap-3">
-            <h2 className="text-foreground text-2xl font-semibold">
-              {projectName}
-            </h2>
+            <h2 className="text-foreground text-2xl font-semibold">{projectName}</h2>
 
             <Link
               target="_blank"
@@ -39,46 +37,32 @@ export default function StatsOverview({
           </div>
 
           <p className="text-muted max-w-2xl leading-relaxed">
-            Filters run in the backend against normalized sync items, so status,
-            type, and date filtering stays accurate as history grows.
+            Filters run in the backend against normalized sync items, so status, type, and date
+            filtering stays accurate as history grows.
           </p>
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <div className="border-border/60 bg-background/70 rounded-2xl border px-4 py-3">
-            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">
-              Total
-            </p>
+            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">Total</p>
 
-            <p className="text-foreground mt-2 text-xl font-semibold">
-              {totalItems}
-            </p>
+            <p className="text-foreground mt-2 text-xl font-semibold">{totalItems}</p>
           </div>
 
           <div className="border-border/60 bg-background/70 rounded-2xl border px-4 py-3">
-            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">
-              Issues
-            </p>
+            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">Issues</p>
 
-            <p className="text-foreground mt-2 text-xl font-semibold">
-              {issueCount}
-            </p>
+            <p className="text-foreground mt-2 text-xl font-semibold">{issueCount}</p>
           </div>
 
           <div className="border-border/60 bg-background/70 rounded-2xl border px-4 py-3">
-            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">
-              PR
-            </p>
+            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">PR</p>
 
-            <p className="text-foreground mt-2 text-xl font-semibold">
-              {pullRequestCount}
-            </p>
+            <p className="text-foreground mt-2 text-xl font-semibold">{pullRequestCount}</p>
           </div>
 
           <div className="border-border/60 bg-background/70 rounded-2xl border px-4 py-3">
-            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">
-              Completion
-            </p>
+            <p className="text-muted text-xs font-medium tracking-[0.2em] uppercase">Completion</p>
 
             <p className="mt-2 text-xl font-semibold text-emerald-500 dark:text-emerald-300">
               {completionRate}%

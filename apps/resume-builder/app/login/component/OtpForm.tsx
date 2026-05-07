@@ -62,11 +62,10 @@ const OtpForm = ({
     setError(null);
     setIsLoading(true);
 
-    const { error: resendError } =
-      await authClient.emailOtp.sendVerificationOtp({
-        email: sentTo,
-        type: "sign-in",
-      });
+    const { error: resendError } = await authClient.emailOtp.sendVerificationOtp({
+      email: sentTo,
+      type: "sign-in",
+    });
 
     if (resendError) {
       setError(resendError.message || "Failed to resend code.");
@@ -93,9 +92,7 @@ const OtpForm = ({
 
             <p className="text-muted text-sm leading-6 md:text-base">
               We sent a secure sign-in code to
-              <span className="text-foreground mx-1.5 font-semibold">
-                {sentTo}
-              </span>
+              <span className="text-foreground mx-1.5 font-semibold">{sentTo}</span>
               <button
                 type="button"
                 disabled={isLoading}
@@ -111,26 +108,22 @@ const OtpForm = ({
         <div className="space-y-2">
           <div className="border-border/80 bg-background/65 rounded-2xl border p-3 backdrop-blur">
             <p className="text-muted text-sm">
-              Enter the 6-digit code below. If you do not see the email, check
-              your spam or promotions folder.
+              Enter the 6-digit code below. If you do not see the email, check your spam or
+              promotions folder.
             </p>
           </div>
 
           <div className="border-border/80 rounded-2xl border bg-yellow-100/65 p-3 backdrop-blur dark:bg-yellow-300/5">
             <p className="text-muted text-sm">
-              <span className="text-foreground font-medium">Tip:</span> Keep
-              this tab open while you check your inbox. If you don&apos;t see
-              it, check your spam folder.
+              <span className="text-foreground font-medium">Tip:</span> Keep this tab open while you
+              check your inbox. If you don&apos;t see it, check your spam folder.
             </p>
           </div>
         </div>
 
         <form onSubmit={handleVerifyOtp} className="space-y-4">
           <div className="space-y-2">
-            <label
-              htmlFor="otp"
-              className="text-foreground text-sm font-medium"
-            >
+            <label htmlFor="otp" className="text-foreground text-sm font-medium">
               Verification Code
             </label>
 
@@ -178,9 +171,7 @@ const OtpForm = ({
           <span className="text-muted">Didn&apos;t receive the code? </span>
 
           {timeLeft > 0 ? (
-            <span className="text-muted-foreground font-medium">
-              Resend in {timeLeft}s
-            </span>
+            <span className="text-muted-foreground font-medium">Resend in {timeLeft}s</span>
           ) : (
             <button
               type="button"
