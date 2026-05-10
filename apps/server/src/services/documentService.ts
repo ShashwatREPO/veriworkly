@@ -24,7 +24,6 @@ export type DocumentUpdateInput = {
   revision: number;
 };
 
-
 export class DocumentService {
   /**
    * List all documents for a user, optionally filtered by type

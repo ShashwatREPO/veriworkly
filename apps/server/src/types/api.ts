@@ -1,3 +1,5 @@
+import { Prisma } from "@prisma/client";
+
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
@@ -62,10 +64,9 @@ export interface PublicShareLink {
   id: string;
   token: string;
   passwordHash: string | null;
-  expiresAt: any;
-  snapshot: any;
+  expiresAt: string | Date | null;
+  snapshot: Prisma.JsonValue;
   document: {
     title: string;
   };
 }
-

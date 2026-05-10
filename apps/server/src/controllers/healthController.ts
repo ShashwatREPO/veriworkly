@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 
 import prisma from "#utils/prisma";
 import { logger } from "#utils/logger";
@@ -15,7 +15,7 @@ export class HealthController {
    * @param next Express next function
    */
 
-  static async check(req: Request, res: Response, _next: NextFunction) {
+  static async check(req: Request, res: Response) {
     try {
       // Check Database connectivity
       await prisma.$queryRaw`SELECT 1`;
