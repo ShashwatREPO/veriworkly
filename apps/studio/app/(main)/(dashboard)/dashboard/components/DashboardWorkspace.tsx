@@ -49,7 +49,7 @@ const isSameResumeListItem = (left: ResumeListItem, right: ResumeListItem) =>
   left.updatedAt === right.updatedAt &&
   left.sync.enabled === right.sync.enabled &&
   left.sync.status === right.sync.status &&
-  left.sync.cloudResumeId === right.sync.cloudResumeId &&
+  left.sync.cloudDocumentId === right.sync.cloudDocumentId &&
   left.sync.lastSyncedAt === right.sync.lastSyncedAt;
 
 const subscribe = (onStoreChange: () => void) => {
@@ -189,7 +189,7 @@ const DashboardWorkspace = () => {
     setIsDeleting(true);
 
     try {
-      if (deleteTarget?.sync.cloudResumeId) {
+      if (deleteTarget?.sync.cloudDocumentId) {
         await DocumentApi.delete(deleteTargetId);
       }
 

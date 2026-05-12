@@ -2,7 +2,7 @@ import { WORKSPACE_SETTINGS_STORAGE_KEY } from "@/lib/constants";
 
 import { z } from "zod";
 
-import { safeSetLocalStorageItem } from "@/features/resume/services/storage/safe-local-storage";
+import { safeSetLocalStorageItem } from "@/features/documents/services/storage/safe-local-storage";
 
 function isBrowser() {
   return typeof window !== "undefined";

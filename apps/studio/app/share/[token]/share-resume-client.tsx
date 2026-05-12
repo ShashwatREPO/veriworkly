@@ -11,7 +11,7 @@ import { Button } from "@veriworkly/ui";
 import { loadTemplateComponentById } from "@/templates";
 
 import { type ShareLinkPayload, verifyShareLink } from "@/features/resume/services/public-share";
-import { ensureResumeFontStylesheet } from "@/features/resume/utils/resume-font-loader";
+import { ensureResumeFontStylesheet } from "@/features/documents/utils/font-loader";
 
 import {
   ResumeCanvas,

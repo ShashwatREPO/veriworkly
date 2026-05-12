@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { normalizeResumeFontFamilyId } from "@/features/resume/constants/resume-fonts";
+import { normalizeResumeFontFamilyId } from "@/features/documents/utils/font-registry";
 
 const languageSchema = z.object({
   id: z.string(),

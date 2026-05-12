@@ -15,7 +15,7 @@ import {
 import {
   setAutoSyncEnabledInLocalStorage,
   loadWorkspaceSettingsFromLocalStorage,
-} from "@/features/resume/services/workspace-settings";
+} from "@/features/documents/services/workspace-settings";
 import { setAllResumesSyncEnabled } from "@/features/resume/services/resume-service";
 
 interface TelemetryState {

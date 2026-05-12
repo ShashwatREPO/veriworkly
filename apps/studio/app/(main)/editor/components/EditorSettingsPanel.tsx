@@ -12,7 +12,7 @@ import SectionVisibilitySettings from "./settings/SectionVisibilitySettings";
 
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { defaultResume } from "@/features/resume/constants/default-resume";
-import { resumeFontOptions } from "@/features/resume/constants/resume-fonts";
+import { resumeFontOptions } from "@/features/documents/utils/font-registry";
 
 const EditorSettingsPanel = () => {
   const { resume, setSectionVisibility, setTemplateId, updateCustomization } = useResume();

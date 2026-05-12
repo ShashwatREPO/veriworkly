@@ -242,7 +242,7 @@ export const defaultResume: ResumeData = {
   sync: {
     enabled: false,
     status: "local-only",
-    cloudResumeId: null,
+    cloudDocumentId: null,
     lastSyncedAt: null,
     revision: 1,
   },

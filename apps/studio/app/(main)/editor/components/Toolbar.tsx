@@ -33,7 +33,7 @@ import {
   exportResumeAsPdf,
   exportResumeAsPng,
   exportResumeAsJpg,
-} from "@/features/documents/export/pdf/export-pdf";
+} from "@/features/documents/export";
 import { DocumentApi } from "@/features/documents/services/document-api";
 import DestructiveModal from "@/components/modals/DestructiveModal";
 
@@ -102,7 +102,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
     setIsDeleting(true);
 
     try {
-      if (resume.sync.cloudResumeId) {
+      if (resume.sync.cloudDocumentId) {
         await DocumentApi.delete(resume.id);
       }
 

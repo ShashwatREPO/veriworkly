@@ -1,4 +1,4 @@
-import { RESUME_EDITOR_FONT_STYLESHEET_HREFS } from "@/features/resume/constants/resume-fonts";
+import { RESUME_EDITOR_FONT_STYLESHEET_HREFS } from "@/features/documents/utils/font-registry";
 
 export function ResumeFontStylesheetPreload() {
   return (

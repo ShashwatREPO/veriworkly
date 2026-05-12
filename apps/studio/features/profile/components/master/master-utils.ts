@@ -16,7 +16,7 @@ import type {
   ResumeExperienceItem,
 } from "@/types/resume";
 
-import { resumeFontOptions } from "@/features/resume/constants/resume-fonts";
+import { resumeFontOptions } from "@/features/documents/utils/font-registry";
 
 export const linkTypes = ["github", "linkedin", "portfolio"] as const;
 export const fontFamilies = resumeFontOptions.map((font) => font.value);

@@ -14,7 +14,7 @@ import {
   exportResumeAsPdf,
   exportResumeAsPng,
   exportResumeAsJpg,
-} from "@/features/documents/export/pdf/export-pdf";
+} from "@/features/documents/export";
 
 interface DownloadActionsProps {
   resume: ResumeData;

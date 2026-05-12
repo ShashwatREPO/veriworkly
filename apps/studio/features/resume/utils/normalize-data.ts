@@ -1,7 +1,7 @@
 import type { ResumeData, ResumeLinkItem, ResumeLinkType } from "@/types/resume";
 
 import { defaultResume, defaultSections } from "@/features/resume/constants/default-resume";
-import { normalizeResumeFontFamilyId } from "@/features/resume/constants/resume-fonts";
+import { normalizeResumeFontFamilyId } from "@/features/documents/utils/font-registry";
 
 function isKnownLinkType(value: string): value is ResumeLinkType {
   return [

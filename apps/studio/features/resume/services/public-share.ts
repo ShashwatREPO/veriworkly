@@ -1,26 +1,28 @@
 "use client";
 
 import type { ResumeData } from "@/types/resume";
-import { fetchApiData } from "@/utils/fetchApiData";
+import {
+  fetchShareLink as generalFetchShareLink,
+  verifyShareLink as generalVerifyShareLink,
+  type ShareLinkPayload as GeneralShareLinkPayload,
+} from "@/features/documents/services/share-service";
 
-export type ShareLinkPayload = {
-  passwordRequired: boolean;
+export type ShareLinkPayload = Omit<GeneralShareLinkPayload<ResumeData>, "documentTitle"> & {
   resumeTitle: string;
-  expiresAt: string | null;
-  snapshot?: ResumeData;
-  viewCount?: number;
 };
 
 export async function fetchShareLink(token: string) {
-  return fetchApiData<ShareLinkPayload>(`/shares/${token}`, {
-    errorMessage: "Shared resume not found",
-  });
+  const data = await generalFetchShareLink<ResumeData>(token);
+  return {
+    ...data,
+    resumeTitle: data.documentTitle,
+  } as ShareLinkPayload;
 }
 
 export async function verifyShareLink(token: string, password: string) {
-  return fetchApiData<ShareLinkPayload>(`/shares/${token}/verify`, {
-    method: "POST",
-    body: JSON.stringify({ password }),
-    errorMessage: "Invalid password",
-  });
+  const data = await generalVerifyShareLink<ResumeData>(token, password);
+  return {
+    ...data,
+    resumeTitle: data.documentTitle,
+  } as ShareLinkPayload;
 }

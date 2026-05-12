@@ -1,4 +1,4 @@
-import type { ResumeFontFamilyId } from "@/types/resume-font";
+import type { DocumentFontFamilyId, DocumentCustomization, DocumentSyncState } from "@/types";
 import type { SyncStatus } from "@/features/documents/services/sync-engine";
 
 export type ResumeSectionId =
@@ -200,30 +200,11 @@ export interface ResumeCustomSection {
   editableTitle?: boolean;
 }
 
-export interface ResumeCustomization {
-  accentColor: string;
-  textColor: string;
-  mutedTextColor: string;
-  pageBackgroundColor: string;
-  sectionBackgroundColor: string;
-  borderColor: string;
-  sectionHeadingColor: string;
-  fontFamily: ResumeFontFamilyId;
-  sectionSpacing: number;
-  pagePadding: number;
-  bodyLineHeight: number;
-  headingLineHeight: number;
-}
+export type ResumeCustomization = DocumentCustomization;
 
 export type ResumeSyncStatus = SyncStatus;
 
-export interface ResumeSyncState {
-  enabled: boolean;
-  status: ResumeSyncStatus;
-  cloudResumeId: string | null;
-  lastSyncedAt: string | null;
-  revision: number;
-}
+export type ResumeSyncState = DocumentSyncState;
 
 export interface ResumeData {
   id: string;

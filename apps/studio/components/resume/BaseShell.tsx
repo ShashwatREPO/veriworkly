@@ -1,7 +1,7 @@
 import type { ResumeData } from "@/types/resume";
 import type { CSSProperties, ReactNode } from "react";
 
-import { RESUME_FONT_FAMILY_MAP } from "@/features/resume/constants/resume-fonts";
+import { RESUME_FONT_FAMILY_MAP } from "@/features/documents/utils/font-registry";
 
 interface BaseShellProps {
   customization: ResumeData["customization"];

@@ -15,7 +15,7 @@ import {
 import { defaultResume } from "@/features/resume/constants/default-resume";
 import { normalizeResumeData } from "@/features/resume/utils/normalize-data";
 import { deriveResumeFromMasterProfile } from "@/features/resume/services/master-profile";
-import { loadWorkspaceSettingsFromLocalStorage } from "@/features/resume/services/workspace-settings";
+import { loadWorkspaceSettingsFromLocalStorage } from "@/features/documents/services/workspace-settings";
 
 import { getResumeTitle } from "./resume-formatters";
 

@@ -3,7 +3,7 @@ import { z } from "zod";
 import type { ResumeData } from "@/types/resume";
 
 import { normalizeResumeData } from "@/features/resume/utils/normalize-data";
-import { normalizeResumeFontFamilyId } from "@/features/resume/constants/resume-fonts";
+import { normalizeResumeFontFamilyId } from "@/features/documents/utils/font-registry";
 
 const resumeSectionIdSchema = z.enum([
   "basics",
@@ -181,7 +181,7 @@ const resumeDataSchemaBase = z
     sync: z.object({
       enabled: z.boolean(),
       status: resumeSyncStatusSchema,
-      cloudResumeId: z.string().nullable(),
+      cloudDocumentId: z.string().nullable(),
       lastSyncedAt: z.string().nullable(),
       revision: z.number().int().default(1),
     }),

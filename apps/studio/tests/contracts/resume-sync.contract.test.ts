@@ -45,7 +45,7 @@ vi.mock("@/features/resume/services/local-storage", () => {
   };
 });
 
-vi.mock("@/features/resume/services/workspace-settings", () => ({
+vi.mock("@/features/documents/services/workspace-settings", () => ({
   loadWorkspaceSettingsFromLocalStorage: vi.fn(() => ({
     autoSyncEnabled: false,
   })),
