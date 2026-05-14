@@ -12,7 +12,7 @@ import {
 } from "@/features/resume/services/resume-sync";
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { loadResumeById } from "@/features/resume/services/resume-service";
-import { loadWorkspaceSettingsFromLocalStorage } from "@/features/resume/services/workspace-settings";
+import { loadWorkspaceSettingsFromLocalStorage } from "@/features/documents/services/workspace-settings";
 
 import { loadTemplateComponentById } from "@/templates";
 

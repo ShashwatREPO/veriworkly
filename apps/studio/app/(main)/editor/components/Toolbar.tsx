@@ -1,5 +1,6 @@
 "use client";
 
+import { toast } from "sonner";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -14,7 +15,6 @@ import ToolbarDownloadMenu from "@/app/(main)/editor/components/toolbar/ToolbarD
 import {
   listResumeShareLinks,
   createResumeShareLink,
-  exportResumeViaServer,
 } from "@/features/resume/services/share-links";
 import {
   saveResume,
@@ -23,13 +23,15 @@ import {
   exportResumeAsHtml,
   exportResumeAsJson,
   exportResumeAsDocx,
+  exportResumeAsPdf,
   exportResumeAsText,
   importResumeFromFile,
   exportResumeAsMarkdown,
 } from "@/features/resume/services/resume-service";
 import { useResume } from "@/features/resume/hooks/use-resume";
 import { trackUsageEvent } from "@/features/analytics/services/usage-metrics";
-import { buildExportHtml } from "@/features/resume/utils/build-export-html";
+import { DocumentApi } from "@/features/documents/services/document-api";
+import DestructiveModal from "@/components/modals/DestructiveModal";
 
 import { ApiRequestError } from "@/utils/fetchApiData";
 
@@ -58,6 +60,7 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
   const [shareUrl, setShareUrl] = useState<string | null>(null);
   const [shareError, setShareError] = useState<string | null>(null);
   const [activeDownload, setActiveDownload] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   function getSaveFailureMessage(reason: "quota-exceeded" | "unknown") {
     if (reason === "quota-exceeded") {
@@ -91,59 +94,42 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
     }
   }
 
-  function onDeleteResume() {
-    const nextResume = deleteResume(resume.id);
+  async function onDeleteResume() {
+    setIsDeleting(true);
 
-    if (!nextResume) {
-      const fallback = createResume();
+    try {
+      if (resume.sync.cloudDocumentId) {
+        await DocumentApi.delete(resume.id);
+      }
 
-      setResume(fallback);
+      const nextResume = deleteResume(resume.id);
 
-      router.push(`/editor/${fallback.id}`);
-      setMessage("Current resume removed. Fresh resume created.");
+      if (!nextResume) {
+        const fallback = createResume();
+        setResume(fallback);
+        router.push(`/editor/${fallback.id}`);
+        setMessage("Current resume removed. Fresh resume created.");
+      } else {
+        setResume(nextResume);
+        router.push(`/editor/${nextResume.id}`);
+        setMessage("Resume deleted");
+      }
 
-      return;
+      trackUsageEvent({ event: "resume_deleted" });
+      toast.success("Resume deleted successfully");
+      setDeleteConfirmOpen(false);
+      setDeleteConfirmText("");
+    } catch (error) {
+      toast.error("Failed to delete from cloud. Please try again.");
+      console.error("Deletion error:", error);
+    } finally {
+      setIsDeleting(false);
     }
-
-    setResume(nextResume);
-
-    router.push(`/editor/${nextResume.id}`);
-
-    setMessage("Resume deleted");
-    trackUsageEvent({ event: "resume_deleted" });
-
-    setDeleteConfirmOpen(false);
-    setDeleteConfirmText("");
   }
 
   function openDeleteModal() {
     setDeleteConfirmOpen(true);
     setDeleteConfirmText("");
-  }
-
-  async function onDownloadPdf() {
-    await onDownloadServerExport("pdf");
-  }
-
-  async function onDownloadImage(format: "png" | "jpg") {
-    await onDownloadServerExport(format);
-  }
-
-  async function onDownloadServerExport(format: "pdf" | "png" | "jpg") {
-    setActiveDownload(format);
-
-    try {
-      const renderHtml = buildExportHtml(resumePreviewId);
-      await exportResumeViaServer(resume, format, renderHtml);
-      setMessage(`${format.toUpperCase()} downloaded successfully`);
-      trackUsageEvent({ event: "resume_exported_server" });
-    } catch (error) {
-      setMessage(
-        error instanceof Error ? error.message : `Could not export ${format.toUpperCase()}.`,
-      );
-    } finally {
-      setActiveDownload(null);
-    }
   }
 
   async function onDownloadDocx() {
@@ -155,6 +141,20 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
       trackUsageEvent({ event: "resume_exported" });
     } catch {
       setMessage("Could not generate DOCX. Try again.");
+    } finally {
+      setActiveDownload(null);
+    }
+  }
+
+  async function onDownloadPdf() {
+    setActiveDownload("pdf");
+
+    try {
+      await exportResumeAsPdf(resume);
+      setMessage("PDF downloaded successfully");
+      trackUsageEvent({ event: "resume_exported" });
+    } catch {
+      setMessage("Could not generate PDF. Try again.");
     } finally {
       setActiveDownload(null);
     }
@@ -190,7 +190,6 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
 
     try {
       const shareLink = await createResumeShareLink(resume, {
-        resumeTitle: resume.basics.fullName || "Shared Resume",
         password: sharePassword.trim() || undefined,
         expiresAt: shareNoExpiry ? null : shareExpiry ? new Date(shareExpiry).toISOString() : null,
         noExpiry: shareNoExpiry,
@@ -277,8 +276,6 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
 
         <ToolbarDownloadMenu
           onDownloadPdf={onDownloadPdf}
-          onDownloadPng={() => onDownloadImage("png")}
-          onDownloadJpg={() => onDownloadImage("jpg")}
           onDownloadDocx={onDownloadDocx}
           onDownloadMarkdown={onDownloadMarkdown}
           onDownloadHtml={onDownloadHtml}
@@ -301,37 +298,14 @@ const Toolbar = ({ resumeId, resumePreviewId }: ToolbarProps) => {
         />
       </div>
 
-      <Modal
-        onClose={() => {
-          setDeleteConfirmText("");
-          setDeleteConfirmOpen(false);
-        }}
+      <DestructiveModal
         open={deleteConfirmOpen}
-      >
-        <Modal.Content>
-          <Modal.Header>
-            <Modal.Title>Delete Resume?</Modal.Title>
-
-            <Modal.Description>
-              This will permanently remove the current resume. Type DELETE to continue.
-            </Modal.Description>
-          </Modal.Header>
-
-          <Modal.Body>
-            <div className="space-y-4">
-              <Input
-                onChange={(event) => setDeleteConfirmText(event.target.value)}
-                placeholder="Type DELETE"
-                value={deleteConfirmText}
-              />
-
-              <Button disabled={deleteConfirmText !== "DELETE"} onClick={onDeleteResume} size="sm">
-                Permanently Delete
-              </Button>
-            </div>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
+        onConfirmAction={onDeleteResume}
+        onCloseAction={() => setDeleteConfirmOpen(false)}
+        loading={isDeleting}
+        entityName={resume.basics.fullName || "resume"}
+        title="Delete Resume?"
+      />
 
       <Modal
         onClose={() => {

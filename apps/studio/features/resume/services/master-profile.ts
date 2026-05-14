@@ -9,7 +9,7 @@ import { MASTER_PROFILE_STORAGE_KEY } from "@/lib/constants";
 import { defaultResume } from "@/features/resume/constants/default-resume";
 import { normalizeResumeData } from "@/features/resume/utils/normalize-data";
 import { masterProfileDbSchema } from "@/features/resume/schemas/master-profile-db-schema";
-import { safeSetLocalStorageItem } from "@/features/resume/services/storage/safe-local-storage";
+import { safeSetLocalStorageItem } from "@/features/documents/services/storage/safe-local-storage";
 
 interface MasterProfileState {
   updatedAt: string;
@@ -200,7 +200,7 @@ export function deriveResumeFromMasterProfile(resumeId: string) {
       ...defaultResume.sync,
       enabled: false,
       status: "local-only",
-      cloudResumeId: null,
+      cloudDocumentId: null,
       lastSyncedAt: null,
     },
   });

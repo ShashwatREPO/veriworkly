@@ -1,4 +1,5 @@
-import type { ResumeFontFamilyId } from "@/types/resume-font";
+import type { DocumentSyncState } from "@/types";
+import type { SyncStatus } from "@/features/documents/services/sync-engine";
 
 export type ResumeSectionId =
   | "basics"
@@ -90,8 +91,11 @@ export interface ResumeProjectItem {
   name: string;
   role: string;
   link: string;
+  linkLabel: string;
+  showLinkAsText: boolean;
   summary: string;
   highlights: string[];
+  skills: string[];
 }
 
 export interface ResumeSkillGroup {
@@ -200,6 +204,8 @@ export interface ResumeCustomSection {
 }
 
 export interface ResumeCustomization {
+  fontFamily: string;
+  theme?: string;
   accentColor: string;
   textColor: string;
   mutedTextColor: string;
@@ -207,21 +213,15 @@ export interface ResumeCustomization {
   sectionBackgroundColor: string;
   borderColor: string;
   sectionHeadingColor: string;
-  fontFamily: ResumeFontFamilyId;
   sectionSpacing: number;
   pagePadding: number;
   bodyLineHeight: number;
   headingLineHeight: number;
 }
 
-export type ResumeSyncStatus = "local-only" | "pending" | "syncing" | "synced" | "conflicted";
+export type ResumeSyncStatus = SyncStatus;
 
-export interface ResumeSyncState {
-  enabled: boolean;
-  status: ResumeSyncStatus;
-  cloudResumeId: string | null;
-  lastSyncedAt: string | null;
-}
+export type ResumeSyncState = DocumentSyncState;
 
 export interface ResumeData {
   id: string;

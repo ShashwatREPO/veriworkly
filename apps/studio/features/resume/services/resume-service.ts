@@ -26,13 +26,7 @@ export {
   type ResumeListItem,
 } from "./resume-core";
 
-export {
-  exportResumeAsDocx,
-  exportResumeAsHtml,
-  exportResumeAsJson,
-  exportResumeAsText,
-  exportResumeAsMarkdown,
-} from "./resume-export";
+export * from "@/features/documents/export";
 
 export { importResumeFromFile } from "./resume-import";
 

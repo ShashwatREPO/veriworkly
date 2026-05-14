@@ -32,16 +32,13 @@ export function PreviewClient({ resumeId }: PreviewClientProps) {
 
   useEffect(() => {
     let cancelled = false;
+    const nextTemplate = loadTemplateComponentById(resume.templateId);
 
-    const loadTemplate = async () => {
-      const nextTemplate = await loadTemplateComponentById(resume.templateId);
-
+    queueMicrotask(() => {
       if (!cancelled) {
         setTemplateComponent(() => nextTemplate);
       }
-    };
-
-    void loadTemplate();
+    });
 
     return () => {
       cancelled = true;

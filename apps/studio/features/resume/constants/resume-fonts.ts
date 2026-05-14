@@ -1,8 +1,13 @@
-import type { ResumeFontFamilyId } from "@/types/resume-font";
+export const RESUME_FONT_IDS = ["geist", "modern", "inter"] as const;
 
-export const DEFAULT_RESUME_FONT_FAMILY: ResumeFontFamilyId = "geist";
+export type ResumeFontFamilyId = (typeof RESUME_FONT_IDS)[number];
 
 type ResumeFontScope = "editor" | "on-demand";
+
+type ResumePdfFontFace = {
+  src: string;
+  fontWeight: number;
+};
 
 export interface ResumeFontRegistryEntry {
   id: ResumeFontFamilyId;
@@ -11,6 +16,7 @@ export interface ResumeFontRegistryEntry {
   fallbackStack: string;
   stylesheetHref: string;
   scope: ResumeFontScope;
+  pdfFonts: ResumePdfFontFace[];
 }
 
 const resumeFontDefinitions: ResumeFontRegistryEntry[] = [
@@ -22,15 +28,10 @@ const resumeFontDefinitions: ResumeFontRegistryEntry[] = [
     stylesheetHref:
       "https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap",
     scope: "editor",
-  },
-  {
-    id: "serif",
-    label: "Merriweather Serif",
-    primaryFamily: "Merriweather",
-    fallbackStack: "Georgia, Cambria, serif",
-    stylesheetHref:
-      "https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700&display=swap",
-    scope: "editor",
+    pdfFonts: [
+      { src: "/fonts/geist/Geist-Regular.ttf", fontWeight: 400 },
+      { src: "/fonts/geist/Geist-Bold.ttf", fontWeight: 700 },
+    ],
   },
   {
     id: "modern",
@@ -40,6 +41,23 @@ const resumeFontDefinitions: ResumeFontRegistryEntry[] = [
     stylesheetHref:
       "https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap",
     scope: "editor",
+    pdfFonts: [
+      { src: "/fonts/manrope/Manrope-Regular.ttf", fontWeight: 400 },
+      { src: "/fonts/manrope/Manrope-Bold.ttf", fontWeight: 700 },
+    ],
+  },
+  {
+    id: "inter",
+    label: "Inter",
+    primaryFamily: "Inter",
+    fallbackStack: "'Segoe UI', Arial, sans-serif",
+    stylesheetHref:
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap",
+    scope: "editor",
+    pdfFonts: [
+      { src: "/fonts/inter/Inter_18pt-Regular.ttf", fontWeight: 400 },
+      { src: "/fonts/inter/Inter_18pt-Bold.ttf", fontWeight: 700 },
+    ],
   },
 ];
 
@@ -50,6 +68,8 @@ const RESUME_FONT_ALIAS_MAP: Record<string, ResumeFontFamilyId> = {
 const RESUME_FONT_ID_SET = new Set<ResumeFontFamilyId>(
   resumeFontDefinitions.map((font) => font.id),
 );
+
+export const DEFAULT_RESUME_FONT_FAMILY: ResumeFontFamilyId = "geist";
 
 export const RESUME_FONT_REGISTRY: Record<ResumeFontFamilyId, ResumeFontRegistryEntry> =
   Object.fromEntries(resumeFontDefinitions.map((font) => [font.id, font])) as Record<
@@ -75,13 +95,11 @@ export function normalizeResumeFontFamilyId(value: string | null | undefined): R
   return DEFAULT_RESUME_FONT_FAMILY;
 }
 
-export const resumeFontOptions: Array<{
-  value: ResumeFontFamilyId;
-  label: string;
-}> = resumeFontDefinitions.map((font) => ({
-  value: font.id,
-  label: font.label,
-}));
+export const resumeFontOptions: Array<{ value: ResumeFontFamilyId; label: string }> =
+  resumeFontDefinitions.map((font) => ({
+    value: font.id,
+    label: font.label,
+  }));
 
 function toFontFamilyValue(font: ResumeFontRegistryEntry) {
   return `'${font.primaryFamily}', ${font.fallbackStack}`;
