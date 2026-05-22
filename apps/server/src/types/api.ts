@@ -62,11 +62,12 @@ export interface GitHubStatsResponse {
 
 export interface PublicShareLink {
   id: string;
-  token: string;
+  slug: string;
   passwordHash: string | null;
   expiresAt: string | Date | null;
   snapshot: Prisma.JsonValue;
   document: {
     title: string;
+    slug?: string;
   };
 }

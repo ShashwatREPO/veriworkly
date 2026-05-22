@@ -2,17 +2,16 @@ import { promisify } from "node:util";
 import { randomBytes, scrypt, timingSafeEqual } from "node:crypto";
 
 import { Prisma } from "@prisma/client";
+
 import { prisma } from "#utils/prisma";
 import { ApiError } from "#utils/errors";
+import { normalizeSlug, normalizeUsername } from "#utils/slugs";
+
+import { UserService } from "#services/userService";
 
 const scryptAsync = promisify(scrypt);
 
 export class ShareService {
-  /**
-   * Hash a password using scrypt
-   * @param password Plaintext password
-   */
-
   static async hashPassword(password: string) {
     const salt = randomBytes(16).toString("hex");
     const derived = (await scryptAsync(password, salt, 64)) as Buffer;
@@ -20,44 +19,24 @@ export class ShareService {
     return `${salt}:${derived.toString("hex")}`;
   }
 
-  /**
-   * Verify a password against a hash
-   * @param password Plaintext password
-   * @param hash Hashed password
-   */
-
   static async verifyPassword(password: string, hash: string) {
     const [salt, stored] = hash.split(":");
 
     if (!salt || !stored) return false;
 
     const derived = (await scryptAsync(password, salt, 64)) as Buffer;
-    const left = derived;
-
     const right = Buffer.from(stored, "hex");
 
-    if (left.length !== right.length) return false;
+    if (derived.length !== right.length) return false;
 
-    return timingSafeEqual(left, right);
+    return timingSafeEqual(derived, right);
   }
-
-  /**
-   * Check if a date is in the past
-   * @param expiresAt Expiry date
-   */
 
   static isExpired(expiresAt: Date | null | string) {
     if (!expiresAt) return false;
 
     return new Date(expiresAt).getTime() <= Date.now();
   }
-
-  /**
-   * Record a view for a share link in the background
-   * @param shareLinkId Share link ID
-   * @param ipAddress IP address of the viewer
-   * @param userAgent User agent of the viewer
-   */
 
   static async recordShareView(shareLinkId: string, ipAddress?: string, userAgent?: string | null) {
     return prisma.shareLink.update({
@@ -75,13 +54,6 @@ export class ShareService {
     });
   }
 
-  /**
-   * Create a new share link
-   * @param userId User ID
-   * @param documentId Document ID
-   * @param data Share link data
-   */
-
   static async createShareLink(
     userId: string,
     documentId: string,
@@ -89,49 +61,61 @@ export class ShareService {
       password?: string;
       noExpiry?: boolean;
       expiresAt?: string | Date | null;
+      updateSlug?: boolean;
       snapshot: Prisma.InputJsonValue;
     },
   ) {
+    const username = await UserService.requireUsernameForUser(userId);
     const document = await prisma.document.findFirst({
-      where: { id: documentId, userId },
-      select: { id: true },
+      where: { id: documentId, userId, deletedAt: null },
+      select: { id: true, slug: true },
     });
 
     if (!document) throw new ApiError(404, "Document not found");
 
-    // Check if a link already exists and delete it to prevent duplicates
-    const existing = await prisma.shareLink.findFirst({
-      where: { userId, documentId },
-      select: { id: true, token: true },
+    const existing = await prisma.shareLink.findUnique({
+      where: { userId_documentId: { userId, documentId } },
+      select: { id: true, slug: true },
     });
 
-    if (existing) {
-      await prisma.shareLink.delete({ where: { id: existing.id } });
-    }
-
-    const token = randomBytes(18).toString("hex");
+    const slug =
+      existing && !data.updateSlug
+        ? existing.slug
+        : await this.buildUniqueShareSlug(userId, document.slug, existing?.id);
     const passwordHash = data.password ? await this.hashPassword(data.password) : null;
     const expiresAt = data.noExpiry ? null : data.expiresAt ? new Date(data.expiresAt) : null;
 
-    const shareLink = await prisma.shareLink.create({
-      data: {
-        userId,
-        documentId,
-        token,
-        snapshot: data.snapshot,
-        passwordHash,
-        expiresAt,
+    const shareLink = existing
+      ? await prisma.shareLink.update({
+          where: { id: existing.id },
+          data: {
+            slug,
+            snapshot: data.snapshot,
+            passwordHash,
+            expiresAt,
+          },
+        })
+      : await prisma.shareLink.create({
+          data: {
+            userId,
+            documentId,
+            slug,
+            snapshot: data.snapshot,
+            passwordHash,
+            expiresAt,
+          },
+        });
+
+    return {
+      shareLink: {
+        ...shareLink,
+        username,
+        documentSlug: document.slug,
+        publicPath: `/${username}/${shareLink.slug}`,
       },
-    });
-
-    return { shareLink, oldToken: existing?.token };
+      previousSlug: existing?.slug,
+    };
   }
-
-  /**
-   * List all share links for a document
-   * @param userId User ID
-   * @param documentId Document ID
-   */
 
   static async listShareLinks(userId: string, documentId: string) {
     return this.listShareLinksPaginated(userId, documentId, { limit: 100, offset: 0 });
@@ -157,39 +141,63 @@ export class ShareService {
     return { items, total };
   }
 
-  /**
-   * Revoke a share link
-   * @param userId User ID
-   * @param documentId Document ID
-   * @param shareLinkId Share link ID
-   */
-
   static async revokeShareLink(userId: string, documentId: string, shareLinkId: string) {
+    const username = await UserService.requireUsernameForUser(userId);
+
     const existing = await prisma.shareLink.findFirst({
       where: { id: shareLinkId, userId, documentId },
-      select: { id: true, token: true },
+      select: { id: true, slug: true },
     });
 
     if (!existing) throw new ApiError(404, "Share link not found");
 
     await prisma.shareLink.delete({ where: { id: shareLinkId } });
-    return existing.token;
+
+    return { username, slug: existing.slug };
   }
 
-  /**
-   * Get a public share link by token
-   * @param token Share link token
-   */
+  static async getPublicShareLinkByUsernameAndSlug(username: string, slug: string) {
+    const user = await prisma.user.findUnique({
+      where: { username: normalizeUsername(username) },
+      select: { id: true },
+    });
 
-  static async getPublicShareLink(token: string) {
-    const shareLink = await prisma.shareLink.findUnique({
-      where: { token },
-      include: { document: { select: { title: true } } },
+    if (!user) throw new ApiError(404, "Link not found");
+
+    const shareLink = await prisma.shareLink.findFirst({
+      where: {
+        userId: user.id,
+        slug: normalizeSlug(slug),
+      },
+      include: { document: { select: { title: true, slug: true } } },
+      orderBy: { createdAt: "desc" },
     });
 
     if (!shareLink) throw new ApiError(404, "Link not found");
     if (this.isExpired(shareLink.expiresAt)) throw new ApiError(410, "Link expired");
 
     return shareLink;
+  }
+
+  private static async buildUniqueShareSlug(userId: string, slug: string, shareLinkId?: string) {
+    const base = normalizeSlug(slug);
+
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const suffix = attempt === 0 ? "" : `-${attempt + 1}`;
+      const candidate = `${base.slice(0, 255 - suffix.length)}${suffix}`;
+
+      const existing = await prisma.shareLink.findFirst({
+        where: {
+          userId,
+          slug: candidate,
+          ...(shareLinkId ? { id: { not: shareLinkId } } : {}),
+        },
+        select: { id: true },
+      });
+
+      if (!existing) return candidate;
+    }
+
+    return `${base.slice(0, 246)}-${Date.now().toString(36)}`;
   }
 }

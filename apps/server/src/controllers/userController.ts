@@ -5,15 +5,12 @@ import { requireAuthUser } from "#middleware/auth";
 
 import { UserService } from "#services/userService";
 
+import {
+  updateUserNameSchema,
+  updateUsernameSchema,
+  usernameAvailabilityParamsSchema,
+} from "#validators/userValidator";
 import { createSuccessResponse, handleValidationError } from "#utils/errors";
-
-/**
- * Validation schemas for user-related requests
- */
-
-const updateUserNameSchema = z.object({
-  name: z.string().trim().min(1, "Name cannot be empty").max(255, "Name is too long"),
-});
 
 export class UserController {
   /**
@@ -54,6 +51,36 @@ export class UserController {
       const updated = await UserService.updateUserName(user.id, name);
 
       res.json(createSuccessResponse(updated, "User name updated successfully"));
+    } catch (error) {
+      if (error instanceof z.ZodError) return next(handleValidationError(error));
+
+      next(error);
+    }
+  }
+
+  static async updateUsername(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = requireAuthUser(req);
+      const { username } = updateUsernameSchema.parse(req.body);
+
+      const updated = await UserService.updateUsername(user.id, username);
+
+      res.json(createSuccessResponse(updated, "Username updated successfully"));
+    } catch (error) {
+      if (error instanceof z.ZodError) return next(handleValidationError(error));
+
+      next(error);
+    }
+  }
+
+  static async checkUsernameAvailability(req: Request, res: Response, next: NextFunction) {
+    try {
+      const authUser = req.authUser;
+      const { username } = usernameAvailabilityParamsSchema.parse(req.params);
+
+      const availability = await UserService.getUsernameAvailability(username, authUser?.id);
+
+      res.json(createSuccessResponse(availability, "Username availability fetched successfully"));
     } catch (error) {
       if (error instanceof z.ZodError) return next(handleValidationError(error));
 

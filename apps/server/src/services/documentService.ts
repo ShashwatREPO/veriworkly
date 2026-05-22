@@ -2,6 +2,8 @@ import { DocumentType, Visibility, Prisma } from "@prisma/client";
 
 import { prisma } from "#utils/prisma";
 import { logger } from "#utils/logger";
+import { ApiError } from "#utils/errors";
+import { normalizeSlug } from "#utils/slugs";
 import { cacheGet, cacheSet, cacheDel } from "#utils/redis";
 
 export type DocumentCreateInput = {
@@ -9,6 +11,7 @@ export type DocumentCreateInput = {
   type: DocumentType;
   title?: string;
   slug?: string;
+  tags?: string[];
   content?: Prisma.InputJsonValue;
   metadata?: Prisma.InputJsonValue;
   templateId?: string;
@@ -18,6 +21,8 @@ export type DocumentCreateInput = {
 export type DocumentUpdateInput = {
   title?: string;
   slug?: string;
+  updateShareSlug?: boolean;
+  tags?: string[];
   content?: Prisma.InputJsonValue;
   metadata?: Prisma.InputJsonValue;
   templateId?: string;
@@ -26,6 +31,50 @@ export type DocumentUpdateInput = {
 };
 
 export class DocumentService {
+  private static async buildUniqueSlug(userId: string, title: string, documentId?: string) {
+    const base = normalizeSlug(title);
+
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const suffix = attempt === 0 ? "" : `-${attempt + 1}`;
+      const candidate = `${base.slice(0, 255 - suffix.length)}${suffix}`;
+
+      const existing = await prisma.document.findFirst({
+        where: {
+          userId,
+          slug: candidate,
+          ...(documentId ? { id: { not: documentId } } : {}),
+        },
+        select: { id: true },
+      });
+
+      if (!existing) return candidate;
+    }
+
+    return `${base.slice(0, 246)}-${Date.now().toString(36)}`;
+  }
+
+  private static async buildUniqueShareSlug(userId: string, slug: string, shareLinkId?: string) {
+    const base = normalizeSlug(slug);
+
+    for (let attempt = 0; attempt < 20; attempt += 1) {
+      const suffix = attempt === 0 ? "" : `-${attempt + 1}`;
+      const candidate = `${base.slice(0, 255 - suffix.length)}${suffix}`;
+
+      const existing = await prisma.shareLink.findFirst({
+        where: {
+          userId,
+          slug: candidate,
+          ...(shareLinkId ? { id: { not: shareLinkId } } : {}),
+        },
+        select: { id: true },
+      });
+
+      if (!existing) return candidate;
+    }
+
+    return `${base.slice(0, 246)}-${Date.now().toString(36)}`;
+  }
+
   /**
    * List all documents for a user, optionally filtered by type.
    * Results are cached for 30 minutes.
@@ -96,13 +145,17 @@ export class DocumentService {
       }
     }
 
+    const title = input.title || `Untitled ${input.type.toLowerCase().replace("_", " ")}`;
+    const slug = await this.buildUniqueSlug(userId, input.slug || title);
+
     const document = await prisma.document.create({
       data: {
         id: input.id,
         userId,
         type: input.type,
-        title: input.title || `Untitled ${input.type.toLowerCase().replace("_", " ")}`,
-        slug: input.slug,
+        title,
+        slug,
+        tags: input.tags || [],
         content: initialContent || {},
         metadata: input.metadata || {},
         templateId: input.templateId || "modern",
@@ -121,7 +174,48 @@ export class DocumentService {
    */
 
   static async updateDocument(userId: string, documentId: string, input: DocumentUpdateInput) {
-    const { revision, ...data } = input;
+    const { revision, updateShareSlug, ...data } = input;
+    const updateData = { ...data };
+
+    const readableShareCacheKeys = new Set<string>();
+
+    let shareLinkSlugUpdate: {
+      id: string;
+      slug: string;
+    } | null = null;
+
+    const shouldUpdateDocumentSlug = Boolean(input.slug || input.title);
+
+    if (shouldUpdateDocumentSlug) {
+      const user = await prisma.user.findUnique({
+        where: { id: userId },
+        select: { username: true },
+      });
+
+      const nextSlugSource = input.slug || input.title;
+
+      if (nextSlugSource) {
+        updateData.slug = await this.buildUniqueSlug(userId, nextSlugSource, documentId);
+      }
+
+      if (updateShareSlug && user?.username && updateData.slug) {
+        const shareLink = await prisma.shareLink.findUnique({
+          where: { userId_documentId: { userId, documentId } },
+          select: { id: true, slug: true },
+        });
+
+        if (shareLink) {
+          readableShareCacheKeys.add(`share:public-readable:${user.username}:${shareLink.slug}`);
+          shareLinkSlugUpdate = {
+            id: shareLink.id,
+            slug: await this.buildUniqueShareSlug(userId, updateData.slug, shareLink.id),
+          };
+          readableShareCacheKeys.add(
+            `share:public-readable:${user.username}:${shareLinkSlugUpdate.slug}`,
+          );
+        }
+      }
+    }
 
     try {
       const updated = await prisma.document.update({
@@ -132,7 +226,7 @@ export class DocumentService {
         },
 
         data: {
-          ...data,
+          ...updateData,
           revision: { increment: 1 },
           lastSyncedAt: new Date(),
         },
@@ -142,6 +236,16 @@ export class DocumentService {
       await cacheDel(`documents:list:${userId}:all`);
       await cacheDel(`documents:list:${userId}:${updated.type}`);
 
+      if (shareLinkSlugUpdate)
+        await prisma.shareLink.update({
+          where: { id: shareLinkSlugUpdate.id },
+          data: { slug: shareLinkSlugUpdate.slug },
+        });
+
+      for (const cacheKey of readableShareCacheKeys) {
+        await cacheDel(cacheKey);
+      }
+
       return updated;
     } catch (error) {
       if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
@@ -149,11 +253,14 @@ export class DocumentService {
 
         if (!current) throw new Error("Document not found");
 
-        if (current.revision !== revision) {
+        if (current.revision !== revision)
           throw new Error(
             `CONFLICTOR: Revision mismatch. Client: ${revision}, Server: ${current.revision}`,
           );
-        }
+      }
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new ApiError(409, "Document slug is already in use");
       }
 
       throw error;

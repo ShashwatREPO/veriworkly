@@ -15,6 +15,7 @@ model User {
   id                  String               @id @default(cuid())
   email               String               @unique
   name                String?
+  username            String?              @unique
   emailVerified       Boolean              @default(false)
   image               String?
   autoSyncEnabled     Boolean              @default(false)
@@ -102,7 +103,8 @@ model Document {
   
   type          DocumentType @default(RESUME)
   title         String       @default("Untitled Document")
-  slug          String?      // Unique per user/type for public links
+  slug          String       // Current editable document slug
+  tags          String[]     @default([])
   
   content       Json         // The main content (JSON Resume standard)
   metadata      Json?        // UI state, favorites, tags, etc.
@@ -144,7 +146,7 @@ model ShareLink {
   documentId   String
   document     Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
   
-  token        String    @unique
+  slug         String    // Stable public URL slug
   snapshot     Json      // Static snapshot of document at share time
   
   passwordHash String?
@@ -156,9 +158,9 @@ model ShareLink {
   updatedAt    DateTime  @updatedAt
   views        ShareView[]
 
-  @@index([userId])
+  @@unique([userId, documentId])
+  @@unique([userId, slug])
   @@index([documentId])
-  @@index([token])
 }
 
 model ShareView {

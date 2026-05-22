@@ -6,8 +6,8 @@ import { ShareController } from "#controllers/shareController";
 
 const router = Router();
 
-router.get("/:token", ShareController.getPublic);
-router.post("/:token/verify", ShareController.verifyPublic);
+router.get("/public/:username/:slug", ShareController.getPublicReadable);
+router.post("/public/:username/:slug/verify", ShareController.verifyPublicReadable);
 
 router.use(authMiddleware);
 
