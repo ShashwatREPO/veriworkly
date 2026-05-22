@@ -4,6 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { requireAuthUser } from "#middleware/auth";
 
 import { UserService } from "#services/userService";
+import { invalidateSessionCache } from "#utils/authCache";
 
 import {
   updateUserNameSchema,
@@ -50,6 +51,11 @@ export class UserController {
 
       const updated = await UserService.updateUserName(user.id, name);
 
+      const cookieHeader = req.headers.cookie || "";
+      if (cookieHeader) {
+        await invalidateSessionCache(cookieHeader);
+      }
+
       res.json(createSuccessResponse(updated, "User name updated successfully"));
     } catch (error) {
       if (error instanceof z.ZodError) return next(handleValidationError(error));
@@ -64,6 +70,11 @@ export class UserController {
       const { username } = updateUsernameSchema.parse(req.body);
 
       const updated = await UserService.updateUsername(user.id, username);
+
+      const cookieHeader = req.headers.cookie || "";
+      if (cookieHeader) {
+        await invalidateSessionCache(cookieHeader);
+      }
 
       res.json(createSuccessResponse(updated, "Username updated successfully"));
     } catch (error) {

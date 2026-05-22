@@ -10,6 +10,9 @@ import { config } from "#config";
 import { prisma } from "#utils/prisma";
 import { sendAuthOtpEmail } from "#auth/mailer";
 
+import { createAuthMiddleware } from "better-auth/api";
+import { invalidateSessionCache } from "#utils/authCache";
+
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -56,6 +59,30 @@ export const auth = betterAuth({
       },
     }),
   ],
+
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      const pathsToInvalidate = [
+        "/sign-out",
+        "/revoke-session",
+        "/revoke-sessions",
+        "/change-email",
+        "/change-password",
+        "/delete-user",
+      ];
+      
+      const shouldInvalidate = pathsToInvalidate.some(p => 
+        ctx.path === p || ctx.path.startsWith(p + "/")
+      );
+
+      if (shouldInvalidate) {
+        const cookieHeader = ctx.headers?.get("cookie") || "";
+        if (cookieHeader) {
+          await invalidateSessionCache(cookieHeader);
+        }
+      }
+    }),
+  },
 });
 
 export const authNodeHandler = toNodeHandler(auth);

@@ -1,41 +1,11 @@
 import { NextFunction, Request, Response } from "express";
-import { createHash } from "node:crypto";
 
 import { ApiError } from "#utils/errors";
 
 import { convertNodeHeadersToWebHeaders, getSessionFromRequestHeaders } from "#auth/index";
 
 import { cacheGet, cacheSet } from "#utils/redis";
-
-type SessionUserShape = {
-  id?: string;
-  email?: string | null;
-  name?: string | null;
-};
-
-function extractStableAuthCookieFingerprint(cookieHeader: string): string | null {
-  const authCookies = cookieHeader
-    .split(";")
-    .map((c) => c.trim())
-    .filter(Boolean)
-    .filter((c) => c.includes("veriworkly-auth"));
-
-  if (!authCookies.length) {
-    return null;
-  }
-
-  const stableSessionCookie = authCookies.find(
-    (cookie) =>
-      cookie.startsWith("veriworkly-auth.session_token=") ||
-      cookie.startsWith("__Secure-veriworkly-auth.session_token="),
-  );
-
-  if (stableSessionCookie) {
-    return stableSessionCookie;
-  }
-
-  return authCookies.sort().join(";");
-}
+import { getSessionCacheKey } from "#utils/authCache";
 
 export async function getSessionUserFromRequest(req: Request): Promise<AuthenticatedUser | null> {
   // 1. Per-request cache
@@ -52,15 +22,12 @@ export async function getSessionUserFromRequest(req: Request): Promise<Authentic
 
   try {
     // 3. Try Redis cache (hash a stable session fingerprint to avoid key churn)
-    const fingerprint = extractStableAuthCookieFingerprint(cookieHeader);
+    const cacheKey = getSessionCacheKey(cookieHeader);
 
-    if (!fingerprint) {
+    if (!cacheKey) {
       req._authChecked = true;
       return null;
     }
-
-    const cookieHash = createHash("md5").update(fingerprint).digest("hex");
-    const cacheKey = `auth:session:${cookieHash}`;
 
     const cachedUser = await cacheGet<AuthenticatedUser>(cacheKey);
 
@@ -80,7 +47,11 @@ export async function getSessionUserFromRequest(req: Request): Promise<Authentic
       return null;
     }
 
-    const user = session.user as SessionUserShape;
+    const user = session.user as {
+      id?: string;
+      email?: string | null;
+      name?: string | null;
+    };
 
     if (!user.id) {
       return null;

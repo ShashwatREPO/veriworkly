@@ -168,6 +168,9 @@ export class ShareService {
       where: {
         userId: user.id,
         slug: normalizeSlug(slug),
+        document: {
+          deletedAt: null,
+        },
       },
       include: { document: { select: { title: true, slug: true } } },
       orderBy: { createdAt: "desc" },

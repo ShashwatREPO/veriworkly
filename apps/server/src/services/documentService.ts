@@ -272,6 +272,14 @@ export class DocumentService {
    */
 
   static async deleteDocument(userId: string, documentId: string) {
+    const docWithShares = await prisma.document.findFirst({
+      where: { id: documentId, userId },
+      select: {
+        user: { select: { username: true } },
+        shareLinks: { select: { slug: true } },
+      },
+    });
+
     const document = await prisma.document.update({
       where: { id: documentId, userId },
       data: { deletedAt: new Date() },
@@ -281,6 +289,14 @@ export class DocumentService {
     await cacheDel(`documents:list:${userId}:all`);
     await cacheDel(`documents:list:${userId}:${document.type}`);
 
+    if (docWithShares?.user?.username) {
+      const username = docWithShares.user.username;
+
+      for (const share of docWithShares.shareLinks) {
+        await cacheDel(`share:public-readable:${username}:${share.slug}`);
+      }
+    }
+
     return document;
   }
 
@@ -289,10 +305,32 @@ export class DocumentService {
    */
 
   static async restoreDocument(userId: string, documentId: string) {
-    return prisma.document.update({
+    const docWithShares = await prisma.document.findFirst({
+      where: { id: documentId, userId },
+      select: {
+        user: { select: { username: true } },
+        shareLinks: { select: { slug: true } },
+      },
+    });
+
+    const document = await prisma.document.update({
       where: { id: documentId, userId },
       data: { deletedAt: null },
     });
+
+    await cacheDel(`document:${userId}:${documentId}`);
+    await cacheDel(`documents:list:${userId}:all`);
+    await cacheDel(`documents:list:${userId}:${document.type}`);
+
+    if (docWithShares?.user?.username) {
+      const username = docWithShares.user.username;
+
+      for (const share of docWithShares.shareLinks) {
+        await cacheDel(`share:public-readable:${username}:${share.slug}`);
+      }
+    }
+
+    return document;
   }
 
   /**
@@ -300,8 +338,30 @@ export class DocumentService {
    */
 
   static async hardDeleteDocument(userId: string, documentId: string) {
-    return prisma.document.delete({
+    const docWithShares = await prisma.document.findFirst({
+      where: { id: documentId, userId },
+      select: {
+        user: { select: { username: true } },
+        shareLinks: { select: { slug: true } },
+      },
+    });
+
+    const document = await prisma.document.delete({
       where: { id: documentId, userId },
     });
+
+    await cacheDel(`document:${userId}:${documentId}`);
+    await cacheDel(`documents:list:${userId}:all`);
+    await cacheDel(`documents:list:${userId}:${document.type}`);
+
+    if (docWithShares?.user?.username) {
+      const username = docWithShares.user.username;
+
+      for (const share of docWithShares.shareLinks) {
+        await cacheDel(`share:public-readable:${username}:${share.slug}`);
+      }
+    }
+
+    return document;
   }
 }

@@ -34,7 +34,7 @@ export function DocumentPreviewCard({
   onSyncDetailsAction,
 }: DocumentPreviewCardProps) {
   return (
-    <article className="group border-border bg-card hover:border-accent/40 relative aspect-[3/4] w-full min-w-0 overflow-hidden rounded-xl border transition hover:shadow-sm">
+    <article className="group border-border bg-card hover:border-accent/40 relative aspect-3/4 w-full min-w-0 overflow-hidden rounded-xl border transition hover:shadow-sm">
       <div className="absolute inset-0 bg-[color-mix(in_oklab,var(--background)_94%,white)]">
         <DocumentThumbnailPreview doc={doc} />
       </div>
