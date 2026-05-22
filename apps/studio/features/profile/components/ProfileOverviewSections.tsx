@@ -14,20 +14,6 @@ import Link from "next/link";
 
 const profileLinks = [
   {
-    href: "/profile/master",
-    icon: Database,
-    title: "Master career data",
-    text: "Reusable resume source data. Separate from user account profile.",
-  },
-
-  {
-    href: "/profile/advanced",
-    icon: FileJson,
-    title: "Advanced JSON",
-    text: "Inspect, import, export, and repair master profile data.",
-  },
-
-  {
     href: "/api-keys",
     icon: KeyRound,
     title: "API keys",
@@ -102,8 +88,8 @@ export function ProfileDataLayers() {
 
       <LayerCard
         icon={ShieldCheck}
-        title="Career data source"
-        text="Master profile stores reusable resume facts, not account identity."
+        title="Privacy & Security"
+        text="Your workspace keys and documents are protected and private."
       />
     </section>
   );

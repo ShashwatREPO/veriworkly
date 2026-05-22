@@ -5,15 +5,6 @@ import type { DocumentType } from "@/features/documents/core/document-types";
 import type { BaseDocument } from "@/features/documents/core/types";
 import type { DocumentCollection } from "@/types/document";
 
-import {
-  syncResumeNow,
-  keepResumeLocalOnly,
-  getResumeSyncTelemetry,
-  resolveConflictUseCloud,
-  resolveConflictUseLocal,
-  getResumeSyncTelemetryByIds,
-} from "@/features/resume/services/resume-sync";
-
 import { LocalStorageService } from "./local-storage-service";
 import { DocumentSyncService, type SyncResult } from "./document-sync-service";
 import { SyncEngine, type SyncTelemetry } from "./sync-engine";
@@ -52,7 +43,7 @@ function parseDocumentCollection(
   };
 }
 
-function createDocumentSyncService(type: Exclude<DocumentType, "RESUME">) {
+function createDocumentSyncService(type: DocumentType) {
   const storage = new LocalStorageService<BaseDocument>({
     collectionKey: collectionKey(type),
     activeIdKey: ACTIVE_KEY,
@@ -70,51 +61,42 @@ function createDocumentSyncService(type: Exclude<DocumentType, "RESUME">) {
   });
 }
 
-const documentSyncServices = {
+const documentSyncServices: Record<DocumentType, DocumentSyncService<BaseDocument>> = {
+  RESUME: createDocumentSyncService("RESUME"),
   COVER_LETTER: createDocumentSyncService("COVER_LETTER"),
   FORMAL_LETTER: createDocumentSyncService("FORMAL_LETTER"),
   INVOICE: createDocumentSyncService("INVOICE"),
 };
 
-function getService(type: Exclude<DocumentType, "RESUME">) {
+function getService(type: DocumentType) {
   return documentSyncServices[type];
 }
 
 export async function syncDocumentNow(type: DocumentType, id: string): Promise<SyncResult> {
-  if (type === "RESUME") return syncResumeNow(id);
   return getService(type).syncNow(id);
 }
 
 export function keepDocumentLocalOnly(type: DocumentType, id: string): SyncResult {
-  if (type === "RESUME") return keepResumeLocalOnly(id);
   return getService(type).keepLocalOnly(id);
 }
 
 export async function resolveDocumentConflictUseLocal(type: DocumentType, id: string) {
-  if (type === "RESUME") return resolveConflictUseLocal(id);
   return getService(type).resolveConflictUseLocal(id);
 }
 
 export async function resolveDocumentConflictUseCloud(type: DocumentType, id: string) {
-  if (type === "RESUME") return resolveConflictUseCloud(id);
   return getService(type).resolveConflictUseCloud(id);
 }
 
 export function getDocumentSyncTelemetry(type: DocumentType, id: string): SyncTelemetry {
-  if (type === "RESUME") return getResumeSyncTelemetry(id);
   return SyncEngine.getTelemetry(id);
 }
 
 export function getDocumentSyncTelemetryByDocs(
   docs: Array<{ id: string; type: DocumentType }>,
 ): Record<string, SyncTelemetry> {
-  const resumeTelemetry = getResumeSyncTelemetryByIds(
-    docs.filter((doc) => doc.type === "RESUME").map((doc) => doc.id),
-  );
-
   return docs.reduce<Record<string, SyncTelemetry>>((result, doc) => {
-    result[doc.id] =
-      doc.type === "RESUME" ? resumeTelemetry[doc.id] : getDocumentSyncTelemetry(doc.type, doc.id);
+    result[doc.id] = getDocumentSyncTelemetry(doc.type, doc.id);
     return result;
   }, {});
 }

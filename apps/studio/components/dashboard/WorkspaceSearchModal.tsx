@@ -3,11 +3,12 @@
 import { FileText, Search, X } from "lucide-react";
 import { useEffect, useId, useMemo, useState } from "react";
 
-import { listSavedResumes } from "@/features/resume/services/resume-core";
+import { listDocuments } from "@/features/documents/services/document-workspace-service";
+import type { DocumentType } from "@/features/documents/core/document-types";
 
 type SearchResult = {
   id: string;
-  type: "RESUME";
+  type: DocumentType;
   title: string;
   subtitle: string;
   updatedAt: string;
@@ -39,17 +40,17 @@ export function WorkspaceSearchModal({
   const results = useMemo(() => {
     if (!open) return [];
 
-    const resumes: SearchResult[] = listSavedResumes().map((resume) => ({
-      id: resume.id,
-      type: "RESUME",
-      title: resume.title,
-      subtitle: resume.role || "Resume",
-      updatedAt: resume.updatedAt,
+    const documents: SearchResult[] = listDocuments().map((doc) => ({
+      id: doc.id,
+      type: doc.type,
+      title: doc.title,
+      subtitle: doc.type.toLowerCase().replace("_", " "),
+      updatedAt: doc.updatedAt,
     }));
 
     const needle = query.trim().toLowerCase();
 
-    return resumes
+    return documents
       .filter((doc) => !needle || `${doc.title} ${doc.subtitle}`.toLowerCase().includes(needle))
       .sort((left, right) => Date.parse(right.updatedAt) - Date.parse(left.updatedAt))
       .slice(0, 10);
@@ -122,7 +123,7 @@ export function WorkspaceSearchModal({
 
                 <span className="min-w-0 flex-1">
                   <span className="block truncate text-sm font-bold">{doc.title}</span>
-                  <span className="text-muted block truncate text-xs">Resume - {doc.subtitle}</span>
+                  <span className="text-muted block truncate text-xs">{doc.subtitle}</span>
                 </span>
               </button>
             ))

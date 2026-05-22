@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { Badge } from "@veriworkly/ui";
 
-import type { ResumeSyncTelemetry } from "@/features/resume/services/resume-sync";
+import type { SyncTelemetry } from "@/features/documents/services/document-sync";
 import type { DocumentLibraryItem } from "@/features/documents/services/document-library";
 
 import { getDocumentDefinition } from "@/features/documents/core/registry";
@@ -17,7 +17,7 @@ import { docIconMap, getSyncLabel, getActivityLabel } from "./document-display";
 interface DocumentPreviewCardProps {
   doc: DocumentLibraryItem;
   syncing: boolean;
-  telemetry: ResumeSyncTelemetry | null;
+  telemetry: SyncTelemetry | null;
   onDeleteAction: (doc: DocumentLibraryItem) => void;
   onShareAction: (doc: DocumentLibraryItem) => void;
   onSyncNowAction: (id: string) => void;

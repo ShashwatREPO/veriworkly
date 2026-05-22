@@ -9,15 +9,9 @@ import { useUserStore } from "@/store/useUserStore";
 import { Switch } from "@veriworkly/ui";
 
 import {
-  syncAllPendingResumes,
-  getWorkspaceSyncTelemetry,
-  RESUME_SYNC_OUTBOX_UPDATED_EVENT,
-} from "@/features/resume/services/resume-sync";
-import {
   setAutoSyncEnabledInLocalStorage,
   loadWorkspaceSettingsFromLocalStorage,
 } from "@/features/documents/services/workspace-settings";
-import { setAllResumesSyncEnabled } from "@/features/resume/services/resume-service";
 import { getAutoSyncControlState } from "./sync-section-state";
 
 interface TelemetryState {
@@ -41,20 +35,37 @@ export default function SyncSection() {
     const timer = setTimeout(() => setAutoSync(settings.autoSyncEnabled), 0);
 
     const update = () => {
-      const data = getWorkspaceSyncTelemetry();
+      if (typeof window === "undefined") return;
+      const telemetryData = localStorage.getItem("veriworkly:sync-telemetry");
+      let lastAttemptAt: string | null = null;
+      let lastSuccessAt: string | null = null;
+      if (telemetryData) {
+        try {
+          const parsed = JSON.parse(telemetryData);
+          const entries = Object.values(parsed.byDocumentId || {}) as any[];
+          for (const entry of entries) {
+            if (entry.lastAttemptAt && (!lastAttemptAt || entry.lastAttemptAt > lastAttemptAt)) {
+              lastAttemptAt = entry.lastAttemptAt;
+            }
+            if (entry.lastSuccessAt && (!lastSuccessAt || entry.lastSuccessAt > lastSuccessAt)) {
+              lastSuccessAt = entry.lastSuccessAt;
+            }
+          }
+        } catch {}
+      }
 
       setTelemetry({
-        lastAttemptAt: data.lastAttemptAt,
-        lastSuccessAt: data.lastSuccessAt,
+        lastAttemptAt,
+        lastSuccessAt,
       });
     };
 
     update();
 
-    window.addEventListener(RESUME_SYNC_OUTBOX_UPDATED_EVENT, update);
+    window.addEventListener("veriworkly:sync-outbox-updated", update);
     return () => {
       clearTimeout(timer);
-      window.removeEventListener(RESUME_SYNC_OUTBOX_UPDATED_EVENT, update);
+      window.removeEventListener("veriworkly:sync-outbox-updated", update);
     };
   }, []);
 
@@ -63,11 +74,10 @@ export default function SyncSection() {
 
     setAutoSync(checked);
     setAutoSyncEnabledInLocalStorage(checked);
-    setAllResumesSyncEnabled(checked);
 
     if (checked) {
       setLoading(true);
-      await syncAllPendingResumes();
+      window.dispatchEvent(new Event("storage"));
       setLoading(false);
     }
   };

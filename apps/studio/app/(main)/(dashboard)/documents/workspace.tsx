@@ -5,8 +5,8 @@ import { Grid2X2, LayoutList } from "lucide-react";
 import { Card, Select } from "@veriworkly/ui";
 
 import DestructiveModal from "@/components/modals/DestructiveModal";
-import ShareDocumentModal from "@/components/modals/ShareDocumentModal";
 import SyncDetailsModal from "@/components/modals/SyncDetailsModal";
+import ShareDocumentModal from "@/components/modals/ShareDocumentModal";
 
 import { DocumentListRow } from "./components/DocumentListRow";
 import { DocumentPreviewCard } from "./components/DocumentPreviewCard";

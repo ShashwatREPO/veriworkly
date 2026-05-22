@@ -97,7 +97,6 @@ const OverviewHome = () => {
             <div className="grid gap-2">
               <MiniLink href="/profile" icon={BriefcaseBusiness} label="Profile workspace" />
               <MiniLink href="/documents" icon={FolderOpen} label="Document library" />
-              <MiniLink href="/admin/roadmap" icon={BookOpen} label="Roadmap" />
             </div>
           </aside>
         </div>
