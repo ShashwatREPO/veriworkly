@@ -23,8 +23,6 @@ import { escapeHtml } from "@/features/resume/services/resume-formatters";
 import { SOCIAL_ICON_SRC_BY_TYPE } from "@/templates/shared/social-icons";
 
 const PAGE_HEIGHT = 1123;
-const BODY_TOP_GAP = 32;
-const PAGE_FIT_TOLERANCE = 64;
 const PARAGRAPH_CHUNK_WORDS = 62;
 
 type VeriworklyFlowItem =
@@ -185,34 +183,40 @@ function renderGroupedFlowItems(items: VeriworklyFlowItem[], accentColor: string
 
 function paginateMeasuredItems(
   items: VeriworklyFlowItem[],
-  heights: Map<string, number>,
-  firstLimit: number,
-  nextLimit: number,
+  fitsPage: (items: VeriworklyFlowItem[], pageIndex: number) => boolean,
 ) {
   const pages: VeriworklyFlowItem[][] = [[]];
   let pageIndex = 0;
-  let used = 0;
 
   for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
     const item = items[itemIndex];
-    const height = Math.ceil(heights.get(item.id) ?? 0);
     const nextItem = items[itemIndex + 1];
-    const keepWithNextHeight =
-      item.type === "proof-heading" && nextItem ? Math.ceil(heights.get(nextItem.id) ?? 0) : 0;
-    const limit = pageIndex === 0 ? firstLimit : nextLimit;
-    const effectiveLimit = item.type === "postscript" ? limit : limit + PAGE_FIT_TOLERANCE;
+    const candidate = [...pages[pageIndex], item];
+    const fitCandidate =
+      item.type === "proof-heading" && nextItem ? [...candidate, nextItem] : candidate;
 
-    if (pages[pageIndex].length > 0 && used + height + keepWithNextHeight > effectiveLimit) {
+    if (pages[pageIndex].length > 0 && !fitsPage(fitCandidate, pageIndex)) {
       pages.push([]);
       pageIndex += 1;
-      used = 0;
     }
 
     pages[pageIndex].push(item);
-    used += height;
   }
 
   return pages.filter((page) => page.length > 0);
+}
+
+function getVeriworklyPageKey(pages: VeriworklyFlowItem[][]) {
+  return pages.map((page) => page.map((item) => JSON.stringify(item)).join(",")).join("|");
+}
+
+function fitsInsideBottomPadding(container: HTMLElement, content: HTMLElement) {
+  const containerStyle = window.getComputedStyle(container);
+  const paddingBottom = Number.parseFloat(containerStyle.paddingBottom) || 0;
+  const containerBottom = container.getBoundingClientRect().bottom - paddingBottom;
+  const contentBottom = content.getBoundingClientRect().bottom;
+
+  return contentBottom <= containerBottom + 1;
 }
 
 function getVeriworklyHtmlItemWeight(item: VeriworklyFlowItem) {
@@ -316,34 +320,74 @@ export function VeriworklyCoverLetterPreview({ content }: { content: CoverLetter
     [flowContent, flowSenderName],
   );
   const [pages, setPages] = useState<VeriworklyFlowItem[][]>(() => [flowItems]);
+  const measureRef = useRef<HTMLDivElement | null>(null);
   const firstPrefixRef = useRef<HTMLDivElement | null>(null);
   const nextPrefixRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLDivElement>());
 
   useLayoutEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      const firstPrefixHeight = firstPrefixRef.current?.getBoundingClientRect().height ?? 0;
-      const nextPrefixHeight = nextPrefixRef.current?.getBoundingClientRect().height ?? 0;
-      const firstLimit = PAGE_HEIGHT - appearance.pageMargin * 2 - firstPrefixHeight - BODY_TOP_GAP;
-      const nextLimit = PAGE_HEIGHT - appearance.pageMargin * 2 - nextPrefixHeight - BODY_TOP_GAP;
-      const heights = new Map<string, number>();
+      const probe = document.createElement("article");
 
-      flowItems.forEach((item) => {
-        const node = itemRefs.current.get(item.id);
-        heights.set(item.id, node?.getBoundingClientRect().height ?? 0);
+      probe.className =
+        "mx-auto grid h-280.75 w-198.5 max-w-full grid-cols-[214px_1fr] overflow-hidden text-[#111827]";
+      Object.assign(probe.style, {
+        backgroundColor: appearance.pageColor,
+        color: appearance.textColor,
+        fontFamily,
       });
 
-      const nextPages = paginateMeasuredItems(flowItems, heights, firstLimit, nextLimit);
-      const nextKey = nextPages.map((page) => page.map((item) => item.id).join(",")).join("|");
+      const aside = document.createElement("aside");
+      aside.className = "h-280.75";
+      probe.appendChild(aside);
+
+      const main = document.createElement("main");
+      main.className = "h-280.75 bg-white";
+      main.style.padding = `${appearance.pageMargin}px`;
+      probe.appendChild(main);
+      measureRef.current?.appendChild(probe);
+
+      const fitsPage = (items: VeriworklyFlowItem[], pageIndex: number) => {
+        main.innerHTML = "";
+
+        const prefix = pageIndex === 0 ? firstPrefixRef.current : nextPrefixRef.current;
+        if (prefix) main.appendChild(prefix.cloneNode(true));
+
+        const body = document.createElement("section");
+        body.className = "mt-8 text-[14.5px] text-slate-700";
+        body.style.lineHeight = String(appearance.lineHeight);
+        body.style.setProperty("--paragraph-gap", `${appearance.paragraphSpacing}px`);
+
+        items.forEach((item) => {
+          const node = itemRefs.current.get(item.id);
+          if (node) body.appendChild(node.cloneNode(true));
+        });
+
+        main.appendChild(body);
+
+        return main.scrollHeight <= PAGE_HEIGHT + 1 && fitsInsideBottomPadding(main, body);
+      };
+
+      const nextPages = paginateMeasuredItems(flowItems, fitsPage);
+      probe.remove();
+      const nextKey = getVeriworklyPageKey(nextPages);
 
       setPages((current) => {
-        const currentKey = current.map((page) => page.map((item) => item.id).join(",")).join("|");
+        const currentKey = getVeriworklyPageKey(current);
         return currentKey === nextKey ? current : nextPages;
       });
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [appearance.lineHeight, appearance.pageMargin, appearance.paragraphSpacing, flowItems]);
+  }, [
+    appearance.lineHeight,
+    appearance.pageColor,
+    appearance.pageMargin,
+    appearance.paragraphSpacing,
+    appearance.textColor,
+    flowItems,
+    fontFamily,
+  ]);
 
   function renderSidebar() {
     return (
@@ -425,6 +469,7 @@ export function VeriworklyCoverLetterPreview({ content }: { content: CoverLetter
   return (
     <div className="grid gap-6">
       <div
+        ref={measureRef}
         aria-hidden="true"
         className="pointer-events-none absolute opacity-0"
         style={{ left: -10000, top: 0, width: 794 }}

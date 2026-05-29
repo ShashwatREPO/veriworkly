@@ -23,7 +23,6 @@ import { escapeHtml } from "@/features/resume/services/resume-formatters";
 import { SOCIAL_ICON_SRC_BY_TYPE } from "@/templates/shared/social-icons";
 
 const PAGE_HEIGHT = 1123;
-const BODY_TOP_GAP = 28;
 const PARAGRAPH_CHUNK_WORDS = 70;
 
 type ProfessionalFlowItem =
@@ -167,29 +166,36 @@ function renderGroupedFlowItems(items: ProfessionalFlowItem[], accentColor: stri
 
 function paginateMeasuredItems<T extends { id: string }>(
   items: T[],
-  heights: Map<string, number>,
-  firstLimit: number,
-  nextLimit: number,
+  fitsPage: (items: T[], pageIndex: number) => boolean,
 ) {
   const pages: T[][] = [[]];
   let pageIndex = 0;
-  let used = 0;
 
   for (const item of items) {
-    const height = Math.ceil(heights.get(item.id) ?? 0);
-    const limit = pageIndex === 0 ? firstLimit : nextLimit;
+    const candidate = [...pages[pageIndex], item];
 
-    if (pages[pageIndex].length > 0 && used + height > limit) {
+    if (pages[pageIndex].length > 0 && !fitsPage(candidate, pageIndex)) {
       pages.push([]);
       pageIndex += 1;
-      used = 0;
     }
 
     pages[pageIndex].push(item);
-    used += height;
   }
 
   return pages.filter((page) => page.length > 0);
+}
+
+function getProfessionalPageKey(pages: ProfessionalFlowItem[][]) {
+  return pages.map((page) => page.map((item) => JSON.stringify(item)).join(",")).join("|");
+}
+
+function fitsInsideBottomPadding(container: HTMLElement, content: HTMLElement) {
+  const containerStyle = window.getComputedStyle(container);
+  const paddingBottom = Number.parseFloat(containerStyle.paddingBottom) || 0;
+  const containerBottom = container.getBoundingClientRect().bottom - paddingBottom;
+  const contentBottom = content.getBoundingClientRect().bottom;
+
+  return contentBottom <= containerBottom + 1;
 }
 
 function getProfessionalHtmlItemWeight(item: ProfessionalFlowItem) {
@@ -281,38 +287,70 @@ export function ProfessionalCoverLetterPreview({ content }: { content: CoverLett
     [flowContent, flowSenderName],
   );
   const [pages, setPages] = useState<ProfessionalFlowItem[][]>(() => [flowItems]);
+  const measureRef = useRef<HTMLDivElement | null>(null);
   const firstPrefixRef = useRef<HTMLDivElement | null>(null);
   const nextPrefixRef = useRef<HTMLParagraphElement | null>(null);
   const itemRefs = useRef(new Map<string, HTMLDivElement>());
 
   useLayoutEffect(() => {
     const frame = window.requestAnimationFrame(() => {
-      const firstPrefixHeight = firstPrefixRef.current?.getBoundingClientRect().height ?? 0;
-      const nextPrefixHeight = nextPrefixRef.current?.getBoundingClientRect().height ?? 0;
-      const firstLimit = PAGE_HEIGHT - appearance.pageMargin * 2 - firstPrefixHeight - BODY_TOP_GAP;
-      const nextLimit = PAGE_HEIGHT - appearance.pageMargin * 2 - nextPrefixHeight - BODY_TOP_GAP;
-      const heights = new Map<string, number>();
+      const probe = document.createElement("article");
 
-      flowItems.forEach((item) => {
-        const node = itemRefs.current.get(item.id);
-        heights.set(item.id, node?.getBoundingClientRect().height ?? 0);
+      probe.className = "mx-auto h-280.75 w-198.5 max-w-full overflow-hidden";
+      Object.assign(probe.style, {
+        backgroundColor: appearance.pageColor,
+        color: appearance.textColor,
+        fontFamily,
+        padding: `${appearance.pageMargin}px`,
       });
+      measureRef.current?.appendChild(probe);
 
-      const nextPages = paginateMeasuredItems(flowItems, heights, firstLimit, nextLimit);
-      const nextKey = nextPages.map((page) => page.map((item) => item.id).join(",")).join("|");
+      const fitsPage = (items: ProfessionalFlowItem[], pageIndex: number) => {
+        probe.innerHTML = "";
+
+        const prefix = pageIndex === 0 ? firstPrefixRef.current : nextPrefixRef.current;
+        if (prefix) probe.appendChild(prefix.cloneNode(true));
+
+        const main = document.createElement("main");
+        main.className = "mt-7 text-[15px] text-zinc-800";
+        main.style.lineHeight = String(appearance.lineHeight);
+        main.style.setProperty("--paragraph-gap", `${appearance.paragraphSpacing}px`);
+
+        items.forEach((item) => {
+          const node = itemRefs.current.get(item.id);
+          if (node) main.appendChild(node.cloneNode(true));
+        });
+
+        probe.appendChild(main);
+
+        return probe.scrollHeight <= PAGE_HEIGHT + 1 && fitsInsideBottomPadding(probe, main);
+      };
+
+      const nextPages = paginateMeasuredItems(flowItems, fitsPage);
+      probe.remove();
+      const nextKey = getProfessionalPageKey(nextPages);
 
       setPages((current) => {
-        const currentKey = current.map((page) => page.map((item) => item.id).join(",")).join("|");
+        const currentKey = getProfessionalPageKey(current);
         return currentKey === nextKey ? current : nextPages;
       });
     });
 
     return () => window.cancelAnimationFrame(frame);
-  }, [appearance.lineHeight, appearance.pageMargin, appearance.paragraphSpacing, flowItems]);
+  }, [
+    appearance.lineHeight,
+    appearance.pageColor,
+    appearance.pageMargin,
+    appearance.paragraphSpacing,
+    appearance.textColor,
+    flowItems,
+    fontFamily,
+  ]);
 
   return (
     <div className="grid gap-6">
       <div
+        ref={measureRef}
         aria-hidden="true"
         className="pointer-events-none absolute opacity-0"
         style={{ left: -10000, top: 0, width: 794 }}
