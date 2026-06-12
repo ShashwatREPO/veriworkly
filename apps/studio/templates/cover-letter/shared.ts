@@ -368,18 +368,7 @@ export function splitContactLinks(value: string): ContactLink[] {
 }
 
 export function getCoverLetterLinks(content: CoverLetterContent): ResumeLinkItem[] {
-  const storedLinks = content.links?.items?.filter((link) => normalizeLinkHref(link.url)) ?? [];
-
-  const legacyLinks: ResumeLinkItem[] = splitContactLinks(content.senderLinks).map(
-    (link, index) => ({
-      id: `legacy-cover-link-${index}`,
-      type: "custom",
-      label: link.label,
-      url: link.url,
-    }),
-  );
-
-  return storedLinks.length > 0 ? storedLinks : legacyLinks;
+  return content.links?.items?.filter((link) => normalizeLinkHref(link.url)) ?? [];
 }
 
 export function getCoverLetterLinkDisplayMode(content: CoverLetterContent): ResumeLinkDisplayMode {

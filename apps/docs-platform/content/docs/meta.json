@@ -9,7 +9,6 @@
     "getting-started/quick-start",
     "getting-started/local-setup",
     "getting-started/docker-deployment",
-    "getting-started/migration-v3",
     "---Architecture---",
     "architecture/monorepo",
     "architecture/design-system",

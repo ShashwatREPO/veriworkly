@@ -49,9 +49,9 @@ interface ResumeStore {
 
 To maintain interface responsiveness during high-frequency editing sessions, VeriWorkly implements a debounced persistence strategy. This reduces the frequency of write operations to the browser's storage engine.
 
-### Schema Versioning and Migration
+### Schema Validation
 
-The state store incorporates a versioning system. During initialization, the persistence layer detects version mismatches and executes necessary migration logic to ensure backward compatibility as the document schema evolves.
+The state store validates document collections before use and drops malformed entries instead of maintaining obsolete storage formats.
 
 ### Resource Constraints
 

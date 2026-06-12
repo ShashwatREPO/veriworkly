@@ -2,8 +2,6 @@ import { create } from "zustand";
 
 import type { SessionUser } from "@/features/auth/services/current-user";
 
-const LEGACY_USER_STORAGE_KEY = "veriworkly-user-storage";
-
 interface UserState {
   user: SessionUser | null;
   loading: boolean;
@@ -36,11 +34,3 @@ export const useUserStore = create<UserState>()((set) => ({
       loading: false,
     }),
 }));
-
-export function clearLegacyUserStorage() {
-  if (typeof window === "undefined") {
-    return;
-  }
-
-  window.localStorage.removeItem(LEGACY_USER_STORAGE_KEY);
-}

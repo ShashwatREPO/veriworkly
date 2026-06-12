@@ -11,7 +11,6 @@ export type TemplateDetailSection = {
 export type TemplateSummary = {
   id: string;
   editorTemplateId: string;
-  legacyIds: string[];
   name: string;
   documentType: TemplateDocumentType;
   documentTypeLabel: string;
@@ -126,7 +125,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "portfolio-signal",
     editorTemplateId: "signal",
-    legacyIds: ["signal"],
     name: "Signal",
     documentType: "portfolio-website",
     documentTypeLabel: "Portfolio Website",
@@ -184,7 +182,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "portfolio-atelier",
     editorTemplateId: "atelier",
-    legacyIds: ["atelier"],
     name: "Atelier",
     documentType: "portfolio-website",
     documentTypeLabel: "Portfolio Website",
@@ -242,7 +239,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "resume-executive-clarity",
     editorTemplateId: "executive-clarity",
-    legacyIds: ["executive-clarity"],
     name: "Executive Clarity",
     documentType: "resume",
     documentTypeLabel: "Resume",
@@ -311,7 +307,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "resume-precision-ats",
     editorTemplateId: "precision-ats",
-    legacyIds: ["precision-ats"],
     name: "Precision ATS",
     documentType: "resume",
     documentTypeLabel: "Resume",
@@ -375,7 +370,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "cover-letter-professional",
     editorTemplateId: "professional",
-    legacyIds: ["professional"],
     name: "Professional",
     documentType: "cover-letter",
     documentTypeLabel: "Cover Letter",
@@ -438,7 +432,6 @@ export const templateSummaries: TemplateSummary[] = [
   {
     id: "cover-letter-veriworkly-special",
     editorTemplateId: "veriworkly-special",
-    legacyIds: ["veriworkly-special"],
     name: "VeriWorkly Special",
     documentType: "cover-letter",
     documentTypeLabel: "Cover Letter",
@@ -520,8 +513,4 @@ export function getTemplateByDocumentTypeAndId(
   return templateSummaries.find(
     (template) => template.documentType === docType && template.id === id,
   );
-}
-
-export function getTemplateByLegacyId(id: string): TemplateSummary | undefined {
-  return templateSummaries.find((template) => template.legacyIds.includes(id));
 }

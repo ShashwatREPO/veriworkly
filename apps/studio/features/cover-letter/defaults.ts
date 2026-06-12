@@ -29,8 +29,6 @@ export function createDefaultCoverLetter(id: string): BaseDocument<CoverLetterCo
       senderPhone: "+1 (555) 010-2026",
       senderLocation: "Remote",
       senderWebsite: "veriworkly.com",
-      senderLinks: "",
-
       links: {
         displayMode: "icon-username",
         items: [],

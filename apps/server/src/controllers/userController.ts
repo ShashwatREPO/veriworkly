@@ -86,10 +86,9 @@ export class UserController {
 
   static async checkUsernameAvailability(req: Request, res: Response, next: NextFunction) {
     try {
-      const authUser = req.authUser;
       const { username } = usernameAvailabilityParamsSchema.parse(req.params);
 
-      const availability = await UserService.getUsernameAvailability(username, authUser?.id);
+      const availability = await UserService.getUsernameAvailability(username);
 
       res.json(createSuccessResponse(availability, "Username availability fetched successfully"));
     } catch (error) {

@@ -328,21 +328,7 @@ export function isPortfolioSectionType(value: unknown): value is PortfolioSectio
 export function parsePortfolioContent(input: unknown, fallback = demoPortfolio): PortfolioContent {
   if (!input || typeof input !== "object") return fallback;
   const value = input as Record<string, unknown>;
-  if (value.schemaVersion !== 1 || !value.identity || !Array.isArray(value.sections)) {
-    const legacy = value as Record<string, unknown>;
-    const migrated = createDefaultPortfolio({
-      name: text(legacy.name, fallback.identity.name, 120),
-      email: text(legacy.email, fallback.identity.email, 254),
-    });
-    migrated.templateId = legacy.templateId === "atelier" ? "atelier" : "signal";
-    migrated.identity.headline = text(legacy.role, migrated.identity.headline, 240);
-    migrated.identity.bio = text(legacy.intro, migrated.identity.bio, 1600);
-    migrated.identity.location = text(legacy.location, "", 120);
-    migrated.identity.availability = text(legacy.availability, migrated.identity.availability, 160);
-    if (Array.isArray(legacy.projects))
-      migrated.sections[0].items = legacy.projects as Array<Record<string, unknown>>;
-    return migrated;
-  }
+  if (value.schemaVersion !== 1 || !value.identity || !Array.isArray(value.sections)) return fallback;
   const identity = value.identity as Record<string, unknown>;
   const seo = (value.seo ?? {}) as Record<string, unknown>;
   return {

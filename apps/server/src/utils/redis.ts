@@ -105,12 +105,3 @@ export async function cacheDelByPrefix(prefix: string): Promise<void> {
     console.error("Cache prefix delete error:", error);
   }
 }
-
-export async function cacheFlush(): Promise<void> {
-  try {
-    const redis = getRedis();
-    await redis.flushDb();
-  } catch (error) {
-    console.error("Cache flush error:", error);
-  }
-}

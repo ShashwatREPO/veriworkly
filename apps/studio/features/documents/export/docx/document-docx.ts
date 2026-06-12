@@ -1,17 +1,12 @@
 import { Document, HeadingLevel, Packer, Paragraph, TextRun } from "docx";
 
-import type { ResumeLinkItem } from "@/types/resume";
 import type { BaseDocument } from "@/features/documents/core/types";
 import type { CoverLetterContent } from "@/features/cover-letter/types";
 import {
   getLinkDisplayText,
   normalizeLinkHref,
 } from "@/features/documents/rendering/resume-rendering";
-import {
-  splitContactLinks,
-  splitMarkdownLines,
-  splitRichTextBlocks,
-} from "@/templates/cover-letter/web";
+import { splitMarkdownLines, splitRichTextBlocks } from "@/templates/cover-letter/web";
 
 import { downloadBlob } from "../download";
 import { createDocxParagraph } from "./docx-paragraph";
@@ -28,16 +23,7 @@ function buildCoverLetterDocx(content: CoverLetterContent): Promise<Blob> {
   ]
     .filter(Boolean)
     .join(" | ");
-  const legacyLinks: ResumeLinkItem[] = splitContactLinks(content.senderLinks).map(
-    (link, index) => ({
-      id: `legacy-cover-link-${index}`,
-      type: "custom",
-      label: link.label,
-      url: link.url,
-    }),
-  );
   const storedLinks = content.links?.items?.filter((link) => normalizeLinkHref(link.url)) ?? [];
-  const links = storedLinks.length > 0 ? storedLinks : legacyLinks;
   const linkDisplayMode =
     content.links?.displayMode && content.links.displayMode !== "url"
       ? content.links.displayMode
@@ -59,7 +45,7 @@ function buildCoverLetterDocx(content: CoverLetterContent): Promise<Blob> {
   ];
 
   if (contact) children.push(createDocxParagraph(contact));
-  links.forEach((link) =>
+  storedLinks.forEach((link) =>
     children.push(createDocxParagraph(getLinkDisplayText(link, linkDisplayMode))),
   );
   if (content.date) children.push(createDocxParagraph(content.date));

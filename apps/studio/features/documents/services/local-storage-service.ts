@@ -19,7 +19,6 @@ export interface LocalStorageConfig<T extends BaseDocumentData> {
   collectionKey: string;
   activeIdKey: string;
   activeIdScope?: string;
-  legacyKey?: string;
   updatedEventName: string;
   parseItem: (input: unknown) => T | null;
   parseCollection: (input: unknown) => DocumentCollection<T>;
@@ -76,14 +75,7 @@ export class LocalStorageService<T extends BaseDocumentData> {
     if (!this.isBrowser()) return { ok: true };
 
     const payload = JSON.stringify(collection);
-    const result = safeSetLocalStorageItem(window.localStorage, this.config.collectionKey, payload);
-
-    if (!result.ok && result.reason === "quota-exceeded" && this.config.legacyKey) {
-      window.localStorage.removeItem(this.config.legacyKey);
-      return safeSetLocalStorageItem(window.localStorage, this.config.collectionKey, payload);
-    }
-
-    return result;
+    return safeSetLocalStorageItem(window.localStorage, this.config.collectionKey, payload);
   }
 
   getActiveId(): string | null {
@@ -100,18 +92,7 @@ export class LocalStorageService<T extends BaseDocumentData> {
     if (!this.isBrowser()) return this.config.parseCollection({});
 
     const raw = window.localStorage.getItem(this.config.collectionKey);
-    if (!raw) {
-      const legacy = this.loadLegacy();
-      if (!legacy) return this.config.parseCollection({});
-
-      const migrated = this.config.parseCollection({
-        version: 1,
-        items: { [legacy.id]: legacy },
-      });
-      this.saveCollection(migrated);
-      this.setActiveId(legacy.id);
-      return migrated;
-    }
+    if (!raw) return this.config.parseCollection({});
 
     try {
       return this.config.parseCollection(JSON.parse(raw));
@@ -126,18 +107,6 @@ export class LocalStorageService<T extends BaseDocumentData> {
     const result = this.writeCollection(collection);
     if (result.ok) this.emitUpdatedEvent();
     return result;
-  }
-
-  loadLegacy(): T | null {
-    if (!this.isBrowser() || !this.config.legacyKey) return null;
-    const raw = window.localStorage.getItem(this.config.legacyKey);
-    if (!raw) return null;
-    try {
-      return this.config.parseItem(JSON.parse(raw));
-    } catch {
-      window.localStorage.removeItem(this.config.legacyKey);
-      return null;
-    }
   }
 
   loadActive(): T | null {
@@ -188,14 +157,6 @@ export class LocalStorageService<T extends BaseDocumentData> {
     if (!saveResult.ok) return { ok: false, reason: saveResult.reason };
 
     this.setActiveId(toPersist.id);
-
-    if (this.config.legacyKey) {
-      safeSetLocalStorageItem(
-        window.localStorage,
-        this.config.legacyKey,
-        JSON.stringify(toPersist),
-      );
-    }
 
     return { ok: true, queued: false };
   }
@@ -249,16 +210,8 @@ export class LocalStorageService<T extends BaseDocumentData> {
 
     if (nextId) {
       this.setActiveId(nextId);
-      if (this.config.legacyKey) {
-        safeSetLocalStorageItem(
-          window.localStorage,
-          this.config.legacyKey,
-          JSON.stringify(collection.items[nextId]),
-        );
-      }
     } else {
       window.localStorage.removeItem(this.config.activeIdKey);
-      if (this.config.legacyKey) window.localStorage.removeItem(this.config.legacyKey);
     }
 
     return nextId;
@@ -271,7 +224,6 @@ export class LocalStorageService<T extends BaseDocumentData> {
 
     window.localStorage.removeItem(this.config.collectionKey);
     window.localStorage.removeItem(this.config.activeIdKey);
-    if (this.config.legacyKey) window.localStorage.removeItem(this.config.legacyKey);
 
     this.emitUpdatedEvent();
   }

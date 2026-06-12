@@ -58,12 +58,6 @@ To ensure maximum machine-readability, the PDF engine follows several strict pro
 
 ---
 
-## Comparison: Server-Side vs. Client-Side
+## Client-Side Rendering Characteristics
 
-| Feature         | Legacy (Playwright/Server)    | Modern (react-pdf/Client)           |
-| :-------------- | :---------------------------- | :---------------------------------- |
-| **Latency**     | High (Network + Browser Boot) | Instant (Local Render)              |
-| **Privacy**     | Data transmitted to API       | Data remains on device              |
-| **Scalability** | Resource-intensive (CPU/RAM)  | Virtually unlimited (Distributed)   |
-| **Fidelity**    | Near-perfect                  | Perfect (Direct Coordinate Mapping) |
-| **Complexity**  | High (Redis/BullMQ/Workers)   | Low (Single Dependency)             |
+The react-pdf renderer produces documents locally with low latency, direct coordinate control, and no server-side browser workers.

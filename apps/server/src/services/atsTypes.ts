@@ -34,4 +34,10 @@ export type AtsQuotaSummary = {
   used: number;
   remaining: number;
   resetsAt: string;
+  canConvertResume: boolean;
+  pricing: {
+    analysisCredits: { min: number; max: number };
+    jobUrlAnalysisCredits: { min: number; max: number };
+    resumeConversionCredits: number;
+  };
 };

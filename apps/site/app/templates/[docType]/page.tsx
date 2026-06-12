@@ -1,10 +1,9 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { notFound, permanentRedirect } from "next/navigation";
+import { notFound } from "next/navigation";
 
 import {
   documentTypeSummaries,
-  getTemplateByLegacyId,
   getDocumentTypeSummary,
   getTemplatesByDocumentType,
 } from "@/config/templates";
@@ -60,9 +59,6 @@ export function generateStaticParams() {
 
 const TemplatesByDocumentTypePage = async ({ params, searchParams }: PageProps) => {
   const [{ docType }, resolvedSearchParams] = await Promise.all([params, searchParams]);
-
-  const legacyTemplate = getTemplateByLegacyId(docType);
-  if (legacyTemplate) permanentRedirect(getTemplateHref(legacyTemplate));
 
   const docTypeData = getDocumentTypeSummary(docType);
   if (!docTypeData || docTypeData.status !== "available") notFound();

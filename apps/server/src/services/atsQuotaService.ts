@@ -2,6 +2,7 @@ import { createHmac } from "node:crypto";
 
 import { config } from "#config";
 import { EntitlementService } from "#services/entitlementService";
+import { publicAtsPolicy } from "#services/atsAiPolicy";
 import type { AtsQuotaSummary } from "#services/atsTypes";
 import { ApiError } from "#utils/errors";
 import { prisma } from "#utils/prisma";
@@ -61,6 +62,8 @@ export class AtsQuotaService {
       used,
       remaining: Math.max(0, limit - used),
       resetsAt: new Date(Date.now() + (ttl > 0 ? ttl : windowSeconds) * 1000).toISOString(),
+      canConvertResume: Boolean(paid),
+      pricing: publicAtsPolicy(),
     };
   }
 

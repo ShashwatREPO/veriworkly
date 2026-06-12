@@ -64,9 +64,9 @@ vi.mock("../../src/config", () => ({
     },
     dodo: {
       webhookSecret: "secret",
-      sevenDayProductId: "prod_seven_day",
-      monthlyProductId: "prod_monthly",
-      annualProductId: "prod_annual",
+      portfolioProSevenDayProductId: "prod_seven_day",
+      portfolioProMonthlyProductId: "prod_monthly",
+      portfolioProAnnualProductId: "prod_annual",
     },
     nodeEnv: "test",
   },
@@ -130,14 +130,6 @@ describe("billing webhook processing and idempotency", () => {
 
     expect(result).toEqual({ duplicate: false });
     expect(prismaMock.billingWebhookEvent.create).toHaveBeenCalled();
-    expect(prismaMock.user.update).toHaveBeenCalledWith({
-      where: { id: "user_123" },
-      data: {
-        portfolioPlan: "PORTFOLIO_PRO",
-        portfolioCanPublish: true,
-        portfolioAccessEndsAt: null,
-      },
-    });
     expect(prismaMock.billingWebhookEvent.update).toHaveBeenCalledWith({
       where: { id: "evt_1" },
       data: { status: "PROCESSED", processedAt: expect.any(Date) },

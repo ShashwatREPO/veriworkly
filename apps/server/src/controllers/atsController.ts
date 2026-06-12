@@ -9,7 +9,7 @@ import { AtsResumeExtractService } from "#services/atsResumeExtractService";
 import { AtsScoringService } from "#services/atsScoringService";
 import { createSuccessResponse, handleValidationError, ApiError } from "#utils/errors";
 import { getRequestIpDetails } from "#utils/requestIp";
-import { atsAnalyzeSchema, atsCheckSchema } from "#validators/atsValidator";
+import { atsAnalyzeSchema, atsCheckSchema, atsConvertResumeSchema } from "#validators/atsValidator";
 
 function ip(req: Request) {
   return getRequestIpDetails(req).resolvedIp;
@@ -67,6 +67,18 @@ export class AtsController {
         input.fetchJobUrl,
       );
       res.json(createSuccessResponse({ report, ...result, quota }));
+    } catch (error) {
+      next(error instanceof z.ZodError ? handleValidationError(error) : error);
+    }
+  }
+
+  static async convertResume(req: Request, res: Response, next: NextFunction) {
+    try {
+      const user = requireAuthUser(req);
+      const input = atsConvertResumeSchema.parse(req.body);
+      const result = await AtsAiService.convertResume(user.id, input.requestId, input.resume);
+
+      res.json(createSuccessResponse(result));
     } catch (error) {
       next(error instanceof z.ZodError ? handleValidationError(error) : error);
     }

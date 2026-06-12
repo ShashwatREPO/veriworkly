@@ -1,7 +1,6 @@
 import OpenAI from "openai";
 
-import { config } from "#config";
-
+import { createAiClient } from "#services/aiClient";
 import { getAiActionPolicy, getAiModePolicy, publicAiActionPolicy } from "#services/aiPolicy";
 import { CreditService } from "#services/creditService";
 
@@ -9,19 +8,6 @@ import { ApiError } from "#utils/errors";
 import { logger } from "#utils/logger";
 
 import type { AiGenerateInput } from "#validators/aiValidator";
-
-function createClient() {
-  if (!config.ai.apiKey) {
-    throw new ApiError(503, "AI provider credentials are not configured.");
-  }
-
-  return new OpenAI({
-    apiKey: config.ai.apiKey,
-    baseURL: config.ai.baseUrl,
-    timeout: config.ai.timeoutMs,
-    defaultHeaders: config.ai.siteUrl ? { "HTTP-Referer": config.ai.siteUrl } : undefined,
-  });
-}
 
 function validateAndNormalizeInput(input: AiGenerateInput) {
   const policy = getAiActionPolicy(input.action);
@@ -66,7 +52,7 @@ export class AiService {
     );
 
     try {
-      const completion = await createClient().chat.completions.create({
+      const completion = await createAiClient().chat.completions.create({
         ...(modePolicy.providerOptions ?? {}),
         model: modePolicy.model,
         messages: [

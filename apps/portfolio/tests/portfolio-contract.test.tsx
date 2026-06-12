@@ -12,20 +12,6 @@ describe("portfolio content contract", () => {
     expect(content.identity.email).toBe("gautam@veriworkly.com");
   });
 
-  it("migrates legacy portfolio snapshots", () => {
-    const content = parsePortfolioContent({
-      name: "Legacy User",
-      email: "legacy@example.com",
-      role: "Engineer",
-      intro: "Builds products.",
-      templateId: "atelier",
-      projects: [{ name: "Old project", summary: "Still useful", tags: [], year: "2025" }],
-    });
-    expect(content.templateId).toBe("atelier");
-    expect(content.identity.headline).toBe("Engineer");
-    expect(content.sections[0].items).toHaveLength(1);
-  });
-
   it("omits hidden projects and renders empty project sections safely", () => {
     const hidden = createDefaultPortfolio();
     hidden.sections[0].visible = false;

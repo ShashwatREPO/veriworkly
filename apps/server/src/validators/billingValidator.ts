@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const checkoutSchema = z.object({
   productKey: z.enum(["ai_credits", "portfolio_pro", "bundle"]).default("portfolio_pro"),
-  interval: z.enum(["seven_day", "monthly", "annual"]),
+  interval: z.enum(["one_day", "seven_day", "monthly", "annual"]),
   redirectUrl: z
     .string()
     .trim()

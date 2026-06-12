@@ -103,8 +103,6 @@ export function parseCoverLetterDocument(input: unknown): BaseDocument<CoverLett
       senderPhone: asText(contentRaw.senderPhone),
       senderLocation: asText(contentRaw.senderLocation),
       senderWebsite: asText(contentRaw.senderWebsite),
-      senderLinks: asText(contentRaw.senderLinks),
-
       links: parseLinks(contentRaw.links),
       date: asText(contentRaw.date),
 

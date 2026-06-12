@@ -47,7 +47,7 @@ export class ShareService {
   static async recordShareView(shareLinkId: string, ipAddress?: string, userAgent?: string | null) {
     const hashedIp = ipAddress
       ? createHash("sha256")
-          .update(ipAddress + (config.jwt.secret || "fallback-salt"))
+          .update(ipAddress + config.auth.secret)
           .digest("hex")
       : null;
 
@@ -266,10 +266,6 @@ export class ShareService {
       },
       previousSlug: existing?.slug,
     };
-  }
-
-  static async listShareLinks(userId: string, documentId: string) {
-    return this.listShareLinksPaginated(userId, documentId);
   }
 
   static async listSharedDocumentIds(userId: string, documentIds: string[]) {

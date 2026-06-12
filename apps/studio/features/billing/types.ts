@@ -3,7 +3,7 @@ export type BillingSummary = {
   productKey: ProductKey | null;
   activeProductKeys: ProductKey[];
   status: string;
-  interval: "SEVEN_DAY" | "MONTHLY" | "ANNUAL" | null;
+  interval: "ONE_DAY" | "SEVEN_DAY" | "MONTHLY" | "ANNUAL" | null;
   currentPeriodEnd: string | null;
   cancelAtPeriodEnd: boolean;
   graceEndsAt: string | null;
@@ -42,8 +42,8 @@ export type CatalogProduct = {
   key: ProductKey;
   name: string;
   entitlements: string[];
-  prices: Partial<Record<"seven_day" | BillingCycle, number>>;
-  configuredIntervals: Array<"seven_day" | BillingCycle>;
+  prices: Partial<Record<"one_day" | "seven_day" | BillingCycle, number>>;
+  configuredIntervals: Array<"one_day" | "seven_day" | BillingCycle>;
   currency: "USD";
   recommended?: boolean;
 };

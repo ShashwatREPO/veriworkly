@@ -1,9 +1,13 @@
 import { fetchApiData } from "@/utils/fetchApiData";
-import type { AtsResult } from "@/features/ats/types";
+import type { AtsQuota, AtsResult, ConvertedResume } from "@/features/ats/types";
 import { backendApiUrl } from "@/lib/constants";
 
 export function runAtsCheck(input: { resume: unknown; jobDescription?: string }) {
   return fetchApiData<AtsResult>("/ats/check", { method: "POST", body: JSON.stringify(input) });
+}
+
+export function getAtsQuota() {
+  return fetchApiData<AtsQuota>("/ats/quota");
 }
 
 export function runAtsAnalysis(input: {
@@ -27,4 +31,11 @@ export async function extractResumeFile(file: File) {
   const payload = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(payload.message || "Resume file could not be read.");
   return payload.data.text as string;
+}
+
+export function convertResumeWithAi(input: { resume: string; requestId: string }) {
+  return fetchApiData<{ resume: ConvertedResume; creditsSpent: number }>("/ats/convert-resume", {
+    method: "POST",
+    body: JSON.stringify(input),
+  });
 }

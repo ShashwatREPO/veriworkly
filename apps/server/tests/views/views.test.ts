@@ -132,8 +132,8 @@ vi.mock("../../src/utils/redis", () => ({
 
 vi.mock("../../src/config", () => ({
   config: {
-    jwt: {
-      secret: "test-jwt-secret",
+    auth: {
+      secret: "test-auth-secret",
     },
   },
 }));

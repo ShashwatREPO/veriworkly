@@ -115,7 +115,21 @@ export class PortfolioService {
         updatedAt: true,
         user: {
           select: {
-            portfolioAccessEndsAt: true,
+            subscriptions: {
+              where: {
+                productKey: { in: ["portfolio_pro", "bundle"] },
+                OR: [
+                  {
+                    status: { in: ["ACTIVE", "TRIALING"] },
+                    OR: [{ currentPeriodEnd: null }, { currentPeriodEnd: { gt: new Date() } }],
+                  },
+                  { graceEndsAt: { gt: new Date() } },
+                ],
+              },
+              select: { status: true, graceEndsAt: true },
+              orderBy: [{ graceEndsAt: "desc" }, { updatedAt: "desc" }],
+              take: 1,
+            },
           },
         },
       },
@@ -123,9 +137,13 @@ export class PortfolioService {
 
     if (!publication || publication.status === "SUSPENDED") return null;
 
-    const graceEndsAt = publication.user.portfolioAccessEndsAt;
+    const accessSubscription = publication.user.subscriptions[0];
+    const graceEndsAt =
+      accessSubscription?.status === "ACTIVE" || accessSubscription?.status === "TRIALING"
+        ? null
+        : (accessSubscription?.graceEndsAt ?? null);
 
-    if (publication.status === "GRACE" && (!graceEndsAt || graceEndsAt <= new Date())) {
+    if (publication.status === "GRACE" && !accessSubscription) {
       await prisma.portfolioPublication.update({
         where: { id: publication.id },
         data: { status: "SUSPENDED", suspendedAt: new Date(), suspensionReason: "grace_expired" },

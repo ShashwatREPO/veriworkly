@@ -23,9 +23,6 @@ model User {
   affiliateTier         AffiliateTier         @default(TIER_1)
   affiliateCode         String?               @unique
   affiliateEnrolledAt   DateTime?
-  portfolioPlan         PortfolioPlan         @default(FREE)
-  portfolioCanPublish   Boolean               @default(false)
-  portfolioAccessEndsAt DateTime?
   createdAt             DateTime              @default(now())
   updatedAt             DateTime              @updatedAt
   sessions              Session[]
@@ -53,11 +50,6 @@ model User {
   portfolioAssets       PortfolioAsset[]
 
   @@index([email])
-}
-
-enum PortfolioPlan {
-  FREE
-  PORTFOLIO_PRO
 }
 
 enum AffiliateStatus {
@@ -180,6 +172,7 @@ enum SubscriptionStatus {
 }
 
 enum BillingInterval {
+  ONE_DAY
   SEVEN_DAY
   MONTHLY
   ANNUAL

@@ -14,7 +14,7 @@ export const ENTITLEMENT_KEYS = {
 } as const;
 
 export type EntitlementKey = (typeof ENTITLEMENT_KEYS)[keyof typeof ENTITLEMENT_KEYS];
-export type CatalogInterval = "seven_day" | "monthly" | "annual";
+export type CatalogInterval = "one_day" | "seven_day" | "monthly" | "annual";
 
 export const creditPackCatalog = {
   credit_pack_100: {
@@ -54,13 +54,13 @@ export const productCatalog: Record<
   portfolio_pro: {
     name: "Portfolio Pro",
     entitlements: portfolioEntitlements,
-    prices: { seven_day: 400, monthly: 999, annual: 9_990 },
+    prices: { seven_day: 399, monthly: 899, annual: 9_990 },
   },
   bundle: {
     name: "VeriWorkly Bundle",
     entitlements: [ENTITLEMENT_KEYS.AI_CREDITS, ...portfolioEntitlements],
-    prices: { monthly: 1_200, annual: 12_000 },
-    creditAllowance: { monthly: 150, annual: 1_800 },
+    prices: { one_day: 49, seven_day: 399, monthly: 1_199, annual: 12_000 },
+    creditAllowance: { one_day: 5, seven_day: 35, monthly: 150, annual: 1_800 },
     recommended: true,
   },
 };
@@ -79,23 +79,22 @@ export function getProviderProductId(productKey: ProductKey, interval: CatalogIn
   }
 
   if (productKey === "bundle") {
-    return interval === "annual"
-      ? config.dodo.bundleAnnualProductId
-      : interval === "monthly"
-        ? config.dodo.bundleMonthlyProductId
-        : "";
+    if (interval === "one_day") return config.dodo.bundleOneDayProductId;
+    if (interval === "seven_day") return config.dodo.bundleSevenDayProductId;
+    if (interval === "annual") return config.dodo.bundleAnnualProductId;
+    return config.dodo.bundleMonthlyProductId;
   }
 
-  if (interval === "seven_day") return config.dodo.sevenDayProductId;
-  if (interval === "annual")
-    return config.dodo.portfolioProAnnualProductId || config.dodo.annualProductId;
+  if (interval === "one_day") return "";
+  if (interval === "seven_day") return config.dodo.portfolioProSevenDayProductId;
+  if (interval === "annual") return config.dodo.portfolioProAnnualProductId;
 
-  return config.dodo.portfolioProMonthlyProductId || config.dodo.monthlyProductId;
+  return config.dodo.portfolioProMonthlyProductId;
 }
 
 export function getProductFromProviderId(productId: string) {
   for (const productKey of PRODUCT_KEYS) {
-    for (const interval of ["seven_day", "monthly", "annual"] as const) {
+    for (const interval of ["one_day", "seven_day", "monthly", "annual"] as const) {
       if (getProviderProductId(productKey, interval) === productId) return { productKey, interval };
     }
   }
@@ -107,7 +106,7 @@ export function publicCatalog() {
   return PRODUCT_KEYS.map((key) => ({
     key,
     ...productCatalog[key],
-    configuredIntervals: (["seven_day", "monthly", "annual"] as const).filter((interval) =>
+    configuredIntervals: (["one_day", "seven_day", "monthly", "annual"] as const).filter((interval) =>
       Boolean(getProviderProductId(key, interval)),
     ),
     currency: "USD",

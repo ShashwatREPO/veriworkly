@@ -1,8 +1,11 @@
-import { readFileSync } from "node:fs";
-
 import { z } from "zod";
 
 import { config } from "#config";
+import {
+  getPrivateAiConfig,
+  resetPrivateAiConfigForTests,
+  resolvePrivateAiModel,
+} from "#services/aiPrivateConfig";
 import { AI_ACTION_KEYS, type AiActionKey, type AiMode } from "#services/aiTypes";
 import { ApiError } from "#utils/errors";
 
@@ -33,17 +36,11 @@ export type AiActionPolicy = z.infer<typeof actionPolicySchema>;
 
 let cachedPolicy: z.infer<typeof policySchema> | null = null;
 
-function readPolicySource() {
-  if (config.ai.privateConfigJson) return config.ai.privateConfigJson;
-  if (config.ai.privateConfigPath) return readFileSync(config.ai.privateConfigPath, "utf8");
-  throw new ApiError(503, "AI generation is not configured.");
-}
-
 function loadPolicy() {
   if (cachedPolicy) return cachedPolicy;
 
   try {
-    cachedPolicy = policySchema.parse(JSON.parse(readPolicySource()));
+    cachedPolicy = policySchema.parse(getPrivateAiConfig());
     for (const action of AI_ACTION_KEYS) {
       if (!cachedPolicy.actions[action])
         throw new ApiError(503, `AI policy is missing action: ${action}.`);
@@ -63,12 +60,7 @@ export function getAiActionPolicy(action: AiActionKey) {
 
 export function getAiModePolicy(action: AiActionKey, mode: AiMode) {
   const policy = getAiActionPolicy(action)[mode];
-  const envMatch = policy.model.match(/^env:([A-Z0-9_]+)$/);
-  if (!envMatch) return policy;
-
-  const model = process.env[envMatch[1]];
-  if (!model) throw new ApiError(503, "AI model routing is not configured.");
-  return { ...policy, model };
+  return { ...policy, model: resolvePrivateAiModel(policy.model) };
 }
 
 export function publicAiActionPolicy() {
@@ -90,6 +82,7 @@ export function publicAiActionPolicy() {
 
 export function resetAiPolicyForTests() {
   cachedPolicy = null;
+  resetPrivateAiConfigForTests();
 }
 
 export function validateAiRuntimeConfig() {

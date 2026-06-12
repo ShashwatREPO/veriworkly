@@ -1,4 +1,4 @@
-import type { ResumeData, ResumeLinkItem, ResumeLinkType } from "@/types/resume";
+import type { ResumeData, ResumeLinkType } from "@/types/resume";
 
 import { defaultResume, defaultSections } from "@/features/resume/constants/default-resume";
 import { normalizeFontFamilyId } from "@/features/documents/constants/fonts";
@@ -18,10 +18,6 @@ function isKnownLinkType(value: string): value is ResumeLinkType {
 }
 
 function normalizeLinkType(value: string | undefined): ResumeLinkType {
-  if (value === "website") {
-    return "portfolio";
-  }
-
   return value && isKnownLinkType(value) ? value : "portfolio";
 }
 
@@ -40,44 +36,7 @@ function normalizeLinks(value: Partial<ResumeData> | null | undefined) {
     };
   }
 
-  const legacyBasics = (value?.basics ?? {}) as Partial<
-    ResumeData["basics"] & {
-      website?: string;
-      github?: string;
-      linkedin?: string;
-    }
-  >;
-
-  const migratedItems: ResumeLinkItem[] = [
-    {
-      type: "portfolio" as ResumeLinkType,
-      label: "",
-      url: legacyBasics.website || "",
-      id: "",
-    },
-    {
-      type: "github" as ResumeLinkType,
-      label: "",
-      url: legacyBasics.github || "",
-      id: "",
-    },
-    {
-      type: "linkedin" as ResumeLinkType,
-      label: "",
-      url: legacyBasics.linkedin || "",
-      id: "",
-    },
-  ]
-    .filter((item) => item.url.trim().length > 0)
-    .map((item, index) => ({
-      ...item,
-      id: `link-${index + 1}`,
-    }));
-
-  return {
-    ...defaultResume.links,
-    items: migratedItems,
-  };
+  return defaultResume.links;
 }
 
 function normalizeCustomSections(value: Partial<ResumeData> | null | undefined) {
@@ -148,20 +107,6 @@ function normalizeMonthDate(value: string | undefined) {
 }
 
 export function normalizeResumeData(value: Partial<ResumeData> | null | undefined): ResumeData {
-  // Migration map: forwards old/legacy template IDs to the current canonical slugs.
-  // Old IDs are kept here permanently so existing stored resumes are silently upgraded.
-  const templateAliases: Record<string, string> = {
-    // v1 internal names → v2 canonical slugs
-    "clean-professional": "executive-clarity",
-    modern: "executive-clarity",
-    "compact-ats": "precision-ats",
-    faang: "precision-ats",
-    ats: "precision-ats",
-  };
-  const normalizedTemplateId = value?.templateId
-    ? (templateAliases[value.templateId] ?? value.templateId)
-    : undefined;
-
   const incomingCustomization = value?.customization;
   const incomingFontFamily = (incomingCustomization as { fontFamily?: string } | undefined)
     ?.fontFamily;
@@ -169,7 +114,7 @@ export function normalizeResumeData(value: Partial<ResumeData> | null | undefine
   return {
     ...defaultResume,
     ...value,
-    templateId: normalizedTemplateId ?? defaultResume.templateId,
+    templateId: value?.templateId ?? defaultResume.templateId,
     basics: {
       ...defaultResume.basics,
       ...value?.basics,

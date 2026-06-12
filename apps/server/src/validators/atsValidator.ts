@@ -16,5 +16,11 @@ export const atsAnalyzeSchema = atsCheckSchema.extend({
   requestId: z.string().trim().min(8).max(128),
 });
 
+export const atsConvertResumeSchema = z.object({
+  resume: z.string().trim().min(1).max(50_000),
+  requestId: z.string().trim().min(8).max(128),
+});
+
 export type AtsCheckInput = z.infer<typeof atsCheckSchema>;
 export type AtsAnalyzeInput = z.infer<typeof atsAnalyzeSchema>;
+export type AtsConvertResumeInput = z.infer<typeof atsConvertResumeSchema>;

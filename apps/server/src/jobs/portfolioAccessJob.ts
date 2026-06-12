@@ -45,27 +45,31 @@ async function suspendExpiredGracePeriods() {
     const expiredPublications = await prisma.portfolioPublication.findMany({
       where: {
         status: "GRACE",
+        user: {
+          subscriptions: {
+            none: {
+              productKey: { in: ["portfolio_pro", "bundle"] },
+              OR: [
+                {
+                  status: { in: ["ACTIVE", "TRIALING"] },
+                  OR: [{ currentPeriodEnd: null }, { currentPeriodEnd: { gt: now } }],
+                },
+                { graceEndsAt: { gt: now } },
+              ],
+            },
+          },
+        },
       },
       select: {
         id: true,
         subdomain: true,
-        user: {
-          select: {
-            portfolioAccessEndsAt: true,
-          },
-        },
       },
     });
 
-    const expired = expiredPublications.filter((publication) => {
-      const graceEndsAt = publication.user.portfolioAccessEndsAt;
-      return !graceEndsAt || graceEndsAt <= now;
-    });
+    if (expiredPublications.length === 0) return;
 
-    if (expired.length === 0) return;
-
-    const ids = expired.map((publication) => publication.id);
-    const subdomains = expired.map((publication) => publication.subdomain);
+    const ids = expiredPublications.map((publication) => publication.id);
+    const subdomains = expiredPublications.map((publication) => publication.subdomain);
 
     await prisma.portfolioPublication.updateMany({
       where: { id: { in: ids } },
@@ -75,7 +79,7 @@ async function suspendExpiredGracePeriods() {
     await invalidatePublicPortfolioCaches(subdomains);
     void revalidatePublicPortfolios(subdomains);
 
-    logger.info("Suspended expired portfolio grace periods", { count: expired.length });
+    logger.info("Suspended expired portfolio grace periods", { count: expiredPublications.length });
   } finally {
     if (lockAcquired) {
       try {

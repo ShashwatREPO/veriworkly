@@ -13,9 +13,6 @@ const userProfileSelect = {
   email: true,
   emailVerified: true,
   autoSyncEnabled: true,
-  portfolioPlan: true,
-  portfolioCanPublish: true,
-  portfolioAccessEndsAt: true,
   createdAt: true,
   updatedAt: true,
   _count: {
@@ -83,7 +80,7 @@ export class UserService {
     return updated;
   }
 
-  static async getUsernameAvailability(username: string, currentUserId?: string) {
+  static async getUsernameAvailability(username: string) {
     const reason = usernameInvalidReason(username);
 
     if (reason) {

@@ -6,7 +6,6 @@ export interface CoverLetterContent {
   senderTitle: string;
   senderEmail: string;
   senderPhone: string;
-  senderLinks: string;
   senderWebsite: string;
   senderLocation: string;
 

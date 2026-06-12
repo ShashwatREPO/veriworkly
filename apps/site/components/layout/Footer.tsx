@@ -24,6 +24,7 @@ const Footer = () => {
           links: [
             { name: "Resume Builder", href: siteConfig.links.app, external: true },
             { name: "Template Gallery", href: "/templates" },
+            { name: "Pricing", href: "/pricing" },
             { name: "Product Roadmap", href: "/roadmap" },
             { name: "GitHub Activity", href: "/stats" },
             { name: "Release Notes", href: "/roadmap/done" },

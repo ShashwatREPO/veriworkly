@@ -73,7 +73,7 @@ We collect only essential data required for authentication and functionality.
 
 ### 🔑 Secrets Management
 
-Sensitive values (e.g., `AUTH_SECRET`, `JWT_SECRET`) must be securely configured via environment variables.
+Sensitive values such as `AUTH_SECRET` must be securely configured through environment variables.
 
 ---
 

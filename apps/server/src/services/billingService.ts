@@ -34,7 +34,7 @@ import {
   invalidatePublicPortfolioCaches,
 } from "#utils/portfolioPublicationCache";
 
-type BillingIntervalInput = "seven_day" | "monthly" | "annual";
+type BillingIntervalInput = "one_day" | "seven_day" | "monthly" | "annual";
 const BILLING_SUMMARY_TTL_SECONDS = 60;
 const BILLING_HISTORY_TTL_SECONDS = 60;
 const CHECKOUT_LOCK_TTL_SECONDS = 600;
@@ -116,11 +116,7 @@ export class BillingService {
     const [user, subscription, activeSubscriptions, entitlements, wallet] = await Promise.all([
       prisma.user.findUnique({
         where: { id: userId },
-        select: {
-          portfolioPlan: true,
-          portfolioCanPublish: true,
-          portfolioAccessEndsAt: true,
-        },
+        select: { id: true },
       }),
       this.getLatestSubscription(userId),
       prisma.subscription.findMany({
@@ -129,18 +125,21 @@ export class BillingService {
           status: { in: ["ACTIVE", "TRIALING"] },
           OR: [{ currentPeriodEnd: null }, { currentPeriodEnd: { gt: new Date() } }],
         },
-        select: { productKey: true },
+        select: { productKey: true, currentPeriodEnd: true },
       }),
       EntitlementService.listActive(userId),
       CreditService.getWallet(userId),
     ]);
 
     if (!user) throw new ApiError(404, "User not found");
-    const entitlementCurrent =
-      entitlements.includes(ENTITLEMENT_KEYS.PORTFOLIO_PUBLISH) ||
-      (user.portfolioCanPublish &&
-        (!user.portfolioAccessEndsAt || user.portfolioAccessEndsAt > new Date()));
+    const entitlementCurrent = entitlements.includes(ENTITLEMENT_KEYS.PORTFOLIO_PUBLISH);
     const hasAiCredits = entitlements.includes(ENTITLEMENT_KEYS.AI_CREDITS);
+    const portfolioAccessEndsAt =
+      activeSubscriptions
+        .filter((item) => item.productKey === "portfolio_pro" || item.productKey === "bundle")
+        .map((item) => item.currentPeriodEnd)
+        .filter((value): value is Date => Boolean(value))
+        .sort((left, right) => right.getTime() - left.getTime())[0] ?? null;
     const plan =
       entitlementCurrent && hasAiCredits
         ? "BUNDLE"
@@ -161,7 +160,7 @@ export class BillingService {
       graceEndsAt: subscription?.graceEndsAt ?? null,
       canPublish: entitlementCurrent,
       eligibleForTrial: !subscription,
-      accessEndsAt: user.portfolioAccessEndsAt,
+      accessEndsAt: portfolioAccessEndsAt,
       publicationStatus: entitlementCurrent
         ? "LIVE"
         : subscription?.graceEndsAt && subscription.graceEndsAt > new Date()
@@ -181,23 +180,11 @@ export class BillingService {
   }
 
   static async requirePublishAccess(userId: string) {
-    if (await EntitlementService.has(userId, ENTITLEMENT_KEYS.PORTFOLIO_PUBLISH)) return;
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: { portfolioCanPublish: true, portfolioAccessEndsAt: true },
-    });
-
-    if (
-      !user?.portfolioCanPublish ||
-      (user.portfolioAccessEndsAt && user.portfolioAccessEndsAt <= new Date())
-    )
-      throw new ApiError(
-        402,
-        "Publishing requires an active VeriWorkly Portfolio Pro subscription.",
-      );
-
-    return user;
+    return EntitlementService.require(
+      userId,
+      ENTITLEMENT_KEYS.PORTFOLIO_PUBLISH,
+      "Publishing requires an active VeriWorkly Portfolio Pro subscription.",
+    );
   }
 
   static async getHistory(userId: string) {
@@ -473,7 +460,9 @@ export class BillingService {
     const product = getProductFromProviderId(subscription.product_id);
     if (!product) throw new ApiError(400, "Subscription webhook references an unknown product.");
     const interval =
-      product.interval === "seven_day"
+      product.interval === "one_day"
+        ? ("ONE_DAY" as const)
+        : product.interval === "seven_day"
         ? ("SEVEN_DAY" as const)
         : product.interval === "annual"
           ? ("ANNUAL" as const)
@@ -580,14 +569,6 @@ export class BillingService {
       });
       const canPublish = Boolean(effectivePublishGrant);
       const publicationStatus = canPublish ? "LIVE" : access.publicationStatus;
-      await tx.user.update({
-        where: { id: userId },
-        data: {
-          portfolioPlan: canPublish ? "PORTFOLIO_PRO" : "FREE",
-          portfolioCanPublish: canPublish,
-          portfolioAccessEndsAt: canPublish ? effectivePublishGrant?.endsAt : graceEndsAt,
-        },
-      });
       await tx.portfolioPublication.updateMany({
         where: { userId },
         data:
@@ -642,6 +623,8 @@ export class BillingService {
       const interval =
         subscription.interval === "ANNUAL"
           ? "annual"
+          : subscription.interval === "ONE_DAY"
+            ? "one_day"
           : subscription.interval === "SEVEN_DAY"
             ? "seven_day"
             : "monthly";

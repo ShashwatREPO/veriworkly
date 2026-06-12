@@ -11,7 +11,7 @@ COPY apps/server/package.json ./apps/server/package.json
 
 # Build with repository root as context:
 # docker build -f apps/server/Dockerfile .
-RUN npm ci --workspace=@veriworkly/server --include=dev --legacy-peer-deps
+RUN npm ci --workspace=@veriworkly/server --include=dev
 
 COPY apps/server/prisma ./apps/server/prisma
 COPY apps/server/tsconfig.json ./apps/server/tsconfig.json
@@ -19,7 +19,7 @@ COPY apps/server/src ./apps/server/src
 
 RUN npm run db:generate --workspace=@veriworkly/server \
     && npm run build --workspace=@veriworkly/server \
-    && npm prune --omit=dev --legacy-peer-deps
+    && npm prune --omit=dev
 
 FROM node:${NODE_VERSION}-alpine AS runner
 WORKDIR /app/apps/server

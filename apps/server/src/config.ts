@@ -46,12 +46,6 @@ export const config = {
 
   redis: {
     url: process.env.REDIS_URL || "redis://localhost:6379",
-    host: process.env.REDIS_HOST || "localhost",
-    port: parseInt(process.env.REDIS_PORT || "6379", 10),
-  },
-
-  jwt: {
-    secret: process.env.JWT_SECRET || "dev-secret-key",
   },
 
   auth: {
@@ -121,14 +115,8 @@ export const config = {
   },
 
   ai: {
-    apiKey:
-      (process.env.NODE_ENV || "development") === "production"
-        ? process.env.OPENROUTER_API_KEY || ""
-        : process.env.NVIDIA_API_KEY || "",
-    baseUrl:
-      (process.env.NODE_ENV || "development") === "production"
-        ? process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1"
-        : process.env.NVIDIA_BASE_URL || "https://integrate.api.nvidia.com/v1",
+    apiKey: process.env.AI_API_KEY || "",
+    baseUrl: process.env.AI_BASE_URL || "",
     timeoutMs: parseInt(process.env.AI_TIMEOUT_MS || "120000", 10),
     rateLimitWindowMs: parseInt(process.env.AI_RATE_LIMIT_WINDOW_MS || "60000", 10),
     rateLimitMaxRequests: parseInt(process.env.AI_RATE_LIMIT_MAX_REQUESTS || "20", 10),
@@ -173,9 +161,10 @@ export const config = {
     environment: (process.env.DODO_PAYMENTS_ENVIRONMENT || "test_mode") as
       | "test_mode"
       | "live_mode",
-    sevenDayProductId: process.env.DODO_PAYMENTS_SEVEN_DAY_PRODUCT_ID || "",
-    monthlyProductId: process.env.DODO_PAYMENTS_MONTHLY_PRODUCT_ID || "",
-    annualProductId: process.env.DODO_PAYMENTS_ANNUAL_PRODUCT_ID || "",
+    portfolioProSevenDayProductId:
+      process.env.DODO_PAYMENTS_PORTFOLIO_PRO_SEVEN_DAY_PRODUCT_ID || "",
+    bundleOneDayProductId: process.env.DODO_PAYMENTS_BUNDLE_ONE_DAY_PRODUCT_ID || "",
+    bundleSevenDayProductId: process.env.DODO_PAYMENTS_BUNDLE_SEVEN_DAY_PRODUCT_ID || "",
     aiCreditsMonthlyProductId: process.env.DODO_PAYMENTS_AI_CREDITS_MONTHLY_PRODUCT_ID || "",
     aiCreditsAnnualProductId: process.env.DODO_PAYMENTS_AI_CREDITS_ANNUAL_PRODUCT_ID || "",
     portfolioProMonthlyProductId: process.env.DODO_PAYMENTS_PORTFOLIO_PRO_MONTHLY_PRODUCT_ID || "",
