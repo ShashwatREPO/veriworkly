@@ -141,7 +141,7 @@ export function PricingExperience() {
             <PriceCard
               marker="01"
               title="Day Pass"
-              price="$0.49"
+              price="$0.69"
               cadence="for 24 hours"
               description="A tiny commitment for one focused application, portfolio update, or deadline."
               features={primaryFeatures}

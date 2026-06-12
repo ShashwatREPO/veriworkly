@@ -1,4 +1,4 @@
-ALTER TABLE "users"
+ALTER TABLE "User"
 DROP COLUMN IF EXISTS "portfolioPlan",
 DROP COLUMN IF EXISTS "portfolioCanPublish",
 DROP COLUMN IF EXISTS "portfolioAccessEndsAt";
